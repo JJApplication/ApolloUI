@@ -9,7 +9,9 @@ class Filetree extends Component {
         this.state = {
             files: [],
             path: '',
-            uploading: false
+            uploading: false,
+            deleting: false,
+            refreshing: false,
         }
     }
 
@@ -18,18 +20,18 @@ class Filetree extends Component {
     }
 
     getFilesTree = () => {
+        const errTree = [{
+            type: 'directory',
+            name: 'ErrorGetFilesTree',
+            extra: '1 file',
+        }];
         getRequest('/api/app/tree').then(res => {
             if (!res.data) {
-                const errTree = [{
-                    type: 'directory',
-                    name: 'ErrorGetFilesTree',
-                    extra: '1 file',
-                }];
-                this.setState({files: errTree});
+                this.setState({files: errTree, refreshing: false});
             } else {
-                this.setState({files: res.data});
+                this.setState({files: res.data, refreshing: false});
             }
-        })
+        }).catch(()=>this.setState({files: errTree, refreshing: false}));
     }
 
     treePathHandle = (path) => {
@@ -40,6 +42,17 @@ class Filetree extends Component {
         this.setState({uploading: true});
     }
 
+    handleDelete = () => {
+        this.setState({deleting: true});
+    }
+
+    handleRefresh = () => {
+        this.setState({refreshing: true});
+        setTimeout(() => {
+            this.getFilesTree();
+        }, 100);
+    }
+
     render() {
         return (
             <>
@@ -48,14 +61,16 @@ class Filetree extends Component {
                     <Grid.Container gap={1} justify="center">
                         <Grid xs={16}><Input readOnly initialValue={this.state.path} label="当前路径" width="100%"/></Grid>
                         <Grid xs={8}>
-                            {this.state.uploading && (<Button loading auto type="success" scale={0.75}>Action</Button>)}
+                            {this.state.uploading && (<Button loading auto shadow type="success" scale={0.75}/>)}
                             {!this.state.uploading && (
-                                <Button auto type="success" scale={0.75} iconRight={<Upload/>}
+                                <Button auto shadow type="success" scale={0.75} iconRight={<Upload/>}
                                         onClick={this.handleUpload}/>)}
                             <Spacer w={.5} inline/>
-                            <Button auto type="error" scale={0.75} iconRight={<Delete/>}/>
+                            {this.state.deleting && (<Button loading auto shadow type="error" scale={0.75} iconRight={<Delete/>}/>)}
+                            {!this.state.deleting && (<Button auto shadow type="error" scale={0.75} iconRight={<Delete/>} onClick={this.handleDelete}/>)}
                             <Spacer w={.5} inline/>
-                            <Button auto type="secondary" scale={0.75} iconRight={<RefreshCw/>}/>
+                            {this.state.refreshing && (<Button loading auto shadow type="secondary" scale={0.75} iconRight={<RefreshCw/>}/>)}
+                            {!this.state.refreshing && (<Button auto shadow type="secondary" scale={0.75} iconRight={<RefreshCw/>} onClick={this.handleRefresh}/>)}
                         </Grid>
                     </Grid.Container>
                 </Card>
