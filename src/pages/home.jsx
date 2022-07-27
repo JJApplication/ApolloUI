@@ -4,6 +4,7 @@ import {Component} from "react";
 
 import './home.css';
 import {Card, Code, Link, Snippet, Text} from "@geist-ui/core";
+import urls from "../urls";
 
 class Home extends Component {
 
@@ -42,7 +43,7 @@ class Home extends Component {
                         </Snippet>
                         <Card.Footer>
                             <Link color style={{color: '#9aff69'}} target="_blank"
-                                  href="https://github.com/JJApplication/Apollo">Visit source code
+                                  href={urls.Apollo}>Visit source code
                                 on GitHub.</Link>
                         </Card.Footer>
                     </Card>
