@@ -3,8 +3,8 @@ import {Code, Grid, Link, Modal, Rating, Spacer, Text} from "@geist-ui/core";
 import urls from "../urls";
 
 class About extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             value: 1,
             showDialog: false
@@ -16,7 +16,6 @@ class About extends Component {
     }
 
     isLock = (e) => {
-        console.log(e)
         if (e) {
             this.setState({showDialog: true});
         }

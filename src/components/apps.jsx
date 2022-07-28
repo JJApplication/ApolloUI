@@ -1,8 +1,11 @@
 import {Component} from "react";
 import {Button, Card, Code, Dot, Grid, Modal, Note, Spacer, Table, Tag, Text} from "@geist-ui/core";
-import {getRequest} from "../axios/axios";
-import {Box, Play, Power, RefreshCcw, RefreshCw} from "@geist-ui/icons";
+import {getRequest, postRequest} from "../axios/axios";
+import {Box, Play, Power, RefreshCw, RotateCcw} from "@geist-ui/icons";
 import "./status.css";
+import logger from "../logger/logger";
+import store from "../store/store";
+import {sendMessage} from "../store/actions";
 
 class Apps extends Component {
     constructor(props) {
@@ -15,6 +18,7 @@ class Apps extends Component {
             showDialog: false,
             appOperation: false,
             currentStatus: '', // 当前微服务状态
+            appOperationLoading: '', // 有按钮正在操作
         }
     }
 
@@ -30,7 +34,7 @@ class Apps extends Component {
 
     getApp = (app) => {
         if (app) {
-            getRequest(`/api/app/app?name=${app}`).then(res => {
+            getRequest(`/api/app/info?name=${app}`).then(res => {
                 // data渲染表格
                 const meta = res.data.Meta;
                 const data = [
@@ -76,9 +80,134 @@ class Apps extends Component {
         return appGrids;
     }
 
-    // 操作栏
+    // 通知
+    notifySync = (text, type) => {
+        store.dispatch(sendMessage({
+            message: text,
+            check: true,
+            t: type,
+        }));
+    }
+
+    // 获取App状态
+    getAppStatus = () => {
+        const app = this.state.app;
+        getRequest(`/api/app/status?name=${app}`).then(res => {
+            if (res.data) {
+                this.setState({currentStatus: res.data});
+            } else {
+                this.setState({currentStatus: 'unknown'});
+            }
+        }).catch(() => {
+            this.setState({currentStatus: ''})
+        });
+    }
+    // 打开App操作栏
     openAppOperation = () => {
+        this.getAppStatus();
         this.setState({showDialog: false, appOperation: true})
+    }
+
+    // 微服务操作
+    // 操作按钮随着状态变化改变
+    checkLoading = (op) => {
+        if (this.state.appOperationLoading) {
+            logger('当前有阻塞操作');
+            this.notifySync('当前有阻塞操作', 'warning');
+            return true;
+        } else {
+            this.setState({appOperationLoading: op});
+            return false;
+        }
+    }
+
+    resetLoading = () => {
+        setTimeout(() => {
+            this.setState({appOperationLoading: ''});
+        }, 800);
+    }
+
+    startApp = () => {
+        if (!this.checkLoading('start')) {
+            const app = this.state.app;
+            postRequest(`/api/app/start?app=${app}`).then(res => {
+                if (res.status === 'ok') {
+                    this.notifySync(`微服务${app}启动成功`, 'success');
+                } else {
+                    this.notifySync(`微服务${app}启动失败`, 'error');
+                }
+                this.resetLoading();
+            }).catch(() => {
+                this.resetLoading();
+            })
+        }
+    }
+
+    stopApp = () => {
+        if (!this.checkLoading('stop')) {
+            const app = this.state.app;
+            postRequest(`/api/app/stop?app=${app}`).then(res => {
+                if (res.status === 'ok') {
+                    this.notifySync(`微服务${app}停止成功`, 'success');
+                } else {
+                    this.notifySync(`微服务${app}停止失败`, 'error');
+                }
+                this.resetLoading();
+            }).catch(() => {
+                this.resetLoading();
+            })
+        }
+    }
+
+    restartApp = () => {
+        if (!this.checkLoading('restart')) {
+            const app = this.state.app;
+            postRequest(`/api/app/restart?app=${app}`).then(res => {
+                if (res.status === 'ok') {
+                    this.notifySync(`微服务${app}重启成功`, 'success');
+                } else {
+                    this.notifySync(`微服务${app}重启失败`, 'error');
+                }
+                this.resetLoading();
+            }).catch(() => {
+                this.resetLoading();
+            })
+        }
+    }
+
+    refreshApp = () => {
+        if (!this.checkLoading('refresh')) {
+            const app = this.state.app;
+            getRequest(`/api/app/status?name=${app}`).then(res => {
+                if (res.data) {
+                    this.setState({currentStatus: res.data});
+                    this.notifySync(`微服务${app}刷新成功`, 'success');
+                } else {
+                    this.setState({currentStatus: 'unknown'});
+                    this.notifySync(`微服务${app}刷新失败`, 'error');
+                }
+                this.resetLoading();
+            }).catch(() => {
+                this.setState({currentStatus: ''});
+                this.resetLoading();
+            });
+        }
+    }
+
+    backup = () => {
+        if (!this.checkLoading('start')) {
+            const app = this.state.app;
+            postRequest(`/api/app/backup?app=${app}`).then(res => {
+                if (res.status === 'ok') {
+                    this.notifySync(`微服务${app}备份成功`, 'success');
+                } else {
+                    this.notifySync(`微服务${app}备份失败`, 'error');
+                }
+                this.resetLoading();
+            }).catch(() => {
+                this.resetLoading();
+            })
+        }
     }
 
     // 生成模型文件
@@ -153,11 +282,25 @@ class Apps extends Component {
                         <Spacer h={1}/>
                         <Text h5 b>微服务管理</Text>
                         <Grid.Container gap={2}>
-                            <Grid><Button auto type="secondary" scale={0.6} icon={<Play/>}>启动</Button></Grid>
-                            <Grid><Button auto type="secondary" scale={0.6} icon={<RefreshCcw/>}>重启</Button></Grid>
-                            <Grid><Button auto type="secondary" scale={0.6} icon={<RefreshCw/>}>刷新</Button></Grid>
-                            <Grid><Button auto type="secondary" scale={0.6} icon={<Box/>}>备份</Button></Grid>
-                            <Grid><Button auto type="error" scale={0.6} icon={<Power/>}>停止</Button></Grid>
+                            <Grid>{!(this.state.appOperationLoading === 'start') ? (
+                                <Button auto type="secondary" scale={0.6} icon={<Play/>}
+                                        onClick={this.startApp}>启动</Button>) : (
+                                <Button loading auto type="secondary" scale={0.6}>启动</Button>)}</Grid>
+                            <Grid>{!(this.state.appOperationLoading === 'restart') ? (
+                                <Button auto type="secondary" scale={0.6} icon={<RotateCcw/>}
+                                        onClick={this.restartApp}>重启</Button>) : (
+                                <Button loading auto type="secondary" scale={0.6}>重启</Button>)}</Grid>
+                            <Grid>{!(this.state.appOperationLoading === 'refresh') ? (
+                                <Button auto type="secondary" scale={0.6} icon={<RefreshCw/>}
+                                        onClick={this.refreshApp}>刷新</Button>) : (
+                                <Button loading auto type="secondary" scale={0.6}>刷新</Button>)}</Grid>
+                            <Grid>{!(this.state.appOperationLoading === 'backup') ? (
+                                <Button auto type="secondary" scale={0.6} icon={<Box/>}>备份</Button>) : (
+                                <Button loading auto type="secondary" scale={0.6}>备份</Button>)}</Grid>
+                            <Grid>{!(this.state.appOperationLoading === 'stop') ? (
+                                <Button auto type="error" scale={0.6} icon={<Power/>}
+                                        onClick={this.stopApp}>停止</Button>) : (
+                                <Button loading auto type="error" scale={0.6}>停止</Button>)}</Grid>
                         </Grid.Container>
                         <Spacer h={1}/>
                         <Text h5 b>微服务模型</Text>

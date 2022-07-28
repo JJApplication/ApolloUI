@@ -9,11 +9,10 @@ axios.defaults.timeout = 5000;
 
 export function getRequest(url, sendData) {
     return new Promise((resolve, reject) => {
-        axios.get(url, {params: sendData}).then(res => {
+        axios.get(addAuthCode(url), {params: sendData}).then(res => {
             resolve(res.data);
         }).catch(error => {
-            store.dispatch(sendMessage({message:'接口调用失败', check:true, t: 'error'}));
-            logger.error('接口请求失败:', error);
+            responseError(error);
             reject(error);
         })
     })
@@ -21,12 +20,32 @@ export function getRequest(url, sendData) {
 
 export function postRequest(url, sendData) {
     return new Promise((resolve, reject) => {
-        axios.post(url, sendData).then(res => {
+        axios.post(addAuthCode(url), sendData).then(res => {
             resolve(res.data);
         }).catch(error => {
-            store.dispatch(sendMessage({message:'接口调用失败', check:true, t: 'error'}));
-            logger.error('接口请求失败:', error);
+            responseError(error);
             reject(error);
         })
     })
+}
+
+function addAuthCode(url) {
+    const data = store.getState();
+    if (data && data.authCode) {
+        if (url.includes('?')) {
+            return `${url}&auth=${data.authCode}`;
+        }
+        return `${url}?auth=${data.authCode}`;
+    }
+    return url;
+}
+
+function responseError(error) {
+    if (error.response.status === 401) {
+        store.dispatch(sendMessage({message: '无操作权限, 接口需要认证', check: true, t: 'error'}));
+        logger.error('接口认证失败:', error);
+    } else {
+        store.dispatch(sendMessage({message: '接口调用失败', check: true, t: 'error'}));
+        logger.error('接口请求失败:', error);
+    }
 }
