@@ -1,5 +1,7 @@
 // reducer
 
+import store from "./store";
+
 const globalState = {
     authCode: '', // 校验码
     hasMessage: {message: '', check: false, t: ''}, // 全局通知消息t: success warning error
@@ -11,6 +13,43 @@ const globalState = {
     enableWS: false, // 使用ws通知
     autoHide: false, // 自动隐藏无权限页面
     enableAppSpy: false, // 启用监控微服务
+}
+
+export function saveToStorage() {
+    const data = store.getState();
+    Object.keys(data).forEach(k => {
+        if (k !== 'hasMessage') {
+            localStorage.setItem(k, data[k]);
+        }
+    });
+}
+
+export function loadFromStorage() {
+    Object.keys(globalState).forEach(k => {
+        const sd = localStorage.getItem(k);
+        if (k !== 'hasMessage' && sd) {
+            switch (typeof globalState[k]) {
+                case "boolean":
+                    if (sd === 'false') {
+                        globalState[k] = false;
+                    } else {
+                        globalState[k] = true;
+                    }
+                    break;
+                case "string":
+                    globalState[k] = sd;
+                    break;
+                case "number":
+                    globalState[k] = parseInt(sd);
+                    break;
+                default:
+            }
+        }
+    });
+}
+
+export function clearStorage() {
+    localStorage.clear();
 }
 
 function reducer(state = globalState, action) {

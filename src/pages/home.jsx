@@ -30,7 +30,7 @@ class Home extends Component {
                         <Text>Apollo CLI is a modern cmdline tool.</Text>
                         <Snippet type="dark" filled copy="prevent" symbol="" width="60%" text={[
                             '$ apollocli -h',
-                            'Usage of ./apollocli:',
+                            'Usage of apollocli:',
                             '  -addr string',
                             '       socket addr (default "/tmp/Apollo.sock")',
                             '  -debug',

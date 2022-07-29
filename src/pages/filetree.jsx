@@ -1,7 +1,9 @@
 import {Component} from "react";
 import {Button, Card, Grid, Input, Spacer, Text, Tree} from "@geist-ui/core";
-import {getRequest} from "../axios/axios";
+import {getRequest, postRequest} from "../axios/axios";
 import {Delete, RefreshCw, Upload} from "@geist-ui/icons";
+import notifySync from "../logger/notify";
+import './filetree.css';
 
 class Filetree extends Component {
     constructor() {
@@ -20,6 +22,7 @@ class Filetree extends Component {
     }
 
     getFilesTree = () => {
+        this.setState({path: ''});
         const errTree = [{
             type: 'directory',
             name: 'ErrorGetFilesTree',
@@ -38,12 +41,62 @@ class Filetree extends Component {
         this.setState({path: path});
     }
 
-    handleUpload = () => {
+    // 获取文件路径
+    getFilePath(f) {
+        let sp = f.split('/');
+        if (sp.length > 1) {
+            sp.pop();
+        }
+
+        return sp.join('/');
+    }
+
+    handleUpload = (e) => {
         this.setState({uploading: true});
+        const files = e.target.files;
+        if (!files) {
+            notifySync('文件上传列表为空', 'warning');
+            this.setState({uploading: false});
+        }
+        let data = new FormData();
+        for (const f of files) {
+            data.append('files', f);
+        }
+        const path = this.getFilePath(this.state.path);
+        postRequest(`/api/app/upload?path=${path}`, data).then(res => {
+            if (res.status === 'ok') {
+                notifySync('文件上传成功', 'success');
+            } else {
+                notifySync('文件上传失败', 'error');
+            }
+            this.getFilesTree();
+            this.setState({uploading: false});
+        }).catch(() => {
+            notifySync('文件上传失败', 'error');
+            this.setState({uploading: false});
+        });
     }
 
     handleDelete = () => {
         this.setState({deleting: true});
+        const file = this.state.path;
+        if (!file || file === '') {
+            notifySync('文件列表为空', 'error');
+            this.setState({deleting: false});
+            return;
+        }
+        postRequest(`/api/app/remove?file=${file}`).then(res => {
+            if (res.status === 'ok') {
+                notifySync('文件删除成功', 'success');
+                this.getFilesTree();
+            } else {
+                notifySync('文件删除失败', 'error');
+            }
+            this.setState({deleting: false});
+        }).catch(() => {
+            notifySync('文件删除失败', 'error');
+            this.setState({deleting: false});
+        });
     }
 
     handleRefresh = () => {
@@ -60,19 +113,25 @@ class Filetree extends Component {
                 <Card>
                     <Grid.Container gap={1} justify="center">
                         <Grid xs={16}><Input readOnly initialValue={this.state.path} label="当前路径" width="100%"/></Grid>
-                        <Grid xs={8}>
-                            {this.state.uploading ? (<Button loading auto shadow type="success" scale={0.75}/>) : (
-                                <Button auto shadow type="success" scale={0.75} iconRight={<Upload/>}
-                                        onClick={this.handleUpload}/>)}
+                        <Grid xs={8} className="upload">
+                            {this.state.uploading ? (
+                                    <Button loading auto shadow type="success" scale={0.75}>上传</Button>) :
+                                (<>
+                                    <Button id="filebtn" auto shadow type="success" scale={0.75} icon={<Upload/>}>
+                                        <Input id="file" htmlType="file" multiple
+                                               onChange={this.handleUpload}/>
+                                    </Button>
+                                </>)}
                             <Spacer w={.5} inline/>
                             {this.state.deleting ? (
-                                <Button loading auto shadow type="error" scale={0.75} iconRight={<Delete/>}/>) : (
+                                <Button loading auto shadow type="error" scale={0.75}
+                                        iconRight={<Delete/>}>删除</Button>) : (
                                 <Button auto shadow type="error" scale={0.75} iconRight={<Delete/>}
                                         onClick={this.handleDelete}/>)}
                             <Spacer w={.5} inline/>
                             {this.state.refreshing ? (
                                 <Button loading auto shadow type="secondary" scale={0.75}
-                                        iconRight={<RefreshCw/>}/>) : (
+                                        iconRight={<RefreshCw/>}>删除</Button>) : (
                                 <Button auto shadow type="secondary" scale={0.75} iconRight={<RefreshCw/>}
                                         onClick={this.handleRefresh}/>)}
                         </Grid>

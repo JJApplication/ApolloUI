@@ -4,8 +4,7 @@ import {getRequest, postRequest} from "../axios/axios";
 import {Box, Play, Power, RefreshCw, RotateCcw} from "@geist-ui/icons";
 import "./status.css";
 import logger from "../logger/logger";
-import store from "../store/store";
-import {sendMessage} from "../store/actions";
+import notifySync from "../logger/notify";
 
 class Apps extends Component {
     constructor(props) {
@@ -36,7 +35,7 @@ class Apps extends Component {
         if (app) {
             getRequest(`/api/app/info?name=${app}`).then(res => {
                 // data渲染表格
-                const meta = res.data.Meta;
+                const meta = res.data.meta;
                 const data = [
                     {key: '名称', val: meta.name},
                     {key: '标识', val: meta.id},
@@ -45,7 +44,7 @@ class Apps extends Component {
                     {key: '版本', val: meta.meta.version},
                     {key: '发布状态', val: meta.release_status}
                 ]
-                this.setState({data: data, appInfo: res.data.Meta});
+                this.setState({data: data, appInfo: res.data.meta});
                 this.setState({showDialog: true});
             });
         }
@@ -79,16 +78,6 @@ class Apps extends Component {
         }
         return appGrids;
     }
-
-    // 通知
-    notifySync = (text, type) => {
-        store.dispatch(sendMessage({
-            message: text,
-            check: true,
-            t: type,
-        }));
-    }
-
     // 获取App状态
     getAppStatus = () => {
         const app = this.state.app;
@@ -113,7 +102,7 @@ class Apps extends Component {
     checkLoading = (op) => {
         if (this.state.appOperationLoading) {
             logger('当前有阻塞操作');
-            this.notifySync('当前有阻塞操作', 'warning');
+            notifySync('当前有阻塞操作', 'warning');
             return true;
         } else {
             this.setState({appOperationLoading: op});
@@ -132,9 +121,9 @@ class Apps extends Component {
             const app = this.state.app;
             postRequest(`/api/app/start?app=${app}`).then(res => {
                 if (res.status === 'ok') {
-                    this.notifySync(`微服务${app}启动成功`, 'success');
+                    notifySync(`微服务${app}启动成功`, 'success');
                 } else {
-                    this.notifySync(`微服务${app}启动失败`, 'error');
+                    notifySync(`微服务${app}启动失败`, 'error');
                 }
                 this.resetLoading();
             }).catch(() => {
@@ -148,9 +137,9 @@ class Apps extends Component {
             const app = this.state.app;
             postRequest(`/api/app/stop?app=${app}`).then(res => {
                 if (res.status === 'ok') {
-                    this.notifySync(`微服务${app}停止成功`, 'success');
+                    notifySync(`微服务${app}停止成功`, 'success');
                 } else {
-                    this.notifySync(`微服务${app}停止失败`, 'error');
+                    notifySync(`微服务${app}停止失败`, 'error');
                 }
                 this.resetLoading();
             }).catch(() => {
@@ -164,9 +153,9 @@ class Apps extends Component {
             const app = this.state.app;
             postRequest(`/api/app/restart?app=${app}`).then(res => {
                 if (res.status === 'ok') {
-                    this.notifySync(`微服务${app}重启成功`, 'success');
+                    notifySync(`微服务${app}重启成功`, 'success');
                 } else {
-                    this.notifySync(`微服务${app}重启失败`, 'error');
+                    notifySync(`微服务${app}重启失败`, 'error');
                 }
                 this.resetLoading();
             }).catch(() => {
@@ -181,10 +170,10 @@ class Apps extends Component {
             getRequest(`/api/app/status?name=${app}`).then(res => {
                 if (res.data) {
                     this.setState({currentStatus: res.data});
-                    this.notifySync(`微服务${app}刷新成功`, 'success');
+                    notifySync(`微服务${app}刷新成功`, 'success');
                 } else {
                     this.setState({currentStatus: 'unknown'});
-                    this.notifySync(`微服务${app}刷新失败`, 'error');
+                    notifySync(`微服务${app}刷新失败`, 'error');
                 }
                 this.resetLoading();
             }).catch(() => {
@@ -199,9 +188,9 @@ class Apps extends Component {
             const app = this.state.app;
             postRequest(`/api/app/backup?app=${app}`).then(res => {
                 if (res.status === 'ok') {
-                    this.notifySync(`微服务${app}备份成功`, 'success');
+                    notifySync(`微服务${app}备份成功`, 'success');
                 } else {
-                    this.notifySync(`微服务${app}备份失败`, 'error');
+                    notifySync(`微服务${app}备份失败`, 'error');
                 }
                 this.resetLoading();
             }).catch(() => {
@@ -250,12 +239,13 @@ class Apps extends Component {
                     <Modal.Title>{this.state.app}</Modal.Title>
                     <Modal.Subtitle>微服务状态管理</Modal.Subtitle>
                     <Modal.Content>
-                        <Tag type="default" invert>{this.state.appInfo.id}</Tag>
+                        <Tag type="default" invert style={{fontWeight: 'bold'}}>{this.state.appInfo.id}</Tag>
                         <Spacer inline w={.5}/>
-                        <Tag type="success" invert>{this.state.appInfo.type}</Tag>
+                        <Tag type="success" invert style={{fontWeight: 'bold'}}>{this.state.appInfo.type}</Tag>
                         <Spacer inline w={.5}/>
                         <Tag type="warning"
-                             invert>{this.state.appInfo.meta && this.state.appInfo.meta.version ? this.state.appInfo.meta.version : '0.0.1'}</Tag>
+                             invert
+                             style={{fontWeight: 'bold'}}>{this.state.appInfo.meta && this.state.appInfo.meta.version ? this.state.appInfo.meta.version : '0.0.1'}</Tag>
                         <Spacer h={1.5}/>
                         <Text h5 b>微服务状态</Text>
                         <div className="runStatus">
@@ -295,7 +285,8 @@ class Apps extends Component {
                                         onClick={this.refreshApp}>刷新</Button>) : (
                                 <Button loading auto type="secondary" scale={0.6}>刷新</Button>)}</Grid>
                             <Grid>{!(this.state.appOperationLoading === 'backup') ? (
-                                <Button auto type="secondary" scale={0.6} icon={<Box/>}>备份</Button>) : (
+                                <Button auto type="secondary" scale={0.6} icon={<Box/>}
+                                        onClick={this.backup}>备份</Button>) : (
                                 <Button loading auto type="secondary" scale={0.6}>备份</Button>)}</Grid>
                             <Grid>{!(this.state.appOperationLoading === 'stop') ? (
                                 <Button auto type="error" scale={0.6} icon={<Power/>}
