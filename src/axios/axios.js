@@ -12,6 +12,9 @@ export function getRequest(url, sendData) {
         axios.get(addAuthCode(url), {params: sendData}).then(res => {
             resolve(res.data);
         }).catch(error => {
+            if (url === '/heartbeat') {
+                reject(error);
+            }
             responseError(error);
             reject(error);
         })

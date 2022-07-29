@@ -22,6 +22,7 @@ import Filetree from "./pages/filetree";
 import Apptree from "./pages/apptree";
 import Settings from "./pages/settings";
 import Toast from "./components/toast";
+import {startAppSpy, startHeartbeat} from "./tasks";
 
 // 设置根节点的主题引入
 class App extends Component {
@@ -38,6 +39,8 @@ class App extends Component {
     componentDidMount() {
         this.resize();
         window.addEventListener('resize', this.resize);
+        startAppSpy();
+        startHeartbeat();
     }
 
     componentWillUnmount() {

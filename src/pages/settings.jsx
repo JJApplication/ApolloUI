@@ -5,6 +5,7 @@ import {changeSettings, sendMessage} from "../store/actions";
 import logger from "../logger/logger";
 import notifySync from "../logger/notify";
 import {clearStorage, loadFromStorage, saveToStorage} from "../store/reducer";
+import {reActiveTasks} from "../tasks";
 
 class Settings extends Component {
     constructor() {
@@ -29,7 +30,7 @@ class Settings extends Component {
             check: true,
             t: 'success',
         }));
-
+        reActiveTasks();
         const data = store.getState();
         logger.info('从存储读取配置', data);
         if (!data) {
@@ -62,6 +63,7 @@ class Settings extends Component {
             enableAppSpy: this.state.enableAppSpy,
         }));
         saveToStorage();
+        reActiveTasks();
         notifySync('Apollo配置同步完成', 'success');
     }
 

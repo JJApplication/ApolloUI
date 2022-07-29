@@ -4,6 +4,7 @@ import {getRequest, postRequest} from "../axios/axios";
 import {Delete, RefreshCw, Upload} from "@geist-ui/icons";
 import notifySync from "../logger/notify";
 import './filetree.css';
+import store from "../store/store";
 
 class Filetree extends Component {
     constructor() {
@@ -11,6 +12,7 @@ class Filetree extends Component {
         this.state = {
             files: [],
             path: '',
+            autoHide: false,
             uploading: false,
             deleting: false,
             refreshing: false,
@@ -19,6 +21,8 @@ class Filetree extends Component {
 
     componentDidMount() {
         this.getFilesTree();
+        const data = store.getState();
+        this.setState({autoHide: data ? data.autoHide : false});
     }
 
     getFilesTree = () => {
@@ -113,7 +117,7 @@ class Filetree extends Component {
                 <Card>
                     <Grid.Container gap={1} justify="center">
                         <Grid xs={16}><Input readOnly initialValue={this.state.path} label="当前路径" width="100%"/></Grid>
-                        <Grid xs={8} className="upload">
+                        {!this.state.autoHide ? (<Grid xs={8} className="upload">
                             {this.state.uploading ? (
                                     <Button loading auto shadow type="success" scale={0.75}>上传</Button>) :
                                 (<>
@@ -134,7 +138,7 @@ class Filetree extends Component {
                                         iconRight={<RefreshCw/>}>删除</Button>) : (
                                 <Button auto shadow type="secondary" scale={0.75} iconRight={<RefreshCw/>}
                                         onClick={this.handleRefresh}/>)}
-                        </Grid>
+                        </Grid>) : null}
                     </Grid.Container>
                 </Card>
 

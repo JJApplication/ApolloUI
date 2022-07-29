@@ -5,11 +5,13 @@ import {Box, Play, Power, RefreshCw, RotateCcw} from "@geist-ui/icons";
 import "./status.css";
 import logger from "../logger/logger";
 import notifySync from "../logger/notify";
+import store from "../store/store";
 
 class Apps extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            autoHide: false,
             apps: [],
             app: '',
             appInfo: {},
@@ -23,6 +25,8 @@ class Apps extends Component {
 
     componentDidMount() {
         this.getApps();
+        const data = store.getState();
+        this.setState({autoHide: data ? data.autoHide : false});
     }
 
     getApps = () => {
@@ -126,8 +130,10 @@ class Apps extends Component {
                     notifySync(`微服务${app}启动失败`, 'error');
                 }
                 this.resetLoading();
+                this.getAppStatus();
             }).catch(() => {
                 this.resetLoading();
+                this.getAppStatus();
             })
         }
     }
@@ -142,8 +148,10 @@ class Apps extends Component {
                     notifySync(`微服务${app}停止失败`, 'error');
                 }
                 this.resetLoading();
+                this.getAppStatus();
             }).catch(() => {
                 this.resetLoading();
+                this.getAppStatus();
             })
         }
     }
@@ -158,8 +166,10 @@ class Apps extends Component {
                     notifySync(`微服务${app}重启失败`, 'error');
                 }
                 this.resetLoading();
+                this.getAppStatus();
             }).catch(() => {
                 this.resetLoading();
+                this.getAppStatus();
             })
         }
     }
@@ -271,7 +281,7 @@ class Apps extends Component {
                         </div>
                         <Spacer h={1}/>
                         <Text h5 b>微服务管理</Text>
-                        <Grid.Container gap={2}>
+                        {!this.state.autoHide ? (<Grid.Container gap={2}>
                             <Grid>{!(this.state.appOperationLoading === 'start') ? (
                                 <Button auto type="secondary" scale={0.6} icon={<Play/>}
                                         onClick={this.startApp}>启动</Button>) : (
@@ -292,7 +302,7 @@ class Apps extends Component {
                                 <Button auto type="error" scale={0.6} icon={<Power/>}
                                         onClick={this.stopApp}>停止</Button>) : (
                                 <Button loading auto type="error" scale={0.6}>停止</Button>)}</Grid>
-                        </Grid.Container>
+                        </Grid.Container>) : null}
                         <Spacer h={1}/>
                         <Text h5 b>微服务模型</Text>
                         <Code block name={this.state.app + '.json'}
