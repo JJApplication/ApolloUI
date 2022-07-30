@@ -1,6 +1,7 @@
 import {Component} from "react";
 import {Card, Spacer, Tag, Text} from "@geist-ui/core";
 import {getRequest} from "../axios/axios";
+import {convertTime} from "../utils";
 
 class Tasks extends Component {
     constructor() {
@@ -28,7 +29,7 @@ class Tasks extends Component {
         if (this.state.cronTasks.length === 0) {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="violet" style={{fontSize: '0.8rem'}}>
+                    <Card key="emptycron" hoverable type="violet">
                         <p>暂无任务执行</p>
                     </Card>
                     <Spacer h={0.25}/>
@@ -39,7 +40,7 @@ class Tasks extends Component {
         this.state.cronTasks.forEach(t => {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="violet" style={{fontSize: '0.8rem'}}>
+                    <Card hoverable type="violet" key={t.name}>
                         <Tag type="default">{t.name}</Tag>
                     </Card>
                     <Spacer h={0.25}/>
@@ -55,7 +56,7 @@ class Tasks extends Component {
         if (this.state.backgroundTasks.length === 0) {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="success" style={{fontSize: '0.8rem'}}>
+                    <Card key="emptybg" hoverable type="success">
                         <p>暂无任务执行</p>
                     </Card>
                     <Spacer h={0.25}/>
@@ -66,9 +67,12 @@ class Tasks extends Component {
         this.state.backgroundTasks.forEach(t => {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="success">
-                        <Tag type="default">任务名称: {t.name}</Tag><Spacer inline w={0.5}/>
-                        <Tag type="warning" invert>创建时间: {this.convertTime(t.create_time)}</Tag>
+                    <Card hoverable type="success" key={t.name}>
+                        <Tag type="default">任务名称: {t.name}</Tag>
+                        <Spacer inline w={0.5}/>
+                        <Tag type="warning" invert>创建时间: {convertTime(t.create_time)}</Tag>
+                        <Spacer inline w={0.5}/>
+                        <Tag type="dark">上次执行: {convertTime(t.lastRun)}</Tag>
                         <Spacer h={0.5}/>
                         <Text p b font={0.5}>任务描述: {t.des ? t.des : '任务无描述信息'}</Text>
                         <Text b font={0.75}>任务ID: {t.uuid}</Text>
@@ -81,13 +85,6 @@ class Tasks extends Component {
         });
 
         return tasksGroup;
-    }
-
-
-    // 时间戳转换 需要附加毫秒计数
-    convertTime = (t) => {
-        const d = new Date(t * 1000).toLocaleString();
-        return d;
     }
 
     render() {

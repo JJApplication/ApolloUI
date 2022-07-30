@@ -3,7 +3,7 @@
 import {Component} from "react";
 
 import './home.css';
-import {Card, Code, Link, Snippet, Text} from "@geist-ui/core";
+import {Card, Code, Display, Link, Snippet, Text} from "@geist-ui/core";
 import urls from "../urls";
 
 class Home extends Component {
@@ -27,20 +27,22 @@ class Home extends Component {
                                 color: '#ffeb36'
                             }}>APP Manager, CI/CD, Tasks, MailService.</span>
                         </p>
-                        <Text>Apollo CLI is a modern cmdline tool.</Text>
-                        <Snippet type="dark" filled copy="prevent" symbol="" width="60%" text={[
-                            '$ apollocli -h',
-                            'Usage of apollocli:',
-                            '  -addr string',
-                            '       socket addr (default "/tmp/Apollo.sock")',
-                            '  -debug',
-                            '       debug mode',
-                            '  -start',
-                            '       start server',
-                            '  -stop',
-                            '       stop server'
-                        ]}>
-                        </Snippet>
+                        <Display shadow caption={<Text p type="warning"><Code>Apollo CLI</Code>是配套的现代化命令行交互式终端</Text>}>
+                            <Snippet padding={'1.5rem'} type="dark" filled copy="prevent" symbol="" width="100%"
+                                     text={[
+                                         '$ apollocli -h',
+                                         'Usage of apollocli:',
+                                         '  -addr string',
+                                         '       socket addr (default "/tmp/Apollo.sock")',
+                                         '  -debug',
+                                         '       debug mode',
+                                         '  -start',
+                                         '       start server',
+                                         '  -stop',
+                                         '       stop server'
+                                     ]}>
+                            </Snippet>
+                        </Display>
                         <Card.Footer>
                             <Link color style={{color: '#9aff69'}} target="_blank"
                                   href={urls.Apollo}>Visit source code
