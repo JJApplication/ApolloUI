@@ -23,6 +23,7 @@ import Apptree from "./pages/apptree";
 import Settings from "./pages/settings";
 import Toast from "./components/toast";
 import {startAppSpy, startHeartbeat} from "./tasks";
+import Tasks from "./pages/tasks";
 
 // 设置根节点的主题引入
 class App extends Component {
@@ -95,7 +96,7 @@ class App extends Component {
 
     render() {
         return (
-            <div>
+            <div className="App">
                 <GeistProvider themeType={this.state.themeType}>
                     <CssBaseline/>
                     <Page width={this.state.width}>
@@ -125,23 +126,28 @@ class App extends Component {
                                 <Breadcrumbs.Item onClick={this.switchTab('status')}>服务状态</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('tree')}>服务结构</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('manage')}>文件管理</Breadcrumbs.Item>
+                                <Breadcrumbs.Item onClick={this.switchTab('tasks')}>任务管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('settings')}>应用配置</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('about')}>关于Apollo</Breadcrumbs.Item>
                             </Breadcrumbs>
+                            <Divider h={4} marginTop="1rem" marginBottom="1rem"/>
                         </Page.Header>
 
                         {/*动态渲染的部分*/}
-                        <Page.Content paddingTop="1.5rem">
-                            <Divider h={5} marginBottom="1rem"/>
+                        <Page.Content paddingTop="1.5rem" style={{
+                            overflowY: "auto",
+                            height: 'calc(100vh - 10rem)'
+                        }}>
                             {this.state.lazyComp === 'loading' && (<Loading paddingTop="5rem" spaceRatio={2.5}/>)}
                             {this.state.lazyComp === 'home' && (<Home/>)}
                             {this.state.lazyComp === 'status' && (<Apps/>)}
                             {this.state.lazyComp === 'tree' && (<Apptree/>)}
                             {this.state.lazyComp === 'manage' && (<Filetree/>)}
+                            {this.state.lazyComp === 'tasks' && (<Tasks/>)}
                             {this.state.lazyComp === 'settings' && (<Settings/>)}
                             {this.state.lazyComp === 'about' && (<About/>)}
                         </Page.Content>
-                        <Page.Footer>
+                        <Page.Footer style={{}}>
                             <Footer/>
                         </Page.Footer>
                     </Page>

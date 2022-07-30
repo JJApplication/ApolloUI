@@ -31,7 +31,7 @@ class Apps extends Component {
 
     getApps = () => {
         getRequest('/api/app/all').then(res => {
-            this.setState({apps: res.data});
+            this.setState({apps: res.data ? res.data : []});
         })
     }
 
