@@ -3,6 +3,10 @@ export function convertTime(t) {
     return new Date(t * 1000).toLocaleDateString();
 }
 
+export function convertTimeEX(t) {
+    return new Date(t * 1000).toLocaleString();
+}
+
 // 文件大小
 export function covertFileSize(fileSize) {
     let result;

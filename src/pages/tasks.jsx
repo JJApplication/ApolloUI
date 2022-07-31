@@ -1,7 +1,7 @@
 import {Component} from "react";
 import {Card, Spacer, Tag, Text} from "@geist-ui/core";
 import {getRequest} from "../axios/axios";
-import {convertTime} from "../utils";
+import {convertTime, convertTimeEX} from "../utils";
 
 class Tasks extends Component {
     constructor() {
@@ -72,7 +72,7 @@ class Tasks extends Component {
                         <Spacer inline w={0.5}/>
                         <Tag type="warning" invert>创建时间: {convertTime(t.create_time)}</Tag>
                         <Spacer inline w={0.5}/>
-                        <Tag type="dark">上次执行: {convertTime(t.lastRun)}</Tag>
+                        <Tag type="dark">上次执行: {convertTimeEX(t.lastRun)}</Tag>
                         <Spacer h={0.5}/>
                         <Text p b font={0.5}>任务描述: {t.des ? t.des : '任务无描述信息'}</Text>
                         <Text b font={0.75}>任务ID: {t.uuid}</Text>

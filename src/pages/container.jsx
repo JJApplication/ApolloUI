@@ -55,9 +55,9 @@ class Container extends Component {
         data.forEach(d => {
             const c = {
                 name: d.Names ? d.Names[0] : '-',
-                id: <Input readOnly initialValue={d.Id} width="12rem" title={d.Id}/>,
+                id: <Input readOnly initialValue={d.Id} title={d.Id} className="container-id"/>,
                 image: <Code>{d.Image}</Code>,
-                imageId: <Input readOnly initialValue={d.ImageID} width="12rem" title={d.ImageID}/>,
+                imageId: <Input readOnly initialValue={d.ImageID} className="container-id" title={d.ImageID}/>,
                 create: convertTime(d.Created),
                 status: d.Status,
                 state: (d.State === 'running' ? <Dot type="success"/> : <Dot type="error"/>),

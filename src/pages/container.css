@@ -1,3 +1,27 @@
 .stateDot .cell {
     justify-content: center;
 }
+
+.container-id {
+    width: 10rem !important;
+}
+
+@media (max-width: 1440px) {
+    .container-id {
+        width: 8rem !important;
+    }
+
+    .tabs .btn {
+        padding: .5rem !important;
+    }
+}
+
+@media (max-width: 1280px) {
+    .container-id {
+        width: 6rem !important;
+    }
+
+    .tabs .btn {
+        padding: .5rem !important;
+    }
+}

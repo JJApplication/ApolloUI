@@ -10,7 +10,7 @@ class Apptree extends Component {
         return (
             <>
                 <Text h4>服务结构</Text>
-                <Grid.Container gap={1} justify="center">
+                <Grid.Container gap={2} justify="center">
                     <Grid xs={24} md={24}>
                         <User text="App" name="NoEngine">
                             位于顶层架构的负载均衡, 流量统计, 静态伺服服务
