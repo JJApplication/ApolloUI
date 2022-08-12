@@ -2,9 +2,6 @@ import {Component} from "react";
 import {Grid, Text, User} from "@geist-ui/core";
 
 class Apptree extends Component {
-    constructor() {
-        super();
-    }
 
     render() {
         return (

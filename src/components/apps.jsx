@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {Button, Card, Code, Dot, Grid, Modal, Note, Spacer, Table, Tag, Text} from "@geist-ui/core";
+import {Button, Card, Code, Dot, Grid, Link, Modal, Note, Spacer, Table, Tag, Text} from "@geist-ui/core";
 import {getRequest, postRequest} from "../axios/axios";
 import {Box, Play, Power, RefreshCw, RotateCcw} from "@geist-ui/icons";
 import "./status.css";
@@ -46,7 +46,16 @@ class Apps extends Component {
                     {key: '类型', val: meta.type},
                     {key: '描述', val: meta.chs_des},
                     {key: '版本', val: meta.meta.version},
-                    {key: '发布状态', val: meta.release_status}
+                    {key: '发布状态', val: meta.release_status},
+                    {
+                        key: '在线地址',
+                        val: meta.link ?
+                            <>
+                                <Link href={meta.link} color>Link</Link>
+                                <Spacer w={1}/>
+                                <Link href={meta.link} color>前往</Link>
+                            </> : '暂无'
+                    },
                 ]
                 this.setState({data: data, appInfo: res.data.meta});
                 this.setState({showDialog: true});
