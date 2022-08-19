@@ -11,6 +11,7 @@ class Apps extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            ticker: null,
             autoHide: false,
             apps: [],
             app: '',
@@ -27,6 +28,14 @@ class Apps extends Component {
         this.getApps();
         const data = store.getState();
         this.setState({autoHide: data ? data.autoHide : false});
+        const ticker = setInterval(() => {
+            this.getApps();
+        }, 5000);
+        this.setState({ticker: ticker});
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.ticker);
     }
 
     getApps = () => {
@@ -73,6 +82,16 @@ class Apps extends Component {
         this.setState({showDialog: false, appOperation: false});
     }
 
+    // 渲染状态
+    renderStatus = (stat) => {
+        if (stat === 'OK') {
+            return (<Dot style={{marginRight: '5px'}} type="success"/>);
+        } else if (stat === 'BAD') {
+            return (<Dot style={{marginRight: '5px'}} type="error"/>);
+        } else {
+            return (<Dot style={{marginRight: '5px'}} type="warning"/>);
+        }
+    }
     renderApps = () => {
         let appGrids = [];
         for (const app of this.state.apps) {
@@ -81,8 +100,7 @@ class Apps extends Component {
                       style={{cursor: 'pointer'}}>
                     <Card shadow width="100%" onClick={this.showApp(app.App)}>
                         <Card.Content padding=".8rem">
-                            {app.Status === 'OK' ? (<Dot style={{marginRight: '5px'}} type="success"/>) : (
-                                <Dot style={{marginRight: '5px'}} type="error"/>)}
+                            {this.renderStatus(app.Status)}
                             <Text span>{app.App}</Text>
                         </Card.Content>
                     </Card>
@@ -235,7 +253,7 @@ class Apps extends Component {
                 <Spacer h={2}/>
                 <div className="bar">
                     <div className="bar-inner">
-                        <Grid.Container gap={2} justify="center">
+                        <Grid.Container gap={2} justify="flex-start">
                             {this.renderApps()}
                         </Grid.Container>
                     </div>
