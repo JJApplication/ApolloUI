@@ -16,7 +16,7 @@ class Alarm extends Component {
             empty: [{
                 level: 'info',
                 title: '告警标题',
-                message: '默认告警信息\n assss\\n',
+                message: '默认告警信息',
                 created_at: ''
             }],
             show: false,
@@ -66,7 +66,10 @@ class Alarm extends Component {
     }
 
     trimLast = (s) => {
-        return s.substring(0, s.lastIndexOf('\\n'));
+        if (s.lastIndexOf('\\n') > 0) {
+            return s.substring(0, s.lastIndexOf('\\n'));
+        }
+        return s;
     }
 
     renderAlarms = () => {
