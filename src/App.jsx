@@ -25,6 +25,7 @@ import Toast from "./components/toast";
 import {startAppSpy, startHeartbeat} from "./tasks";
 import Tasks from "./pages/tasks";
 import Container from "./pages/container";
+import Alarm from "./pages/alarm";
 
 // 设置根节点的主题引入
 class App extends Component {
@@ -129,6 +130,7 @@ class App extends Component {
                                 <Breadcrumbs.Item onClick={this.switchTab('manage')}>文件管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('tasks')}>任务管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('container')}>容器管理</Breadcrumbs.Item>
+                                <Breadcrumbs.Item onClick={this.switchTab('alarm')}>告警管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('settings')}>应用配置</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('about')}>关于Apollo</Breadcrumbs.Item>
                             </Breadcrumbs>
@@ -147,6 +149,7 @@ class App extends Component {
                             {this.state.lazyComp === 'manage' && (<Filetree/>)}
                             {this.state.lazyComp === 'tasks' && (<Tasks/>)}
                             {this.state.lazyComp === 'container' && (<Container/>)}
+                            {this.state.lazyComp === 'alarm' && (<Alarm/>)}
                             {this.state.lazyComp === 'settings' && (<Settings/>)}
                             {this.state.lazyComp === 'about' && (<About/>)}
                         </Page.Content>
