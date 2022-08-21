@@ -14,12 +14,21 @@ class Tasks extends Component {
 
     componentDidMount() {
         this.getAllBGTasks();
+        this.getAllCronTasks();
     }
 
     getAllBGTasks = () => {
-        getRequest('/api/task').then(res => {
+        getRequest('/api/task/bg').then(res => {
             if (res.data) {
                 this.setState({backgroundTasks: res.data});
+            }
+        })
+    }
+
+    getAllCronTasks = () => {
+        getRequest('/api/task/cron').then(res => {
+            if (res.data) {
+                this.setState({cronTasks: res.data});
             }
         })
     }
@@ -40,8 +49,13 @@ class Tasks extends Component {
         this.state.cronTasks.forEach(t => {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="violet" key={t.name}>
-                        <Tag type="default">{t.name}</Tag>
+                    <Card hoverable type="violet" key={t.task_name}>
+                        <Tag type="default">任务名称: {t.task_name}</Tag>
+                        <Spacer inline w={0.5}/>
+                        <Tag type="warning" invert>创建时间: {convertTime(t.create_time)}</Tag>
+                        <Spacer inline w={0.5}/>
+                        <Tag type="default">执行周期: {t.spec}</Tag>
+                        <Spacer inline w={0.5}/>
                     </Card>
                     <Spacer h={0.25}/>
                 </>
