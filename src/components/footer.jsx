@@ -8,7 +8,7 @@ class Footer extends Component {
     render() {
         return (
             <>
-                <div style={{fontSize: '.9rem', fontWeight: 'bold'}}>
+                <div style={{fontSize: '.9rem', fontWeight: 'bold', width: 'fit-content'}}>
                     <p><HeartFill size={12}/>&nbsp;Copyright © <a href={urls.Home} target="_blank"
                                                                   rel="noreferrer">renj.io</a></p>
                 </div>

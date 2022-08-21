@@ -39,6 +39,10 @@ class App extends Component {
         }
     }
 
+    componentWillMount() {
+
+    }
+
     componentDidMount() {
         this.resize();
         window.addEventListener('resize', this.resize);
@@ -153,7 +157,7 @@ class App extends Component {
                             {this.state.lazyComp === 'settings' && (<Settings/>)}
                             {this.state.lazyComp === 'about' && (<About/>)}
                         </Page.Content>
-                        <Page.Footer>
+                        <Page.Footer style={{width: 'auto'}}>
                             <Footer/>
                         </Page.Footer>
                     </Page>

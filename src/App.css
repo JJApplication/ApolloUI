@@ -4,6 +4,12 @@
     }
 }
 
+@media (max-width: 480px) {
+    #root {
+        overflow-x: hidden;
+    }
+}
+
 .App-header {
     background-color: #282c34;
     min-height: 100vh;

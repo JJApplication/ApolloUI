@@ -33,6 +33,27 @@
     -->
     <title>Apollo</title>
 </head>
+<style>
+    #loading {
+        display: block;
+        text-align: center;
+        align-items: center;
+        padding: 1rem;
+        transform: translateY(50%);
+        user-select: none;
+    }
+
+    #loading p {
+        color: #808080;
+        font-size: 0.85rem;
+        font-weight: bold;
+        line-height: 1.5;
+    }
+
+    #root {
+        display: none;
+    }
+</style>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <div id="root"></div>
@@ -46,5 +67,20 @@
   To begin the development, run `npm start` or `yarn start`.
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
+<div id="loading">
+    <img src="/static/loading.gif">
+    <p>Loading...</p>
+</div>
+<!--loading-->
+<script type="application/javascript">
+    let loading = document.getElementById("loading");
+    let root = document.getElementById("root");
+    window.onload = function () {
+        setTimeout(() => {
+            loading.style.display = "none";
+            root.style.display = "block";
+        }, 800);
+    }
+</script>
 </body>
 </html>
