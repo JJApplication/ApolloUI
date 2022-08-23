@@ -108,12 +108,13 @@ class Alarm extends Component {
 
     showAlarm = (message) => {
         return () => {
+            message = message ? message : '';
             this.setState({show: true, message: message});
         }
     }
 
     closeHandler = () => {
-        this.setState({show: false, message: ''});
+        this.setState({show: false});
     }
 
     render() {

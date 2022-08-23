@@ -38,7 +38,7 @@ class Tasks extends Component {
         if (this.state.cronTasks.length === 0) {
             tasksGroup.push(
                 <>
-                    <Card key="emptycron" hoverable type="violet">
+                    <Card key="emptycron" hoverable type="cyan">
                         <p>暂无任务执行</p>
                     </Card>
                     <Spacer h={0.25}/>
@@ -49,7 +49,7 @@ class Tasks extends Component {
         this.state.cronTasks.forEach(t => {
             tasksGroup.push(
                 <>
-                    <Card hoverable type="violet" key={t.task_name}>
+                    <Card hoverable type="cyan" key={t.task_name}>
                         <Tag type="default">任务名称: {t.task_name}</Tag>
                         <Spacer inline w={0.5}/>
                         <Tag type="warning" invert>创建时间: {convertTime(t.create_time)}</Tag>
