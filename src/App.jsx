@@ -26,6 +26,7 @@ import {startAppSpy, startHeartbeat} from "./tasks";
 import Tasks from "./pages/tasks";
 import Container from "./pages/container";
 import Alarm from "./pages/alarm";
+import Webssh from "./pages/webssh";
 
 // 设置根节点的主题引入
 class App extends Component {
@@ -127,7 +128,7 @@ class App extends Component {
                                         onClick={this.openUrl(urls.Facebook)}>Facebook</Button>
                             </ButtonGroup>
                             {/*页签切换*/}
-                            <Breadcrumbs paddingTop=".5rem">
+                            <Breadcrumbs paddingTop=".5rem" className="nav">
                                 <Breadcrumbs.Item onClick={this.switchTab('home')}>主页</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('status')}>服务状态</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('tree')}>服务结构</Breadcrumbs.Item>
@@ -135,6 +136,7 @@ class App extends Component {
                                 <Breadcrumbs.Item onClick={this.switchTab('tasks')}>任务管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('container')}>容器管理</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('alarm')}>告警管理</Breadcrumbs.Item>
+                                <Breadcrumbs.Item onClick={this.switchTab('webssh')}>WebSSH</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('settings')}>应用配置</Breadcrumbs.Item>
                                 <Breadcrumbs.Item onClick={this.switchTab('about')}>关于Apollo</Breadcrumbs.Item>
                             </Breadcrumbs>
@@ -154,6 +156,7 @@ class App extends Component {
                             {this.state.lazyComp === 'tasks' && (<Tasks/>)}
                             {this.state.lazyComp === 'container' && (<Container/>)}
                             {this.state.lazyComp === 'alarm' && (<Alarm/>)}
+                            {this.state.lazyComp === 'webssh' && (<Webssh/>)}
                             {this.state.lazyComp === 'settings' && (<Settings/>)}
                             {this.state.lazyComp === 'about' && (<About/>)}
                         </Page.Content>

@@ -13,6 +13,7 @@ const globalState = {
     enableWS: false, // 使用ws通知
     autoHide: false, // 自动隐藏无权限页面
     enableAppSpy: false, // 启用监控微服务
+    webssh: '' // webssh的地址
 }
 
 export function saveToStorage() {
@@ -81,6 +82,7 @@ function reducer(state = globalState, action) {
                 enableWS: action.enableWS, // 使用ws通知
                 autoHide: action.autoHide, // 自动隐藏无权限页面
                 enableAppSpy: action.enableAppSpy, // 启用监控微服务
+                webssh: action.webssh,
             }
         default:
             return;

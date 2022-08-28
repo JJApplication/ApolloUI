@@ -20,6 +20,7 @@ class Settings extends Component {
             enableWS: false, // 使用ws通知
             autoHide: false, // 自动隐藏无权限页面
             enableAppSpy: false, // 启用监控微服务
+            webssh: '', // webssh地址
         }
     }
 
@@ -46,6 +47,7 @@ class Settings extends Component {
             enableWS: data.enableWS,
             autoHide: data.autoHide,
             enableAppSpy: data.enableAppSpy,
+            webssh: data.webssh,
         });
         logger(`initial settings:`, data);
     }
@@ -61,6 +63,7 @@ class Settings extends Component {
             enableWS: this.state.enableWS,
             autoHide: this.state.autoHide,
             enableAppSpy: this.state.enableAppSpy,
+            webssh: this.state.webssh,
         }));
         saveToStorage();
         reActiveTasks();
@@ -78,6 +81,7 @@ class Settings extends Component {
             enableWS: false,
             autoHide: false,
             enableAppSpy: false,
+            webssh: '',
         });
         store.dispatch(changeSettings({
             authCode: '',
@@ -89,6 +93,7 @@ class Settings extends Component {
             enableWS: false,
             autoHide: false,
             enableAppSpy: false,
+            webssh: '',
         }));
         clearStorage();
         notifySync('Apollo配置重置完成', 'error');
@@ -109,6 +114,11 @@ class Settings extends Component {
                 <Input label="监控定时器间隔" placeholder="5" value={this.state.spyDuration} onChange={(e) => {
                     this.setState({spyDuration: e.target.value})
                 }} width="85%"/>
+                <Spacer h={.5}/>
+                <Input label="webSSH连接地址" placeholder="ws://ws-address/ws/:id" value={this.state.webssh}
+                       onChange={(e) => {
+                           this.setState({webssh: e.target.value})
+                       }} width="85%"/>
                 <Spacer h={.5}/>
                 <Checkbox checked={this.state.moreToast} onChange={(e) => {
                     this.setState({moreToast: e.target.checked})

@@ -1,4 +1,3 @@
-
 // 尝试认证
 export const tryAuth = (code) => ({
     type: 'auth',
@@ -20,16 +19,17 @@ export const clearMessage = () => ({
 })
 
 export const changeSettings = ({
-    authCode,
-    moreToast,
-    logConsole,
-    heartbeat,
-    spyDuration,
-    enableHeart,
-    enableWS,
-    autoHide,
-    enableAppSpy,
-}) => ({
+                                   authCode,
+                                   moreToast,
+                                   logConsole,
+                                   heartbeat,
+                                   spyDuration,
+                                   enableHeart,
+                                   enableWS,
+                                   autoHide,
+                                   enableAppSpy,
+                                   webssh,
+                               }) => ({
     type: 'changeSettings',
     authCode: authCode,
     moreToast: moreToast, // 使用更详细的通知格式
@@ -40,4 +40,5 @@ export const changeSettings = ({
     enableWS: enableWS, // 使用ws通知
     autoHide: autoHide, // 自动隐藏无权限页面
     enableAppSpy: enableAppSpy, // 启用监控微服务
+    webssh: webssh,
 })
