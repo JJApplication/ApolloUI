@@ -24,12 +24,8 @@ class Webssh extends Component {
 
     componentDidMount() {
         const webssh = this.getSettings();
-        if (webssh) {
-            try {
-                this.newTerminal(webssh);
-            } catch {
-                notifySync('websocket连接失败', 'error');
-            }
+        if (!webssh) {
+            notifySync('webssh配置为空', 'error');
         }
     }
 
@@ -42,12 +38,27 @@ class Webssh extends Component {
         }
     }
 
+    async initTerminal() {
+        try {
+            await this.newTerminal(this.state.webssh);
+        } catch {
+            this.failConnect(this.state.terminal);
+            notifySync('websocket连接失败', 'error');
+        }
+    }
+
     getSettings() {
         const data = store.getState();
         if (!data) {
             return '';
         }
-        this.setState({enable: data.enableWS, webssh: data.webssh, auth: data.authCode});
+        this.setState({
+            enable: data.enableWS,
+            webssh: data.webssh + '?auth=' + data.authCode,
+            auth: data.authCode
+        }, async () => {
+            await this.initTerminal();
+        });
         if (!data.enableWS) {
             notifySync('未启用websocket通信', 'error');
         }
@@ -69,12 +80,16 @@ class Webssh extends Component {
         terminal.write("\r\n");
     }
 
-    newTerminal(webssh) {
+    failConnect(terminal) {
+        terminal.write("Monica WebSSH connect error ❌\r\n");
+    }
+
+    async newTerminal(webssh) {
         console.log("monica init")
         const terminal = new Terminal({
             cursorStyle: 'block',
             cursorBlink: true,
-            fontFamily: 'Ubuntu Mono, monospace',
+            fontFamily: '"Ubuntu Mono", monospace',
             rows: 40,
         })
         this.setState({terminal: terminal})
@@ -82,6 +97,10 @@ class Webssh extends Component {
         terminal.loadAddon(fitAddon)
         fitAddon.fit()
         let terminalContainer = document.getElementById("monica")
+        terminal.open(terminalContainer)
+        this.welcome(terminal);
+
+        // init websocket
         const webSocket = new WebSocket(webssh);
         this.setState({webSocket: webSocket})
         webSocket.binaryType = 'arraybuffer';
@@ -91,9 +110,7 @@ class Webssh extends Component {
         }
 
         webSocket.onopen = () => {
-            terminal.open(terminalContainer)
             fitAddon.fit()
-            this.welcome(terminal);
             terminal.focus()
         }
 
@@ -103,6 +120,7 @@ class Webssh extends Component {
 
         webSocket.onerror = (event) => {
             console.error(event)
+            this.failConnect(terminal);
             notifySync('websocket连接失败', 'error');
             webSocket.close()
         }
