@@ -5,7 +5,7 @@ import logger from "../logger/logger";
 
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.100.10:9090' : '';
-axios.defaults.timeout = 5000;
+axios.defaults.timeout = 20000;
 
 export function getRequest(url, sendData) {
     return new Promise((resolve, reject) => {
