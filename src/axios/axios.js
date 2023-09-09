@@ -1,11 +1,11 @@
-import axios from "axios";
-import store from "../store/store";
-import { sendMessage } from "../store/actions";
-import logger from "../logger/logger";
-import { load } from "../store/reducer";
+import axios from 'axios';
+import store from '../store/store';
+import { sendMessage } from '../store/actions';
+import logger from '../logger/logger';
+import { load } from '../store/reducer';
 
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.100.10:9090' : '';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'https://service.renj.io' : '';
 axios.defaults.timeout = 20000;
 
 export function getRequest(url, sendData) {
@@ -18,8 +18,8 @@ export function getRequest(url, sendData) {
       }
       responseError(error);
       reject(error);
-    })
-  })
+    });
+  });
 }
 
 export function postRequest(url, sendData) {
@@ -29,8 +29,8 @@ export function postRequest(url, sendData) {
     }).catch(error => {
       responseError(error);
       reject(error);
-    })
-  })
+    });
+  });
 }
 
 function addAuthCode(url) {
