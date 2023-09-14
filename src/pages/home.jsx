@@ -3,9 +3,8 @@
 import { Component } from 'react';
 
 import './home.css';
-import { Button, Card, Code, Display, Grid, Image, Link, Text } from '@geist-ui/core';
+import { Button, Card, Code, Link, Text } from '@geist-ui/core';
 import urls, { goto } from '../urls';
-import cli from '../cli.jpg';
 
 class Home extends Component {
 
@@ -29,13 +28,24 @@ class Home extends Component {
                 color: '#ffeb36',
               }}>APP Manager, CI/CD, Tasks, MailService.</span>
             </p>
-            <Display shadow
-                     caption={<Text p type='warning'><Code>Apollo CLI</Code>是配套的现代化命令行交互式终端</Text>}>
-              <Image width='520px' src={cli} />
-            </Display>
-            <Grid.Container gap={2} justify='center' style={{ margin: '1rem 0' }}>
-              <Button ghost type='secondary' onClick={() => goto('/next')}>Apollo ⌈ NEXT ⌋</Button>
-            </Grid.Container>
+            <div style={{
+              backgroundColor: 'transparent',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}>
+              <div style={{ margin: '2rem 1rem' }}>
+                <Button
+                  ghost
+                  type='secondary'
+                  scale={2.5}
+                  onClick={() => goto('/next')}>
+                  Apollo ⌈ NEXT ⌋
+                </Button>
+              </div>
+              <Text p type='warning'><Code>Apollo NEXT</Code>现已发布</Text>
+            </div>
             <Card.Footer>
               <Link color style={{ color: '#9aff69' }} target='_blank'
                     href={urls.Apollo}>Visit source code

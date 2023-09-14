@@ -2,8 +2,10 @@ import { Card, Dot, Grid, Spacer, Tag, Text } from '@geist-ui/core';
 import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
+import { useNavigate } from 'react-router-dom';
 
 export default function() {
+  const nav = useNavigate();
   const [loading, setLoading] = useState(true);
   const [apps, setApps] = useState([]);
   const [status, setStatus] = useState({ total: 0, run: 0, stop: 0 });
@@ -47,8 +49,10 @@ export default function() {
     for (const app of apps) {
       appGrids.push(
         <Grid key={app.App} xs={12} sm={12} md={8} lg={6} justify='center' alignItems='flex-start'
-              style={{ cursor: 'pointer' }}>
-          <Card shadow width='100%' style={{ padding: '0.4rem 0.5rem' }}>
+              style={{ cursor: 'pointer' }}
+              onClick={() => nav(`${app.App}`)}
+        >
+          <Card shadow width='100%' style={{ padding: '0.75rem 0.5rem' }}>
             <Card.Content padding='.8rem'>
               {renderStatus(app.Status)}
               <Text span>{app.App}</Text>

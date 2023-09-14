@@ -11,6 +11,13 @@ import Tree from '../next/pages/Tree';
 import Container from '../next/pages/Container';
 import Changelog from '../next/pages/Changelog';
 import Start from '../next/pages/Start';
+import Setting from '../next/pages/Setting';
+import Alarm from '../next/pages/Alarm';
+import Login from '../next/pages/Login';
+import AppDetail from '../next/pages/AppDetail';
+import Terminal from '../next/pages/Terminal';
+import Select from '../next/pages/Select';
+import CLI from '../next/pages/CLI';
 
 export default createBrowserRouter([
   {
@@ -51,8 +58,20 @@ export default createBrowserRouter([
         element: <Start />,
       },
       {
+        path: 'login',
+        element: <Login />,
+      },
+      {
         path: 'app',
         element: <APPHome />,
+      },
+      {
+        path: 'select',
+        element: <Select />,
+      },
+      {
+        path: 'app/:name',
+        element: <AppDetail />,
       },
       {
         path: 'tree',
@@ -65,6 +84,22 @@ export default createBrowserRouter([
       {
         path: 'task',
         element: <Task />,
+      },
+      {
+        path: 'alarm',
+        element: <Alarm />,
+      },
+      {
+        path: 'terminal',
+        element: <Terminal />,
+      },
+      {
+        path: 'setting',
+        element: <Setting />,
+      },
+      {
+        path: 'cli',
+        element: <CLI />,
       },
       {
         path: 'changelog',

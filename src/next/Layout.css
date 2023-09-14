@@ -1,3 +1,9 @@
+@media (max-width: 1902px) {
+    html {
+        font-size: 14px !important;
+    }
+}
+
 .layout {
     width: 100%;
     height: 100vh;
@@ -19,9 +25,36 @@
     border-bottom: 1px solid #c9c9c9;
 }
 
+/*menu缩放等级*/
+.menu.wrapper {
+    font-size: 1rem !important;
+    padding: 1.25rem 1.75rem !important;
+}
+
+.menu.wrapper h2, .menu.wrapper h3, .menu.wrapper .title {
+    font-size: 1.5rem !important;
+}
+
+.menu .collapse-group .collapse .content .content p {
+    font-size: 1rem !important;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
 .menu .collapse-group .collapse,
 .menu .collapse-group .collapse .content .content {
     padding: 0.5rem 0;
+}
+
+@media (max-width: 1920px) {
+    .menu.wrapper {
+        padding: 1.25rem !important;
+    }
+
+    .menu .collapse-group .collapse,
+    .menu .collapse-group .collapse .content .content {
+        padding: 0.25rem 0;
+    }
 }
 
 .layout-left {
@@ -56,6 +89,17 @@
     position: relative;
     display: flex;
     align-items: center;
+}
+
+.layout-content-header .avatar {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    transition: all 0.15s ease;
+}
+
+.layout-content-header .avatar:hover {
+    border: 0.125rem solid #91c0ff;
+    transition: all 0.15s ease;
 }
 
 .layout-content-body {

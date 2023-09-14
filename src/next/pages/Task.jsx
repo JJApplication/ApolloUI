@@ -123,23 +123,25 @@ export default function() {
                 </Card>
               </Grid>
               <Grid xs={20}>
-                <Card shadow width='100%'>
-                  <div style={{ width: 'calc(100% - 2rem)' }}>
-                    {show.bg &&
-                      <>
-                        <Text type={'secondary'}>后台任务</Text>
-                        <Spacer h={0.5} />
-                        {renderAllBGTasks()}
-                        <Spacer h={1.5} />
-                      </>}
-                    {show.cron &&
-                      <>
-                        <Text type={'secondary'}>定时任务</Text>
-                        <Spacer h={0.5} />
-                        {renderAllCronTasks()}
-                      </>
-                    }
-                  </div>
+                <Card shadow width='100%' style={{ height: 'calc(100vh - 10rem)' }}>
+                  <Card.Content style={{ width: 'unset', height: 'calc(100% - 2rem)' }}>
+                    <div style={{ height: '100%', overflowY: 'auto' }}>
+                      {show.bg &&
+                        <>
+                          <Text type={'secondary'}>后台任务</Text>
+                          <Spacer h={0.5} />
+                          {renderAllBGTasks()}
+                          <Spacer h={1.5} />
+                        </>}
+                      {show.cron &&
+                        <>
+                          <Text type={'secondary'}>定时任务</Text>
+                          <Spacer h={0.5} />
+                          {renderAllCronTasks()}
+                        </>
+                      }
+                    </div>
+                  </Card.Content>
                 </Card>
               </Grid>
             </Grid.Container>

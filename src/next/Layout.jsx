@@ -4,7 +4,20 @@ NEXT采用经典的左侧菜单 + 顶部面包屑
 中间的content采用动态子路由渲染
  */
 
-import { Avatar, Button, Card, Collapse, Drawer, Input, Link, Modal, Spacer, Tag, Text, Tooltip } from '@geist-ui/core';
+import {
+  Avatar,
+  Button,
+  Card,
+  Collapse,
+  Drawer,
+  Input,
+  Link,
+  Modal,
+  Spacer,
+  Tag,
+  Text,
+  Tooltip,
+} from '@geist-ui/core';
 import {
   Box,
   Divider,
@@ -18,22 +31,26 @@ import {
   List,
   Package,
   Server,
+  Terminal,
   Tool,
+  Triangle,
+  XOctagon,
   Zap,
 } from '@geist-ui/icons';
 import { useEffect, useState } from 'react';
-import { Link as LinkRoute } from 'react-router-dom';
+import { Link as LinkRoute, useNavigate } from 'react-router-dom';
 import './Layout.css';
 import logo from './avatar.png';
-import { goto, openUrl } from '../urls';
+import { openUrl } from '../urls';
 
 export default function({ children }) {
+  const nav = useNavigate();
   const [state, setState] = useState(false);
   const [display, setDisplay] = useState(true);
   const [showDonate, setShowDonate] = useState(false);
 
   useEffect(() => {
-    if (document.body.clientWidth < 960) {
+    if (document.body.clientWidth < 1440) {
       setDisplay(false);
     } else {
       setDisplay(true);
@@ -44,11 +61,17 @@ export default function({ children }) {
     return new Date().getFullYear();
   };
 
+  const navTo = (link) => {
+    nav(link);
+    setState(false);
+  };
+
   return (
     <>
       {display && <div className='layout'>
         <div className='layout-left'>
           <div style={{ display: 'inline-flex', width: '100%', alignItems: 'center', flexDirection: 'column' }}>
+            <Spacer h={0.5} />
             <Tooltip text={'展开'} placement='right'>
               <Layers onClick={() => setState(true)} />
             </Tooltip>
@@ -89,6 +112,24 @@ export default function({ children }) {
               </LinkRoute>
             </Tooltip>
             <Spacer h={2} />
+            <Tooltip text={'告警'} placement='right'>
+              <LinkRoute to={'/next/alarm'}>
+                <XOctagon />
+              </LinkRoute>
+            </Tooltip>
+            <Spacer h={2} />
+            <Tooltip text={'终端'} placement='right'>
+              <LinkRoute to={'/next/terminal'}>
+                <Terminal />
+              </LinkRoute>
+            </Tooltip>
+            <Spacer h={2} />
+            <Tooltip text={'登入'} placement='right'>
+              <LinkRoute to={'/next/login'}>
+                <Triangle />
+              </LinkRoute>
+            </Tooltip>
+            <Spacer h={2} />
             <Tooltip text={'设置'} placement='right'>
               <LinkRoute to={'/next/setting'}>
                 <Tool />
@@ -123,35 +164,37 @@ export default function({ children }) {
                   className='menu'>
             <Drawer.Title>菜单</Drawer.Title>
             <Drawer.Subtitle>MENU</Drawer.Subtitle>
-            <Drawer.Content style={{ height: '100%' }}>
-              <div style={{ height: 'calc(100% - 5rem)' }}>
+            <Drawer.Content style={{ height: '100%', padding: '1rem 1rem 0 1rem' }}>
+              <div style={{ height: 'calc(100vh - 13.5rem)', overflowY: 'auto' }}>
                 <Collapse.Group accordion={false}>
                   <Collapse title='服务管理' initialVisible>
-                    <Text>微服务管理</Text>
-                    <Text>微服务操作</Text>
-                    <Text>微服务目录</Text>
-                    <Text>微服务部署</Text>
+                    <Text onClick={() => navTo('/next/app')}>微服务管理</Text>
+                    <Text onClick={() => navTo('/next/select')}>微服务操作</Text>
+                    <Text onClick={() => navTo('/next/tree')}>微服务目录</Text>
+                    <Text onClick={() => navTo('/next/deploy')}>微服务部署</Text>
                     <Text>微服务备份</Text>
                   </Collapse>
                   <Collapse title='系统管理' initialVisible>
-                    <Text>任务列表</Text>
-                    <Text>告警列表</Text>
-                    <Text>容器管理</Text>
-                    <Text>日志管理</Text>
-                    <Text>系统信息</Text>
+                    <Text onClick={() => navTo('/next/task')}>任务列表</Text>
+                    <Text onClick={() => navTo('/next/alarm')}>告警列表</Text>
+                    <Text onClick={() => navTo('/next/container')}>容器管理</Text>
+                    <Text onClick={() => navTo('/next/log')}>日志管理</Text>
+                    <Text onClick={() => navTo('/next/system')}>系统信息</Text>
                   </Collapse>
                   <Collapse title='服务对接' initialVisible>
-                    <Text>动态网关</Text>
-                    <Text>监听地址</Text>
-                    <Text>监控配置</Text>
-                    <Text>邮件外发</Text>
+                    <Text onClick={() => navTo('/next/terminal')}>远程终端</Text>
+                    <Text onClick={() => navTo('/next/gw')}>动态网关</Text>
+                    <Text onClick={() => navTo('/next/address')}>监听地址</Text>
+                    <Text onClick={() => navTo('/next/watch')}>监控配置</Text>
+                    <Text onClick={() => navTo('/next/mail')}>邮件外发</Text>
                   </Collapse>
                   <Collapse title='高级配置' initialVisible>
-                    <Text>基础配置</Text>
-                    <Text>认证管理</Text>
-                    <Text>流量看板</Text>
-                    <Text>动态模块</Text>
-                    <Text>开发文档</Text>
+                    <Text onClick={() => navTo('/next/setting')}>基础配置</Text>
+                    <Text onClick={() => navTo('/next/login')}>认证管理</Text>
+                    <Text onClick={() => navTo('/next/panel')}>流量看板</Text>
+                    <Text onClick={() => navTo('/next/module')}>动态模块</Text>
+                    <Text onClick={() => navTo('/next/cli')}>命令工具</Text>
+                    <Text onClick={() => navTo('/next/doc')}>开发文档</Text>
                   </Collapse>
                 </Collapse.Group>
               </div>
@@ -189,8 +232,9 @@ export default function({ children }) {
               </span>
               <span style={{ marginRight: '1rem' }}>
                 <Tooltip text={'变更历史'} placement={'bottom'}>
-                  <Button iconRight={<GitBranch />} auto scale={2 / 3} px={0.6}
-                          onClick={() => goto('/next/changelog')} />
+                  <LinkRoute to={'/next/changelog'}>
+                    <Button iconRight={<GitBranch />} auto scale={2 / 3} px={0.6} />
+                  </LinkRoute>
                 </Tooltip>
               </span>
               <span style={{ marginRight: '1rem' }}>
@@ -198,7 +242,9 @@ export default function({ children }) {
                   <Button iconRight={<Heart />} auto scale={2 / 3} px={0.6} onClick={() => setShowDonate(true)} />
                 </Tooltip>
               </span>
-              <Avatar src={logo} width='3.5rem' height='3.5rem' />
+              <LinkRoute to={'/next/login'}>
+                <Avatar src={logo} id={'avatar'} />
+              </LinkRoute>
             </div>
           </div>
           <div className='layout-content-body'>
@@ -222,9 +268,9 @@ export default function({ children }) {
           <div style={{ maxWidth: '640px', margin: '2rem auto' }}>
             <Card shadow>
               <Text h3>Oops</Text>
-              <Text type={'error'}>Not Support Your Device Width <Tag>>=720</Tag></Text>
+              <Text type={'error'}>Not Support Your Device Width <Tag>>=1440</Tag></Text>
               <Text h3>出错了</Text>
-              <Text type={'error'}>不支持的设备宽度 <Tag>>=720</Tag></Text>
+              <Text type={'error'}>不支持的设备宽度 <Tag>>=1440</Tag></Text>
             </Card>
           </div>
         </div>}
