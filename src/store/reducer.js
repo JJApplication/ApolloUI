@@ -1,9 +1,14 @@
 // reducer
 
-import store from "./store";
+import store from './store';
 
 const globalState = {
   authCode: '', // 校验码
+  authFlag: '',
+  authMethod: 'query',
+  useBase64: false,
+  useAll: false,
+  jumpHome: false,
   hasMessage: { message: '', check: false, t: '' }, // 全局通知消息t: success warning error
   moreToast: false, // 使用更详细的通知格式
   logConsole: false, //日志输出到控制台
@@ -13,8 +18,8 @@ const globalState = {
   enableWS: false, // 使用ws通知
   autoHide: false, // 自动隐藏无权限页面
   enableAppSpy: false, // 启用监控微服务
-  webssh: '' // webssh的地址
-}
+  webssh: '', // webssh的地址
+};
 
 export function saveToStorage() {
   const data = store.getState();
@@ -30,17 +35,17 @@ export function loadFromStorage() {
     const sd = localStorage.getItem(k);
     if (k !== 'hasMessage' && sd) {
       switch (typeof globalState[k]) {
-        case "boolean":
+        case 'boolean':
           if (sd === 'false') {
             globalState[k] = false;
           } else {
             globalState[k] = true;
           }
           break;
-        case "string":
+        case 'string':
           globalState[k] = sd;
           break;
-        case "number":
+        case 'number':
           globalState[k] = parseInt(sd);
           break;
         default:
@@ -55,13 +60,13 @@ export function load() {
     const sd = localStorage.getItem(k);
     if (k !== 'hasMessage' && sd) {
       switch (typeof globalState[k]) {
-        case "boolean":
+        case 'boolean':
           data[k] = sd !== 'false';
           break;
-        case "string":
+        case 'string':
           data[k] = sd;
           break;
-        case "number":
+        case 'number':
           data[k] = parseInt(sd);
           break;
         default:
@@ -71,6 +76,12 @@ export function load() {
   });
 
   return data;
+}
+
+export function save(data) {
+  Object.keys(data).forEach(k => {
+    localStorage.setItem(k, data[k]);
+  });
 }
 
 export function clearStorage() {
@@ -83,17 +94,17 @@ function reducer(state = globalState, action) {
       return {
         ...state,
         authCode: action.code,
-      }
+      };
     case 'sendMessage':
       return {
         ...state,
-        hasMessage: { message: action.message, check: action.check, t: action.t }
-      }
+        hasMessage: { message: action.message, check: action.check, t: action.t },
+      };
     case 'clearMessage':
       return {
         ...state,
-        hasMessage: {}
-      }
+        hasMessage: {},
+      };
     case 'changeSettings':
       return {
         ...state,
@@ -107,7 +118,7 @@ function reducer(state = globalState, action) {
         autoHide: action.autoHide, // 自动隐藏无权限页面
         enableAppSpy: action.enableAppSpy, // 启用监控微服务
         webssh: action.webssh,
-      }
+      };
     default:
       return;
   }

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRequest } from '../../axios/axios';
 import Loading from './Loading';
+import { Toast } from './toast';
 
 export default function() {
   const nav = useNavigate();
@@ -31,6 +32,7 @@ export default function() {
       setLoading(false);
     }).catch(() => {
       setLoading(false);
+      Toast.error('获取微服务列表失败');
     });
   };
 
@@ -51,6 +53,7 @@ export default function() {
 
   const openSelectApp = () => {
     if (choose === '') {
+      Toast.error('选择的微服务为空');
     } else {
       nav(`/next/app/${choose}`);
     }

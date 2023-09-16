@@ -4,6 +4,7 @@ import { convertTime, convertTimeEX } from '../../utils';
 import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
+import { Toast } from './toast';
 
 export default function() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,9 @@ export default function() {
 
   useEffect(() => {
     getTasks().then(r => {
+      setLoading(false);
+    }).catch(() => {
+      Toast.error('获取任务列表失败');
       setLoading(false);
     });
   }, []);
@@ -40,7 +44,7 @@ export default function() {
     if (cronTasks.length === 0) {
       tasksGroup.push(
         <>
-          <Card key='emptycron' hoverable type='cyan'>
+          <Card key='emptycron' hoverable style={{ backgroundColor: '#54ae9c', color: '#FFFFFF' }}>
             <p>暂无任务执行</p>
           </Card>
           <Spacer h={0.25} />
@@ -51,7 +55,7 @@ export default function() {
     cronTasks.forEach(t => {
       tasksGroup.push(
         <div key={t.task_name}>
-          <Card hoverable style={{ backgroundColor: '#45b098' }}>
+          <Card hoverable style={{ backgroundColor: '#54ae9c', color: '#FFFFFF' }}>
             <Tag type='default'>任务名称: {t.task_name}</Tag>
             <Spacer inline w={0.5} />
             <Tag type='warning' invert>创建时间: {convertTime(t.create_time)}</Tag>

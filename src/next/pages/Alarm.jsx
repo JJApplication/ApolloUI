@@ -3,6 +3,7 @@ import { Hash } from '@geist-ui/icons';
 import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
+import { Toast } from './toast';
 
 export default function() {
   const [loading, setLoading] = useState(true);
@@ -13,6 +14,9 @@ export default function() {
 
   useEffect(() => {
     getAlarms().then(r => {
+      setLoading(false);
+    }).catch(() => {
+      Toast.error('获取告警信息失败');
       setLoading(false);
     });
   }, []);

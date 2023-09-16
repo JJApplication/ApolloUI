@@ -2,10 +2,12 @@ import { Card, Divider, Grid, Snippet, Spacer, Table, Tag, Text, Tooltip } from 
 import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
+import { Toast } from './toast';
 
 export default function() {
   const [time, setTime] = useState('');
   const [loading, setLoading] = useState(true);
+  const [sys, setSys] = useState({ buildDate: '', goarch: '', goos: '', goVersion: '', gitCommit: '' });
   const [apps, setApps] = useState({ total: 0, running: 0, stopped: 0 });
   const [tasks, setTasks] = useState({ total: 0, bg: [], cron: [] });
   const [containers, setContainers] = useState({ total: 0, running: 0, stopped: 0, data: [] });
@@ -33,10 +35,14 @@ export default function() {
     setLoading(true);
     initPanel().then(r => {
       setLoading(false);
-    }).finally(() => {
-        setLoading(false);
-      },
-    );
+    })
+      .catch(() => {
+        Toast.error('初始化面板失败');
+      })
+      .finally(() => {
+          setLoading(false);
+        },
+      );
 
     return () => {
       clearInterval(tick);
@@ -49,11 +55,19 @@ export default function() {
   };
 
   const initPanel = async () => {
+    await getSys();
     await getApps();
     await getTasks();
     await getContainers();
     await getAlarm();
     getConfig();
+  };
+
+  const getSys = async () => {
+    const res = await getRequest('/api/system/overview');
+    if (res.data) {
+      setSys(res.data);
+    }
   };
 
   const getApps = async () => {
@@ -258,15 +272,21 @@ export default function() {
               <Card.Content style={{ width: 'unset' }}>
                 <Text h3 style={{ marginTop: '0.25rem' }}>状态 <Text span type={'success'}>STATUS</Text></Text>
                 <Grid.Container gap={1}>
-                  <Grid xs={10} direction={'column'}>
+                  <Grid xs={12} direction={'column'}>
                     <Text style={{ margin: '0.25rem 0' }}>服务状态: <Text span b
                                                                           style={{ color: '#00b900' }}>在线</Text></Text>
-                    <Text style={{ margin: '0.25rem 0' }}>版本号: 1.0.0</Text>
-                    <Text style={{ margin: '0.25rem 0' }}>构建日期: {currentDate()}</Text>
-                    <Text style={{ margin: '0.25rem 0' }}>Go Version: 1.20.1</Text>
-                    <Text style={{ margin: '0.25rem 0' }}>Go ARCH: amd64</Text>
+                    <Text style={{ margin: '0.25rem 0' }}>构建日期: {sys.buildDate}</Text>
+                    <Text style={{ margin: '0.25rem 0' }}>Go Version: {sys.goVersion}</Text>
+                    <Text style={{ margin: '0.25rem 0' }}>Go ARCH: {sys.goarch}</Text>
+                    <Text style={{
+                      margin: '0.25rem 0',
+                      maxWidth: '90%',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      wordBreak: 'break-all',
+                    }}>编译版本: <Text span type={'secondary'}>{sys.gitCommit}</Text></Text>
                   </Grid>
-                  <Grid xs={14} direction={'column'}>
+                  <Grid xs={12} direction={'column'}>
                     <Text h3 style={{ margin: '0 0 0.25rem 0' }} type={'secondary'}>系统时间</Text>
                     <Text h1 style={{ margin: '0.25rem 0', fontSize: '2rem' }}>{currentDate()}</Text>
                     <Text h2 style={{ margin: '0', fontSize: '3.5rem' }} type={'success'}>{time}</Text>

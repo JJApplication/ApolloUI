@@ -3,6 +3,7 @@ import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
 import { useNavigate } from 'react-router-dom';
+import { Toast } from './toast';
 
 export default function() {
   const nav = useNavigate();
@@ -31,6 +32,7 @@ export default function() {
       setLoading(false);
     }).catch(() => {
       setLoading(false);
+      Toast.error('配置微服务列表失败');
     });
   };
   // 渲染状态

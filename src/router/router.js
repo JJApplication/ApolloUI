@@ -18,6 +18,7 @@ import AppDetail from '../next/pages/AppDetail';
 import Terminal from '../next/pages/Terminal';
 import Select from '../next/pages/Select';
 import CLI from '../next/pages/CLI';
+import { System } from '../next/pages/System';
 
 export default createBrowserRouter([
   {
@@ -96,6 +97,10 @@ export default createBrowserRouter([
       {
         path: 'setting',
         element: <Setting />,
+      },
+      {
+        path: 'system',
+        element: <System />,
       },
       {
         path: 'cli',

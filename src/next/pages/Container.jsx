@@ -2,8 +2,8 @@ import { Button, Code, Dot, Input, Spacer, Table, Tabs, Text } from '@geist-ui/c
 import { Hexagon, Layers, PauseFill, PlayFill, XCircleFill } from '@geist-ui/icons';
 import { getRequest, postRequest } from '../../axios/axios';
 import { convertTime, covertFileSize } from '../../utils';
-import notifySync from '../../logger/notify';
 import { useEffect, useState } from 'react';
+import { Toast } from './toast';
 
 export default function() {
 
@@ -35,6 +35,8 @@ export default function() {
       if (res.data) {
         setContainers(modifyContainers(res.data));
       }
+    }).catch(() => {
+      Toast.error('获取容器信息失败');
     });
   };
 
@@ -43,6 +45,8 @@ export default function() {
       if (res.data) {
         setImages(modifyImages(res.data));
       }
+    }).catch(() => {
+      Toast.error('获取镜像信息失败');
     });
   };
 
@@ -101,10 +105,10 @@ export default function() {
       const id = rowData.id.props.initialValue;
       postRequest(`/api/container/start?id=${id}`).then(res => {
         if (res.status === 'ok') {
-          notifySync(`容器${rowData.name}启动成功`, 'success');
+          Toast.success(`容器${rowData.name}启动成功`);
           getContainers();
         } else {
-          notifySync(`容器${rowData.name}启动失败`, 'error');
+          Toast.error(`容器${rowData.name}启动失败`);
           getContainers();
         }
       });
@@ -116,10 +120,10 @@ export default function() {
       const id = rowData.id.props.initialValue;
       postRequest(`/api/container/stop?id=${id}`).then(res => {
         if (res.status === 'ok') {
-          notifySync(`容器${rowData.name}停止成功`, 'success');
+          Toast.success(`容器${rowData.name}停止成功`);
           getContainers();
         } else {
-          notifySync(`容器${rowData.name}停止失败`, 'error');
+          Toast.error(`容器${rowData.name}停止失败`);
           getContainers();
         }
       });
@@ -131,10 +135,10 @@ export default function() {
       const id = rowData.id.props.initialValue;
       postRequest(`/api/container/remove?id=${id}`).then(res => {
         if (res.status === 'ok') {
-          notifySync(`容器${rowData.name}删除成功`, 'success');
+          Toast.success(`容器${rowData.name}删除成功`);
           getContainers();
         } else {
-          notifySync(`容器${rowData.name}删除失败`, 'error');
+          Toast.error(`容器${rowData.name}删除失败`);
           getContainers();
         }
       });

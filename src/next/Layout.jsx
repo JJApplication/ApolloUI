@@ -4,6 +4,7 @@ NEXT采用经典的左侧菜单 + 顶部面包屑
 中间的content采用动态子路由渲染
  */
 
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Avatar,
   Button,
@@ -42,6 +43,7 @@ import { Link as LinkRoute, useNavigate } from 'react-router-dom';
 import './Layout.css';
 import logo from './avatar.png';
 import { openUrl } from '../urls';
+import { ToastContainer } from 'react-toastify';
 
 export default function({ children }) {
   const nav = useNavigate();
@@ -274,5 +276,6 @@ export default function({ children }) {
             </Card>
           </div>
         </div>}
+      <ToastContainer limit={5} />
     </>);
 }

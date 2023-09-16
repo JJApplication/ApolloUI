@@ -2,9 +2,9 @@ import { Button, Card, Grid, Input, Spacer, Text, Tree } from '@geist-ui/core';
 import { Delete, RefreshCw, Upload } from '@geist-ui/icons';
 import { useEffect, useRef, useState } from 'react';
 import { getRequest, postRequest } from '../../axios/axios';
-import notifySync from '../../logger/notify';
 import store from '../../store/store';
 import Loading from './Loading';
+import { Toast } from './toast';
 
 export default function() {
   const [autoHide, setAutoHide] = useState(false);
@@ -43,6 +43,7 @@ export default function() {
       setFiles(errTree);
       setRefreshing(false);
       setLoading(false);
+      Toast.error('获取文件树结构失败');
     });
   };
 
@@ -68,7 +69,7 @@ export default function() {
     setUploading(true);
     const files = e.target.files;
     if (!files) {
-      notifySync('文件上传列表为空', 'warning');
+      Toast.warn('文件上传列表为空');
       setUploading(false);
     }
     const data = new FormData();
@@ -78,14 +79,14 @@ export default function() {
     const filePath = getFilePath(path);
     postRequest(`/api/app/upload?path=${filePath}`, data).then(res => {
       if (res.status === 'ok') {
-        notifySync('文件上传成功', 'success');
+        Toast.success('文件上传成功');
       } else {
-        notifySync('文件上传失败', 'error');
+        Toast.error('文件上传失败');
       }
       getFilesTree();
       setUploading(false);
     }).catch(() => {
-      notifySync('文件上传失败', 'error');
+      Toast.error('文件上传失败');
       setUploading(false);
     });
   };
@@ -93,20 +94,20 @@ export default function() {
   const handleDelete = () => {
     setDeleting(true);
     if (!path || path === '') {
-      notifySync('文件列表为空', 'error');
+      Toast.warn('文件列表为空');
       setDeleting(false);
       return;
     }
     postRequest(`/api/app/remove?file=${path}`).then(res => {
       if (res.status === 'ok') {
-        notifySync('文件删除成功', 'success');
+        Toast.success('文件删除成功');
         getFilesTree();
       } else {
-        notifySync('文件删除失败', 'error');
+        Toast.error('文件删除失败');
       }
       setDeleting(false);
     }).catch(() => {
-      notifySync('文件删除失败', 'error');
+      Toast.error('文件删除失败');
       setDeleting(false);
     });
   };

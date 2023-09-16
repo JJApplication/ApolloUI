@@ -1,14 +1,32 @@
 body {
     margin: 0;
-    font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', "微软雅黑", "Microsoft YaHei", sans-serif !important;
+    font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont,
+    'Ubuntu', 'Helvetica Neue', "微软雅黑", "Microsoft YaHei", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6, a, p, strong, small, span, div, input {
-    font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', "微软雅黑", "Microsoft YaHei", sans-serif !important;
+h1, h2, h3, h4, h5, h6, a, p, strong, input, small, span, div {
+    font-family: 'Signika Negative', -apple-system, BlinkMacSystemFont,
+    'Ubuntu', 'Helvetica Neue', "微软雅黑", "Microsoft YaHei", sans-serif;
+}
+
+.terminal.xterm,
+.terminal.xterm *,
+.terminal.xterm h1,
+.terminal.xterm h2,
+.terminal.xterm h3,
+.terminal.xterm h4,
+.terminal.xterm h5,
+.terminal.xterm h6,
+.terminal.xterm a,
+.terminal.xterm p,
+.terminal.xterm strong,
+.terminal.xterm small,
+.terminal.xterm span,
+.terminal.xterm div,
+.terminal.xterm input {
+    font-family: Consolas, 'Roboto Mono', monospace !important;
 }
 
 code {

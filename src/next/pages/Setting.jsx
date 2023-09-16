@@ -1,9 +1,11 @@
 import { Button, Card, Checkbox, Grid, Input, Select, Spacer, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { load } from '../../store/reducer';
+import { clearStorage, load, save } from '../../store/reducer';
+import cloneDeep from 'lodash/cloneDeep';
+import { Toast } from './toast';
 
 export default function() {
-  const [state, setState] = useState({
+  const [settings, setSettings] = useState({
     authCode: '',
     authFlag: '',
     authMethod: 'query',
@@ -23,18 +25,44 @@ export default function() {
 
   useEffect(() => {
     const data = load();
-    data.heartbeat = data.heartbeat.toString();
-    data.spyDuration = data.spyDuration.toString();
-    const result = Object.assign({}, state, data);
-    setState(result);
+    data.heartbeat = (data.heartbeat || 0).toString();
+    data.spyDuration = (data.spyDuration || 0).toString();
+    const result = Object.assign({}, settings, data);
+    setSettings(result);
   }, []);
 
   const saveSettings = () => {
-
+    save(settings);
+    Toast.success('配置保存完毕');
   };
 
   const clearSettings = () => {
+    clearStorage();
+    setSettings({
+      authCode: '',
+      authFlag: '',
+      authMethod: 'query',
+      useBase64: false,
+      useAll: false,
+      jumpHome: false,
+      heartbeat: '5',
+      spyDuration: '5',
+      moreToast: false,
+      logConsole: false,
+      enableHeart: false,
+      enableWS: false,
+      autoHide: false,
+      enableAppSpy: false,
+      webssh: '',
+    });
+    Toast.success('配置清空完毕');
+  };
 
+  const setStateKey = (key, val) => {
+    const data = cloneDeep(settings);
+    data[key] = val;
+
+    setSettings(data);
   };
 
   return (
@@ -45,37 +73,38 @@ export default function() {
           <Text h3 type={'success'}>基础配置</Text>
           <Card shadow height={'100%'}>
             <Card.Content style={{ width: 'unset' }}>
-              <Input label='心跳定时器间隔' placeholder='5' value={state.heartbeat} onChange={(e) => {
-                setState({ heartbeat: e.target.value });
+              <Input label='心跳定时器间隔' placeholder='5' value={settings.heartbeat} onChange={(e) => {
+                setStateKey('heartbeat', e.target.value);
               }} width='100%' />
               <Spacer h={1} />
-              <Input label='监控定时器间隔' placeholder='5' value={state.spyDuration} onChange={(e) => {
-                setState({ spyDuration: e.target.value });
+              <Input label='监控定时器间隔' placeholder='5' value={settings.spyDuration} onChange={(e) => {
+                setStateKey('spyDuration', e.target.value);
               }} width='100%' />
               <Spacer h={1} />
-              <Input label='webSSH连接地址' placeholder='ws://ws-address/ws/:id' value={state.webssh}
+              <Input label='webSSH连接地址' placeholder='ws://ws-address/ws/:id' clearable autoComplete={'off'}
+                     value={settings.webssh}
                      onChange={(e) => {
-                       setState({ webssh: e.target.value });
+                       setStateKey('webssh', e.target.value);
                      }} width='100%' />
               <Spacer h={1} />
-              <Checkbox checked={state.moreToast} onChange={(e) => {
-                setState({ moreToast: e.target.checked });
+              <Checkbox checked={settings.moreToast} onChange={(e) => {
+                setStateKey('moreToast', e.target.checked);
               }}>使用详细通知</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.logConsole} onChange={(e) => {
-                setState({ logConsole: e.target.checked });
+              <Checkbox checked={settings.logConsole} onChange={(e) => {
+                setStateKey('logConsole', e.target.checked);
               }}>日志输出到控制台</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.enableHeart} onChange={(e) => {
-                setState({ enableHeart: e.target.checked });
+              <Checkbox checked={settings.enableHeart} onChange={(e) => {
+                setStateKey('enableHeart', e.target.checked);
               }}>开启心跳提示</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.enableWS} onChange={(e) => {
-                setState({ enableWS: e.target.checked });
+              <Checkbox checked={settings.enableWS} onChange={(e) => {
+                setStateKey('enableWS', e.target.checked);
               }}>使用websocket通信</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.enableAppSpy} onChange={(e) => {
-                setState({ enableAppSpy: e.target.checked });
+              <Checkbox checked={settings.enableAppSpy} onChange={(e) => {
+                setStateKey('enableAppSpy', e.target.checked);
               }}>监控微服务状态</Checkbox>
             </Card.Content>
           </Card>
@@ -84,35 +113,37 @@ export default function() {
           <Text h3 type={'success'}>身份认证</Text>
           <Card shadow height={'100%'}>
             <Card.Content style={{ width: 'unset' }}>
-              <Input.Password label='Apollo身份码' value={state.authCode} onChange={(e) => {
-                setState({});
+              <Input.Password label='Apollo身份码' autoComplete={'off'} value={settings.authCode} onChange={(e) => {
+                setStateKey('authCode', e.target.value);
               }} width='100%' maxLength={128} />
               <Spacer h={1} />
-              <Input label='认证标识' value={state.authFlag} onChange={(e) => {
-                setState({});
+              <Input label='认证标识' clearable autoComplete={'off'} value={settings.authFlag} onChange={(e) => {
+                setStateKey('authFlag', e.target.value);
               }} width='100%' maxLength={128} />
               <Spacer h={1} />
-              <Select placeholder='选择身份认证方式' value={state.authMethod}>
+              <Select placeholder='选择身份认证方式' value={settings.authMethod} onChange={e => {
+                setStateKey('authMethod', e);
+              }}>
                 <Select.Option value='query'>Query (不安全)</Select.Option>
                 <Select.Option divider />
                 <Select.Option value='cookie'>Cookie</Select.Option>
                 <Select.Option value='header'>Header</Select.Option>
               </Select>
               <Spacer h={1} />
-              <Checkbox checked={state.useBase64} onChange={(e) => {
-                setState({});
+              <Checkbox checked={settings.useBase64} onChange={(e) => {
+                setStateKey('useBase64', e.target.checked);
               }}>使用BASE64加密认证码</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.autoHide} onChange={(e) => {
-                setState({});
+              <Checkbox checked={settings.autoHide} onChange={(e) => {
+                setStateKey('autoHide', e.target.checked);
               }}>自动隐藏无权限页面</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.useAll} onChange={(e) => {
-                setState({});
+              <Checkbox checked={settings.useAll} onChange={(e) => {
+                setStateKey('useAll', e.target.checked);
               }}>尝试使用全部认证方式</Checkbox>
               <Spacer h={.5} />
-              <Checkbox checked={state.jumpHome} onChange={(e) => {
-                setState({});
+              <Checkbox checked={settings.jumpHome} onChange={(e) => {
+                setStateKey('jumpHome', e.target.checked);
               }}>认证失败后跳转回首页</Checkbox>
             </Card.Content>
           </Card>
