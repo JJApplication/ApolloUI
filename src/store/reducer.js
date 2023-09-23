@@ -88,6 +88,14 @@ export function clearStorage() {
   localStorage.clear();
 }
 
+export function setToken(token) {
+  localStorage.setItem('token', token);
+}
+
+export function getToken() {
+  return localStorage.getItem('token');
+}
+
 function reducer(state = globalState, action) {
   switch (action.type) {
     case 'auth':

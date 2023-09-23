@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Grid, Input, Select, Spacer, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { clearStorage, load, save } from '../../store/reducer';
+import { clearStorage, getToken, load, save } from '../../store/reducer';
 import cloneDeep from 'lodash/cloneDeep';
 import { Toast } from './toast';
 
@@ -27,6 +27,7 @@ export default function() {
     const data = load();
     data.heartbeat = (data.heartbeat || 0).toString();
     data.spyDuration = (data.spyDuration || 0).toString();
+    data.authFlag = getToken() || '';
     const result = Object.assign({}, settings, data);
     setSettings(result);
   }, []);

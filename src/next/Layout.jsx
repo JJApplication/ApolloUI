@@ -22,6 +22,7 @@ import {
 import {
   Box,
   Divider,
+  FileText,
   Folder,
   GitBranch,
   Github,
@@ -120,6 +121,12 @@ export default function({ children }) {
               </LinkRoute>
             </Tooltip>
             <Spacer h={2} />
+            <Tooltip text={'日志'} placement='right'>
+              <LinkRoute to={'/next/log'}>
+                <FileText />
+              </LinkRoute>
+            </Tooltip>
+            <Spacer h={2} />
             <Tooltip text={'终端'} placement='right'>
               <LinkRoute to={'/next/terminal'}>
                 <Terminal />
@@ -167,7 +174,7 @@ export default function({ children }) {
             <Drawer.Title>菜单</Drawer.Title>
             <Drawer.Subtitle>MENU</Drawer.Subtitle>
             <Drawer.Content style={{ height: '100%', padding: '1rem 1rem 0 1rem' }}>
-              <div style={{ height: 'calc(100vh - 13.5rem)', overflowY: 'auto' }}>
+              <div className={'menu-top'}>
                 <Collapse.Group accordion={false}>
                   <Collapse title='服务管理' initialVisible>
                     <Text onClick={() => navTo('/next/app')}>微服务管理</Text>
@@ -181,14 +188,20 @@ export default function({ children }) {
                     <Text onClick={() => navTo('/next/alarm')}>告警列表</Text>
                     <Text onClick={() => navTo('/next/container')}>容器管理</Text>
                     <Text onClick={() => navTo('/next/log')}>日志管理</Text>
+                    <Text onClick={() => navTo('/next/db')}>数据管理</Text>
                     <Text onClick={() => navTo('/next/system')}>系统信息</Text>
+                    <Text onClick={() => navTo('/next/secure')}>安全维护</Text>
                   </Collapse>
                   <Collapse title='服务对接' initialVisible>
                     <Text onClick={() => navTo('/next/terminal')}>远程终端</Text>
                     <Text onClick={() => navTo('/next/gw')}>动态网关</Text>
-                    <Text onClick={() => navTo('/next/address')}>监听地址</Text>
                     <Text onClick={() => navTo('/next/watch')}>监控配置</Text>
                     <Text onClick={() => navTo('/next/mail')}>邮件外发</Text>
+                  </Collapse>
+                  <Collapse title='脚本插件' initialVisible>
+                    <Text onClick={() => navTo('/next/script')}>脚本管理</Text>
+                    <Text onClick={() => navTo('/next/scriptTask')}>脚本任务</Text>
+                    <Text onClick={() => navTo('/next/clean')}>定时清理</Text>
                   </Collapse>
                   <Collapse title='高级配置' initialVisible>
                     <Text onClick={() => navTo('/next/setting')}>基础配置</Text>
@@ -200,7 +213,7 @@ export default function({ children }) {
                   </Collapse>
                 </Collapse.Group>
               </div>
-              <div style={{ height: '5rem' }}>
+              <div style={{ height: '5rem', borderTop: '1px solid #D0D0D0' }}>
                 <p style={{ margin: '0.25rem 0' }}>Apollo <Tag type='success' invert>NEXT</Tag></p>
                 <p style={{ margin: '0.25rem 0' }}>This is a project of <Tag type='default' invert>JJApplication</Tag>
                 </p>

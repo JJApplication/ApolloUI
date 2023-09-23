@@ -28,6 +28,8 @@ export function System() {
     mongo: '',
     dockerApi: '',
     dockerApiVersion: '',
+    goroutines: 0,
+    maxProcs: 0,
   });
 
   useEffect(() => {
@@ -115,12 +117,14 @@ export function System() {
               <Input label='服务运行端口' disabled width='100%' value={runConfig.port.toString()} /><Spacer h={0.5} />
               <Input label='服务运行PID' disabled width='100%' value={runConfig.pid.toString()} /><Spacer h={0.5} />
               <Input label='服务监听UDS' disabled width='100%' value={runConfig.uds} /><Spacer h={0.5} />
+              <Input label='goroutines数量' disabled width='100%' value={runConfig.goroutines.toString()} />
             </Grid>
             <Grid xs={12} direction={'column'}>
               <Input label='MongoDB配置' disabled width='100%' value={runConfig.mongo} /><Spacer h={0.5} />
               <Input label='Docker API接口' disabled width='100%' value={runConfig.dockerApi} /><Spacer h={0.5} />
               <Input label='Docker API版本' disabled width='100%' value={runConfig.dockerApiVersion} /><Spacer
               h={0.5} />
+              <Input label='最大核心数限制' disabled width='100%' value={runConfig.maxProcs.toString()} />
             </Grid>
           </Grid.Container>
         </Card.Content>

@@ -19,6 +19,7 @@ import Terminal from '../next/pages/Terminal';
 import Select from '../next/pages/Select';
 import CLI from '../next/pages/CLI';
 import { System } from '../next/pages/System';
+import Gateway from '../next/pages/Gateway';
 
 export default createBrowserRouter([
   {
@@ -62,6 +63,7 @@ export default createBrowserRouter([
         path: 'login',
         element: <Login />,
       },
+      // 微服务管理
       {
         path: 'app',
         element: <APPHome />,
@@ -78,6 +80,7 @@ export default createBrowserRouter([
         path: 'tree',
         element: <Tree />,
       },
+      // 系统管理
       {
         path: 'container',
         element: <Container />,
@@ -91,21 +94,28 @@ export default createBrowserRouter([
         element: <Alarm />,
       },
       {
+        path: 'system',
+        element: <System />,
+      },
+      // 服务对接
+      {
         path: 'terminal',
         element: <Terminal />,
       },
+      {
+        path: 'gw',
+        element: <Gateway />,
+      },
+      // 高级配置
       {
         path: 'setting',
         element: <Setting />,
       },
       {
-        path: 'system',
-        element: <System />,
-      },
-      {
         path: 'cli',
         element: <CLI />,
       },
+      // 其他
       {
         path: 'changelog',
         element: <Changelog />,

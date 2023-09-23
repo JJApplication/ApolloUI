@@ -1,8 +1,8 @@
 import { Button, Card, Code, Dot, Grid, Link, Note, Progress, Spacer, Table, Tag, Text } from '@geist-ui/core';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from '../../axios/axios';
-import { Box, Play, Power, RefreshCw, RotateCcw } from '@geist-ui/icons';
+import { ArrowLeft, Box, Play, Power, RefreshCw, RotateCcw } from '@geist-ui/icons';
 import { load } from '../../store/reducer';
 import logger from '../../logger/logger';
 import { Toast } from './toast';
@@ -10,6 +10,7 @@ import Loading from './Loading';
 
 export default function() {
   const params = useParams();
+  const nav = useNavigate();
   const { name } = params;
   const [loading, setLoading] = useState(true);
   const [appData, setAppData] = useState([]);
@@ -217,7 +218,10 @@ export default function() {
 
   return (
     <>
-      <Text h3>微服务 - <Text span type={'success'}>{name}</Text></Text>
+      <Text h3 marginTop={'0.5rem'}><Button auto iconRight={<ArrowLeft />} px={0.8} scale={3 / 4}
+                                            marginRight={'1rem'} onClick={() => nav('/next/app')}></Button>
+        微服务 - <Text span type={'success'}>{name}
+        </Text></Text>
       {loading && <Loading />}
       {!loading && <Grid.Container gap={2}>
         <Grid xs={12}>

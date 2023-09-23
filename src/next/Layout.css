@@ -1,4 +1,4 @@
-@media (max-width: 1902px) {
+@media (max-width: 1920px) {
     html {
         font-size: 14px !important;
     }
@@ -28,7 +28,7 @@
 /*menu缩放等级*/
 .menu.wrapper {
     font-size: 1rem !important;
-    padding: 1.25rem 1.75rem !important;
+    padding: 1.25rem 2.75rem 0.5rem 2.75rem !important;
 }
 
 .menu.wrapper h2, .menu.wrapper h3, .menu.wrapper .title {
@@ -46,14 +46,28 @@
     padding: 0.5rem 0;
 }
 
+.menu .collapse-group .collapse:last-child {
+    border-bottom: none;
+}
+
+.menu .menu-top {
+    height: calc(100vh - 12.5rem);
+    overflow-y: auto;
+}
+
 @media (max-width: 1920px) {
     .menu.wrapper {
-        padding: 1.25rem !important;
+        padding: 1.25rem 2rem !important;
     }
 
     .menu .collapse-group .collapse,
     .menu .collapse-group .collapse .content .content {
         padding: 0.25rem 0;
+    }
+
+    .menu .menu-top {
+        height: calc(100vh - 13.5rem);
+        overflow-y: auto;
     }
 }
 
