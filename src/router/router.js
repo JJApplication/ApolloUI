@@ -20,6 +20,7 @@ import Select from '../next/pages/Select';
 import CLI from '../next/pages/CLI';
 import { System } from '../next/pages/System';
 import Gateway from '../next/pages/Gateway';
+import Script from '../next/pages/Script';
 
 export default createBrowserRouter([
   {
@@ -105,6 +106,11 @@ export default createBrowserRouter([
       {
         path: 'gw',
         element: <Gateway />,
+      },
+      // 脚本插件
+      {
+        path: 'script',
+        element: <Script />,
       },
       // 高级配置
       {

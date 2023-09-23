@@ -22,13 +22,14 @@ import {
 import {
   Box,
   Divider,
-  FileText,
+  FileMinus,
   Folder,
   GitBranch,
   Github,
   Heart,
   Hexagon,
   Info,
+  Lambda,
   Layers,
   List,
   Package,
@@ -123,7 +124,13 @@ export default function({ children }) {
             <Spacer h={2} />
             <Tooltip text={'日志'} placement='right'>
               <LinkRoute to={'/next/log'}>
-                <FileText />
+                <FileMinus />
+              </LinkRoute>
+            </Tooltip>
+            <Spacer h={2} />
+            <Tooltip text={'脚本'} placement='right'>
+              <LinkRoute to={'/next/script'}>
+                <Lambda />
               </LinkRoute>
             </Tooltip>
             <Spacer h={2} />
