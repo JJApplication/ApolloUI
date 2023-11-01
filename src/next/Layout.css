@@ -69,6 +69,11 @@
         height: calc(100vh - 13.5rem);
         overflow-y: auto;
     }
+
+    .layout .layout-left .tooltip svg {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
 }
 
 .layout-left {

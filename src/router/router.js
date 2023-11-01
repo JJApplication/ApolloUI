@@ -21,10 +21,15 @@ import CLI from '../next/pages/CLI';
 import { System } from '../next/pages/System';
 import Gateway from '../next/pages/Gateway';
 import Script from '../next/pages/Script';
+import Home from '../pages/Home';
 
 export default createBrowserRouter([
   {
     path: '/',
+    element: <Home />,
+  },
+  {
+    path: '/home',
     element: <App type={'normal'} />,
   },
   {
