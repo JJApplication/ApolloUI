@@ -1,3 +1,7 @@
+code {
+    color: rgb(249, 47, 94);
+}
+
 #home-page {
     padding: 1rem 2rem;
 }
@@ -57,4 +61,35 @@
     font-size: 1.25rem;
     color: #6D6D6D !important;
     margin-bottom: 0.5rem !important;
+}
+
+/*滚动时高斯模糊*/
+.home-page-header-scroll {
+    width: 100%;
+    margin: 0 auto;
+    position: fixed;
+    top: 1rem;
+    left: 0;
+    display: flex;
+    cursor: pointer;
+}
+
+.home-page-header-scroll-body {
+    position: relative;
+    width: 100%;
+    max-width: 75rem;
+    margin: 0 auto;
+    box-sizing: border-box;
+    background: rgba(255, 255, 255, 1);
+    padding: 1rem 1.5rem;
+    border-radius: 4rem;
+    box-shadow: 0 0 0.5rem 0 #DADADA;
+    transition: all 0.25s ease;
+}
+
+.home-page-header-scroll-body:hover {
+    max-width: 25rem;
+    background: rgba(255, 255, 255, 1);
+    transition: all 0.25s ease;
+    box-shadow: 0 0 0.5rem 0 #EAEAEA;
 }

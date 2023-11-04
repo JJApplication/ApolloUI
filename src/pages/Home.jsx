@@ -1,10 +1,30 @@
 import { Button, Card, Divider, Grid, Link, Popover, Spacer, Text } from '@geist-ui/core';
+import { Anchor, Github, LogIn } from '@geist-ui/icons';
 import './Home.css';
 import urls from '../urls';
 import appImg from './app.png';
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function() {
+  const [scroll, setScroll] = useState(false);
+
+  const scrollEvent = (() => {
+    const top = document.documentElement.scrollTop;
+    if (top > 0) {
+      if (!scroll) {
+        setScroll(true);
+      }
+    } else {
+      if (!scroll) {
+        setScroll(false);
+      }
+    }
+  });
+  useEffect(() => {
+    window.addEventListener('scroll', scrollEvent);
+  }, [scroll]);
+
   const nav = useNavigate();
   const menu1 = () => {
     return (
@@ -58,51 +78,81 @@ export default function() {
   return (
     <>
       <div id='home-page'>
-        <div id='home-header'>
-          <Text span b i font='2.2rem' marginRight='1.5rem'
-                style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
-                onClick={() => {
-                  window.location.href = '/';
-                }}>
-            <Text span type='success'>A</Text>
-            <Text span type='error'>p</Text>
-            <Text span type='error'>o</Text>
-            <Text span type='error'>l</Text>
-            <Text span type='error'>l</Text>
-            <Text span type='warning'>o</Text>
-          </Text>
-          <div className='home-header-menu'>
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
-              Navigation
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
-              Developer
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
-              Blog
-            </Link>
-            <Spacer w={1.5} inline />
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
-              Pages
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
-              About Apollo
-            </Link>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
-                  target={'_blank'}>
-              Github
-            </Link>
-            <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
-              <Button auto onClick={() => nav('/next')}>Get Started</Button>
-              <Spacer w={1} inline />
-              <Button auto type={'success'} onClick={() => nav('/next/login')}>Login</Button>
+        {!scroll &&
+          <div id='home-header'>
+            <Text span b i font='2.2rem' marginRight='1.5rem'
+                  style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => {
+                    window.location.href = '/';
+                  }}>
+              <Text span type='success'>A</Text>
+              <Text span type='error'>p</Text>
+              <Text span type='error'>o</Text>
+              <Text span type='error'>l</Text>
+              <Text span type='error'>l</Text>
+              <Text span type='warning'>o</Text>
+            </Text>
+            <div className='home-header-menu'>
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
+                Navigation
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
+                Developer
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
+                Pages
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
+                Blog
+              </Link>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
+                About Apollo
+              </Link>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
+                    target={'_blank'}>
+                Github
+              </Link>
+              <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
+                <Button auto onClick={() => nav('/next')}>Get Started</Button>
+                <Spacer w={1} inline />
+                <Button auto type={'success'} onClick={() => nav('/next/login')}>Login</Button>
+              </div>
             </div>
           </div>
-        </div>
+        }
+        {
+          scroll &&
+          <div className={'home-page-header-scroll'}>
+            <div className={'home-page-header-scroll-body'}>
+              <Text span b i font='2rem'
+                    style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => {
+                      window.location.href = '/';
+                    }}>
+                <Text span type='success'>A</Text>
+                <Text span type='error'>p</Text>
+                <Text span type='error'>o</Text>
+                <Text span type='error'>l</Text>
+                <Text span type='error'>l</Text>
+                <Text span type='warning'>o</Text>
+              </Text>
+              <div style={{ position: 'absolute', right: '1.5rem', top: '0.85rem' }}>
+                <Button auto shadow type={'secondary'} onClick={() => nav(urls.JJApplication)} iconRight={<Github />}
+                        px={0.6} />
+                <Spacer w={1} inline />
+                <Button auto shadow onClick={() => nav('/next')} iconRight={<Anchor />} px={0.6} />
+                <Spacer w={1} inline />
+                <Button auto shadow type={'success'} onClick={() => nav('/next/login')} iconRight={<LogIn />}
+                        px={0.6} />
+              </div>
+            </div>
+          </div>
+        }
         <div className={'home-page-body'}>
           <Text style={{
             fontSize: '4rem',
@@ -138,7 +188,7 @@ export default function() {
               </Grid.Container>
             </Card.Content>
           </Card>
-          <Spacer h={2} />
+          <Spacer h={4} />
           <Grid.Container gap={2}>
             <Grid md={12} sm={12} xs={24}>
               <Card width={'100%'} height={'100%'}>
@@ -159,10 +209,10 @@ export default function() {
                 <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
                   <Text h1>Fushin Stone</Text>
                   <Text>Lightweight microservices development framework just written in golang.</Text>
-                  <Text>- Create an app using `crj [appname]`</Text>
+                  <Text>- Create an app using <code>crj [appname]</code></Text>
                   <Text>- With necessary components</Text>
                   <Text>- Integrated JJApp's microservice model</Text>
-                  <Text>- One-Click install using `go get jjapplication/fushin`</Text>
+                  <Text>- One-Click install using <code>go get jjapplication/fushin</code></Text>
                 </Card.Content>
               </Card>
             </Grid>
@@ -222,6 +272,33 @@ export default function() {
               </Card>
             </Grid>
           </Grid.Container>
+          <Spacer h={1} />
+          <Grid.Container gap={2}>
+            <Grid md={12} sm={12} xs={24}>
+              <Card width={'100%'} height={'100%'}>
+                <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
+                  <Text h1>Cloud Native</Text>
+                  <Text>JJApps's microservices are designed for Cloud Native</Text>
+                  <Text>- Unified configuration</Text>
+                  <Text>- Load from .env or ENVs</Text>
+                  <Text>- Unified GRPC</Text>
+                  <Text>- Stand-alone mode</Text>
+                </Card.Content>
+              </Card>
+            </Grid>
+            <Grid md={12} sm={12} xs={24}>
+              <Card width={'100%'} height={'100%'}>
+                <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
+                  <Text h1>Alarm Reporting</Text>
+                  <Text>Microservice-Group's alarms are reported via email or SMS</Text>
+                  <Text>- Hermes module for email</Text>
+                  <Text>- WDNMD module for system monitor</Text>
+                  <Text>- Heimdal module for SMS</Text>
+                </Card.Content>
+              </Card>
+            </Grid>
+          </Grid.Container>
+          <Spacer h={1} />
         </div>
         <Spacer h={5} />
         <div className={'home-page-footer'}>
