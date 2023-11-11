@@ -250,7 +250,7 @@ export default function() {
             <Grid md={12} sm={12} xs={24}>
               <Card width={'100%'} height={'100%'}>
                 <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
-                  <Text h1>Conatiner</Text>
+                  <Text h1>Container</Text>
                   <Text>Support for accessing docker containers through docker apis</Text>
                   <Text>- Manage containers by Apollo</Text>
                   <Text>- Web UI of Container management</Text>

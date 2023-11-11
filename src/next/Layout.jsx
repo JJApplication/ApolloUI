@@ -44,7 +44,7 @@ import { useEffect, useState } from 'react';
 import { Link as LinkRoute, useNavigate } from 'react-router-dom';
 import './Layout.css';
 import logo from './avatar.png';
-import { openUrl } from '../urls';
+import urls, { openUrl } from '../urls';
 import { ToastContainer } from 'react-toastify';
 
 export default function({ children }) {
@@ -54,7 +54,7 @@ export default function({ children }) {
   const [showDonate, setShowDonate] = useState(false);
 
   useEffect(() => {
-    if (document.body.clientWidth < 1440) {
+    if (document.body.clientWidth < 1280) {
       setDisplay(false);
     } else {
       setDisplay(true);
@@ -167,7 +167,7 @@ export default function({ children }) {
             padding: '1rm',
           }}>
             <Tooltip text={'关注'} placement='right'>
-              <Github onClick={openUrl('https://github.com/landers1037')} />
+              <Github onClick={openUrl(urls.Landers1037)} />
             </Tooltip>
             <Spacer />
             <Tooltip text={'关于'} placement='right'>
@@ -200,10 +200,18 @@ export default function({ children }) {
                     <Text onClick={() => navTo('/next/secure')}>安全维护</Text>
                   </Collapse>
                   <Collapse title='服务对接' initialVisible>
+                    <Text onClick={() => navTo('/next/terminal')}>环境变量</Text>
                     <Text onClick={() => navTo('/next/terminal')}>远程终端</Text>
+                    <Text onClick={() => navTo('/next/terminal_exp')}>终端(实验性)</Text>
+                    <Text onClick={() => navTo('/next/resource')}>静态代理</Text>
                     <Text onClick={() => navTo('/next/gw')}>动态网关</Text>
                     <Text onClick={() => navTo('/next/watch')}>监控配置</Text>
                     <Text onClick={() => navTo('/next/mail')}>邮件外发</Text>
+                  </Collapse>
+                  <Collapse title='数据看板' initialVisible>
+                    <Text onClick={() => navTo('/next/panel/network')}>流量看板</Text>
+                    <Text onClick={() => navTo('/next/panel/app')}>服务看板</Text>
+                    <Text onClick={() => navTo('/next/panel/secure')}>安全看板</Text>
                   </Collapse>
                   <Collapse title='脚本插件' initialVisible>
                     <Text onClick={() => navTo('/next/script')}>脚本管理</Text>
@@ -213,7 +221,6 @@ export default function({ children }) {
                   <Collapse title='高级配置' initialVisible>
                     <Text onClick={() => navTo('/next/setting')}>基础配置</Text>
                     <Text onClick={() => navTo('/next/login')}>认证管理</Text>
-                    <Text onClick={() => navTo('/next/panel')}>流量看板</Text>
                     <Text onClick={() => navTo('/next/module')}>动态模块</Text>
                     <Text onClick={() => navTo('/next/cli')}>命令工具</Text>
                     <Text onClick={() => navTo('/next/doc')}>开发文档</Text>
@@ -224,7 +231,7 @@ export default function({ children }) {
                 <p style={{ margin: '0.25rem 0' }}>Apollo <Tag type='success' invert>NEXT</Tag></p>
                 <p style={{ margin: '0.25rem 0' }}>This is a project of <Tag type='default' invert>JJApplication</Tag>
                 </p>
-                <p style={{ margin: '0.25rem 0' }}>2022 - {today()} | copyright <Link href='https://renj.io' icon
+                <p style={{ margin: '0.25rem 0' }}>2022 - {today()} | copyright <Link href={urls.Home} icon
                                                                                       color>@renj.io</Link></p>
               </div>
             </Drawer.Content>
@@ -290,9 +297,9 @@ export default function({ children }) {
           <div style={{ maxWidth: '640px', margin: '2rem auto' }}>
             <Card shadow>
               <Text h3>Oops</Text>
-              <Text type={'error'}>Not Support Your Device Width <Tag>>=1440</Tag></Text>
+              <Text type={'error'}>Not Support Your Device Width <Tag>>=1280</Tag></Text>
               <Text h3>出错了</Text>
-              <Text type={'error'}>不支持的设备宽度 <Tag>>=1440</Tag></Text>
+              <Text type={'error'}>不支持的设备宽度 <Tag>>=1280</Tag></Text>
             </Card>
           </div>
         </div>}

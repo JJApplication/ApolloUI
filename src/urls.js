@@ -3,7 +3,7 @@ export default {
   Landers1037: 'https://github.com/landers1037',
   GithubPages: 'https://landers1037.github.io',
   Facebook: 'https://fb.me/landers1037',
-  Home: 'http://renj.io',
+  Home: 'https://renj.io',
   Geist: 'https://geist-ui.dev',
   Apollo: 'https://github.com/JJApplication/Apollo',
   ApolloDoc: 'https://github.com/JJApplication/Apollo/blob/master/README.md',
