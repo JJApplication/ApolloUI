@@ -23,7 +23,7 @@ export default function() {
   });
   useEffect(() => {
     window.addEventListener('scroll', scrollEvent);
-  }, [scroll]);
+  }, [scroll, scrollEvent]);
 
   const nav = useNavigate();
   const menu1 = () => {

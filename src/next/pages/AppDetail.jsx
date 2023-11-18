@@ -216,6 +216,19 @@ export default function() {
     }
   };
 
+  const calcProcMem = (mem) => {
+    // unit byte | max GB
+    if ((mem / 1024).toFixed(2) < 1) {
+      return `${mem}b`;
+    } else if ((mem / (1024 * 1024).toFixed(2) < 1)) {
+      return `${(mem / 1024).toFixed(2)}kb`;
+    } else if ((mem / (1024 * 1024 * 1024).toFixed(2) < 1)) {
+      return `${(mem / (1024 * 1024)).toFixed(2)}mb`;
+    } else {
+      return `${(mem / (1024 * 1024 * 1024)).toFixed(2)}gb`;
+    }
+  };
+
   return (
     <>
       <Text h3 marginTop={'0.5rem'}><Button auto iconRight={<ArrowLeft />} px={0.8} scale={3 / 4}
@@ -309,6 +322,8 @@ export default function() {
               <Tag type='lite'>MEM Usage</Tag>
               <Spacer w={0.5} inline />
               <Tag type='secondary'>{(proc.memPercent * 100).toFixed(2)}%</Tag>
+              <Spacer inline w={0.5} />
+              <Tag type='secondary'>{calcProcMem(proc.memRss)}</Tag>
               <Spacer />
               <Progress type='secondary' value={proc.memPercent * 100} />
               <Spacer h={1.5} />
