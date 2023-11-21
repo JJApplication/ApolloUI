@@ -7,23 +7,28 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export default function() {
+  const [offset, setOffset] = useState(0);
   const [scroll, setScroll] = useState(false);
 
   const scrollEvent = (() => {
     const top = document.documentElement.scrollTop;
-    if (top > 0) {
-      if (!scroll) {
-        setScroll(true);
-      }
-    } else {
-      if (!scroll) {
-        setScroll(false);
-      }
-    }
+    setOffset(top);
   });
+  
   useEffect(() => {
     window.addEventListener('scroll', scrollEvent);
-  }, [scroll, scrollEvent]);
+    return () => {
+      window.removeEventListener('scroll', scrollEvent);
+    };
+  });
+
+  useEffect(() => {
+    if (offset > 0) {
+      setScroll(true);
+    } else {
+      setScroll(false);
+    }
+  }, [offset, scrollEvent]);
 
   const nav = useNavigate();
   const menu1 = () => {
