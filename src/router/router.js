@@ -22,6 +22,7 @@ import { System } from '../next/pages/System';
 import Gateway from '../next/pages/Gateway';
 import Script from '../next/pages/Script';
 import Home from '../pages/Home';
+import LogPanel from '../next/pages/LogPanel';
 
 export default createBrowserRouter([
   {
@@ -98,6 +99,10 @@ export default createBrowserRouter([
       {
         path: 'alarm',
         element: <Alarm />,
+      },
+      {
+        path: 'log',
+        element: <LogPanel />,
       },
       {
         path: 'system',

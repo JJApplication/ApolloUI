@@ -1,0 +1,31 @@
+.log-content {
+    white-space: pre-wrap;
+    height: 100%;
+    overflow: auto;
+}
+
+.log-content::-webkit-scrollbar {
+    display: block;
+    background: white;
+    width: 10px !important;
+}
+
+.log-content::-webkit-scrollbar-thumb {
+    background-color: #c0c2ce;
+    height: 2rem;
+    border-radius: 0.5rem;
+}
+
+.log-content::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+.card-log {
+    height: calc(100vh - 16rem) !important
+}
+
+@media (max-width: 1920px) {
+    .card-log {
+        height: calc(100vh - 18rem) !important
+    }
+}

@@ -2,7 +2,7 @@ import { Button, Card, Code, Dot, Grid, Link, Note, Progress, Spacer, Table, Tag
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from '../../axios/axios';
-import { ArrowLeft, Box, Play, Power, RefreshCw, RotateCcw } from '@geist-ui/icons';
+import { ArrowLeft, Box, File, Play, Power, RefreshCw, RotateCcw } from '@geist-ui/icons';
 import { load } from '../../store/reducer';
 import logger from '../../logger/logger';
 import { Toast } from './toast';
@@ -305,6 +305,10 @@ export default function() {
                   <Button auto type='error' scale={0.6} icon={<Power />}
                           onClick={stopApp}>停止</Button>) : (
                   <Button loading auto type='error' scale={0.6}>停止</Button>)}</Grid>
+                <Grid>
+                  <Button auto type='warning' scale={0.6} icon={<File />}
+                          onClick={() => nav(`/next/log`, { state: { app: name } })}>日志</Button>
+                </Grid>
               </Grid.Container>) : null}
               <Spacer h={2} />
               <Note label={'进程信息'}>

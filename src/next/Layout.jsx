@@ -54,7 +54,7 @@ export default function({ children }) {
   const [showDonate, setShowDonate] = useState(false);
 
   useEffect(() => {
-    if (document.body.clientWidth < 1280) {
+    if (document.body.clientWidth < 1280 && process.env.NODE_ENV !== 'development') {
       setDisplay(false);
     } else {
       setDisplay(true);
