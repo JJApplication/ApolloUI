@@ -203,7 +203,7 @@ export default function({ children }) {
                     <Text onClick={() => navTo('/next/terminal')}>环境变量</Text>
                     <Text onClick={() => navTo('/next/terminal')}>远程终端</Text>
                     <Text onClick={() => navTo('/next/terminal_exp')}>终端(实验性)</Text>
-                    <Text onClick={() => navTo('/next/resource')}>静态代理</Text>
+                    <Text onClick={() => navTo('/next/noengine')}>静态代理</Text>
                     <Text onClick={() => navTo('/next/gw')}>动态网关</Text>
                     <Text onClick={() => navTo('/next/watch')}>监控配置</Text>
                     <Text onClick={() => navTo('/next/mail')}>邮件外发</Text>

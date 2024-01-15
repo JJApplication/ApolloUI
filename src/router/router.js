@@ -23,6 +23,8 @@ import Gateway from '../next/pages/Gateway';
 import Script from '../next/pages/Script';
 import Home from '../pages/Home';
 import LogPanel from '../next/pages/LogPanel';
+import NoEngine from '../next/pages/NoEngine';
+import NoEngineApp from '../next/pages/NoEngineApp';
 
 export default createBrowserRouter([
   {
@@ -116,6 +118,14 @@ export default createBrowserRouter([
       {
         path: 'gw',
         element: <Gateway />,
+      },
+      {
+        path: 'noengine',
+        element: <NoEngine />,
+      },
+      {
+        path: 'noengine/:app',
+        element: <NoEngineApp />,
       },
       // 脚本插件
       {
