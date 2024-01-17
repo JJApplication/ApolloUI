@@ -78,7 +78,8 @@ export default function() {
     postRequest('/api/noengine/start', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
+        console.log(res);
         Toast.success(`NoEngine: ${app}服务启动成功`);
         getNoEngineAppStatus(app);
       } else {
@@ -93,7 +94,7 @@ export default function() {
     postRequest('/api/noengine/stop', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
         Toast.success(`NoEngine: ${app}服务停止成功`);
       } else {
         Toast.error(`NoEngine: ${app}服务停止失败`);
@@ -107,7 +108,7 @@ export default function() {
     postRequest('/api/noengine/restart', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
         Toast.success(`NoEngine: ${app}服务重启成功`);
         getNoEngineAppStatus(app);
       } else {
@@ -122,7 +123,7 @@ export default function() {
     postRequest('/api/noengine/pause', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
         Toast.success(`NoEngine: ${app}服务暂停成功`);
       } else {
         Toast.error(`NoEngine: ${app}服务暂停失败`);
@@ -136,7 +137,7 @@ export default function() {
     postRequest('/api/noengine/resume', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
         Toast.success(`NoEngine: ${app}服务恢复成功`);
       } else {
         Toast.error(`NoEngine: ${app}服务恢复失败`);
@@ -150,7 +151,7 @@ export default function() {
     postRequest('/api/noengine/remove', null, {
       app: app,
     }).then(res => {
-      if (res.data && res.data.status === 'ok') {
+      if (res.status === 'ok') {
         Toast.success(`NoEngine: ${app}服务删除成功`);
       } else {
         Toast.error(`NoEngine: ${app}服务删除失败`);
