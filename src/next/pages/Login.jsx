@@ -3,8 +3,12 @@ import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from '../../axios/axios';
 import { setToken } from '../../store/reducer';
 import { Toast } from './toast';
+import { Github } from '@geist-ui/icons';
+import { useNavigate } from 'react-router-dom';
+import { disableOAuth, enableOAuth, getOAuthInfo, OAuthStat, setOAuthInfo, unsetOAuthInfo } from '../../store/oauth';
 
 export default function() {
+  const nav = useNavigate();
   const [account, setAccount] = useState('');
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(false);
@@ -12,16 +16,38 @@ export default function() {
   const [lastLoginTime, setLastLoginTime] = useState('- -');
   const [lastLoginIP, setLastLoginIP] = useState('- -');
   const [history, setHistory] = useState([]);
+  // oauth
+  // 从query参数中获取github重定向后的code
+  const [githubOAuth, setGithubOAuth] = useState('');
+  const [githubUser, setGithubUser] = useState({
+    'login': '',
+    'avatarUrl': '',
+    'homeUrl': '',
+    'accessToken': '',
+  });
 
   useEffect(() => {
-    getHistory();
-    getCurrent();
-    check().then(res => {
-      if (res.status) {
-        Toast.info('登录状态检查完毕');
-        setIsLogin(true);
+    getGithubOAuth();
+    // 判断是否存在oauth登录
+    // 首次oauth认证成功后跳转回到正常页面
+    let code = getOAuthCode();
+    if (code) {
+      login2OAuth(code);
+    } else {
+      getHistory();
+      if (OAuthStat()) {
+        setGithubUser(getOAuthInfo());
+      } else {
+        // 普通用户登入
+        getCurrent();
       }
-    });
+      check().then(res => {
+        if (res.status) {
+          Toast.info('登录状态检查完毕');
+          setIsLogin(true);
+        }
+      });
+    }
   }, []);
 
   const getHistory = () => {
@@ -40,9 +66,15 @@ export default function() {
     });
   };
 
+  // 普通登录模式会清空之前的Github OAuth登录凭据
   // 已经是登录状态时不可继续登录
   // 未登录时等待check返回401时登录
   const login = async () => {
+    // clear github oauth
+    setGithubUser(null);
+    setToken('');
+    disableOAuth();
+    unsetOAuthInfo();
     try {
       const res = await check();
       if (res.data) {
@@ -61,6 +93,9 @@ export default function() {
             setLastLoginTime(res.data.loginTime);
             setLoginAccount(account);
             setIsLogin(true);
+            // 清空oauth登录状态
+            disableOAuth();
+            unsetOAuthInfo();
             Toast.success('登录成功');
           } else {
             Toast.error('登录失败');
@@ -72,27 +107,92 @@ export default function() {
 
   };
 
+  const logoutNormal = () => {
+    postRequest('/api/auth/logout').then(res => {
+      if (res.data) {
+        Toast.success('登出成功');
+        setIsLogin(false);
+        setLoginAccount('');
+        setLastLoginIP('- -');
+        setLastLoginTime('- -');
+        setToken('');
+      } else {
+        Toast.error('登出失败');
+      }
+    });
+  };
+
   // 只能在登录态登出
   const logout = () => {
     check().then(res => {
+      if (OAuthStat()) {
+        logoutOAuth();
+        return;
+      }
       if (res.status) {
-        postRequest('/api/auth/logout').then(res => {
-          if (res.data) {
-            Toast.success('登出成功');
-            setIsLogin(false);
-            setLoginAccount('');
-            setLastLoginIP('- -');
-            setLastLoginTime('- -');
-          } else {
-            Toast.error('登出失败');
-          }
-        });
+        logoutNormal();
       }
     });
   };
 
   const check = async () => {
     return await postRequest('/api/auth/check');
+  };
+
+  // oauth
+  const getGithubOAuth = () => {
+    getRequest('/api/oauth/github').then(res => {
+      setGithubOAuth(res.data || '');
+    });
+  };
+
+  // 页面渲染时读取oauth code
+  const getOAuthCode = () => {
+    function getQueryString(name) {
+      const url_string = window.location.href; // window.location.href
+      const url = new URL(url_string);
+      return url.searchParams.get(name);
+    }
+
+    return getQueryString('code') || '';
+  };
+
+  // 使用code登录到oauth
+  // 返回用户信息
+  const login2OAuth = (code) => {
+    getRequest('/api/oauth/login', {
+      code: code,
+    }).then(res => {
+      setGithubUser(res.data);
+      if (res.data && res.data.login) {
+        setToken(res.data.accessToken || '');
+        enableOAuth();
+        setOAuthInfo(res.data);
+        Toast.success('用户已登录');
+        setIsLogin(true);
+        nav('/next/login');
+      } else {
+        Toast.error('登录认证失败');
+      }
+    }).catch(() => {
+      Toast.error('登录认证失败');
+    });
+  };
+
+  const logoutOAuth = () => {
+    postRequest('/api/oauth/logout').then(res => {
+      if (res.status === 'ok') {
+        setIsLogin(false);
+        Toast.success('用户已登出');
+      }
+    }).finally(() => {
+      setGithubUser(null);
+      setToken('');
+      disableOAuth();
+      unsetOAuthInfo();
+    }).catch(() => {
+      Toast.warn('用户登出异常');
+    });
   };
 
   const renderHistoryLogin = () => {
@@ -127,13 +227,30 @@ export default function() {
           <Input.Password label='密码' value={password} onChange={(e) => setPassword(e.target.value)}
                           placeholder='password' width={'26rem'} />
           <Spacer h={2} />
-          <Button type={'success'} scale={3 / 4} onClick={login}>登入</Button>
+          <Button type={'success'} onClick={login}>登录</Button>
+          <Spacer w={0.5} inline />
+          <Button type={'secondary'} onClick={() => window.location.href = githubOAuth}
+                  icon={<Github />}>使用Github登录</Button>
         </Card.Content>
       </Card>}
       {isLogin && <Card shadow style={{ width: '40rem', padding: '2rem' }}>
         <Card.Content>
           <Text h1 type={'success'}>{loginAccount}</Text>
           <Text h3>账号已经登录</Text>
+          {(githubUser && githubUser.login) &&
+            (
+              <>
+                <Button type={'secondary'}
+                        onClick={() => window.open(githubUser.homeUrl, '__blank')}
+                        auto
+                        icon={<Github />}>Github {githubUser.login}</Button>
+                <Spacer />
+                <img alt={'profile'} src={githubUser.avatarUrl}
+                     style={{ borderRadius: '50%', width: '8rem' }} />
+                <Spacer />
+              </>
+            )
+          }
           <Button type={'error'} scale={3 / 4} onClick={logout}>登出</Button>
         </Card.Content>
       </Card>}

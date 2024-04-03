@@ -200,7 +200,7 @@ export default function({ children }) {
                     <Text onClick={() => navTo('/next/secure')}>安全维护</Text>
                   </Collapse>
                   <Collapse title='服务对接' initialVisible>
-                    <Text onClick={() => navTo('/next/terminal')}>环境变量</Text>
+                    <Text onClick={() => navTo('/next/env')}>环境变量</Text>
                     <Text onClick={() => navTo('/next/terminal')}>远程终端</Text>
                     <Text onClick={() => navTo('/next/terminal_exp')}>终端(实验性)</Text>
                     <Text onClick={() => navTo('/next/noengine')}>静态代理</Text>
@@ -216,7 +216,6 @@ export default function({ children }) {
                   <Collapse title='脚本插件' initialVisible>
                     <Text onClick={() => navTo('/next/script')}>脚本管理</Text>
                     <Text onClick={() => navTo('/next/scriptTask')}>脚本任务</Text>
-                    <Text onClick={() => navTo('/next/clean')}>定时清理</Text>
                   </Collapse>
                   <Collapse title='高级配置' initialVisible>
                     <Text onClick={() => navTo('/next/setting')}>基础配置</Text>

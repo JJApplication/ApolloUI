@@ -25,6 +25,7 @@ import Home from '../pages/Home';
 import LogPanel from '../next/pages/LogPanel';
 import NoEngine from '../next/pages/NoEngine';
 import NoEngineApp from '../next/pages/NoEngineApp';
+import Env from '../next/pages/Env';
 
 export default createBrowserRouter([
   {
@@ -111,6 +112,10 @@ export default createBrowserRouter([
         element: <System />,
       },
       // 服务对接
+      {
+        path: 'env',
+        element: <Env />,
+      },
       {
         path: 'terminal',
         element: <Terminal />,

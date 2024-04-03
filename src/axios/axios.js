@@ -4,6 +4,7 @@ import { sendMessage } from '../store/actions';
 import logger from '../logger/logger';
 import { getToken, load } from '../store/reducer';
 import { Toast } from '../next/pages/toast';
+import { OAuthStat } from '../store/oauth';
 
 function withCookie() {
   return localStorage.getItem('authMethod') === 'cookie' ||
@@ -19,9 +20,7 @@ axios.defaults.timeout = 20000;
 export function getRequest(url, sendData) {
   return new Promise((resolve, reject) => {
     axios.get(addAuthCode(url), {
-      params: sendData, headers: {
-        token: getToken(),
-      },
+      params: sendData, headers: addAuthHeader(),
       withCredentials: withCookie(),
     }).then(res => {
       resolve(res.data);
@@ -39,9 +38,7 @@ export function postRequest(url, sendData, params) {
   return new Promise((resolve, reject) => {
     axios.post(addAuthCode(url), sendData, {
       params: params,
-      headers: {
-        token: getToken(),
-      },
+      headers: addAuthHeader(),
       withCredentials: withCookie(),
     }).then(res => {
       resolve(res.data);
@@ -62,6 +59,17 @@ function addAuthCode(url) {
     return `${url}?auth=${data.authCode}`;
   }
   return url;
+}
+
+function addAuthHeader() {
+  if (OAuthStat) {
+    return {
+      'access-token': getToken(),
+    };
+  }
+  return {
+    token: getToken(),
+  };
 }
 
 function responseError(error) {

@@ -92,6 +92,9 @@ export function setToken(token) {
   localStorage.setItem('token', token);
 }
 
+// Apollo系统中的token，同时只会存在一种, OAuth认证时必须使用header携带
+// 普通认证的token
+// OAuth认证的token
 export function getToken() {
   return localStorage.getItem('token');
 }

@@ -14,7 +14,7 @@ export default function() {
     const top = document.documentElement.scrollTop;
     setOffset(top);
   });
-  
+
   useEffect(() => {
     window.addEventListener('scroll', scrollEvent);
     return () => {
@@ -83,56 +83,53 @@ export default function() {
   return (
     <>
       <div id='home-page'>
-        {!scroll &&
-          <div id='home-header'>
-            <Text span b i font='2.2rem' marginRight='1.5rem'
-                  style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
-                  onClick={() => {
-                    window.location.href = '/';
-                  }}>
-              <Text span type='success'>A</Text>
-              <Text span type='error'>p</Text>
-              <Text span type='error'>o</Text>
-              <Text span type='error'>l</Text>
-              <Text span type='error'>l</Text>
-              <Text span type='warning'>o</Text>
-            </Text>
-            <div className='home-header-menu'>
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
-                Navigation
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
-                Developer
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
-                Pages
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
-                Blog
-              </Link>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
-                About Apollo
-              </Link>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
-                    target={'_blank'}>
-                Github
-              </Link>
-              <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
-                <Button auto onClick={() => nav('/next')}>Get Started</Button>
-                <Spacer w={1} inline />
-                <Button auto type={'success'} onClick={() => nav('/next/login')}>Login</Button>
-              </div>
+        <div id='home-header'>
+          <Text span b i font='2.2rem' marginRight='1.5rem'
+                style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => {
+                  window.location.href = '/';
+                }}>
+            <Text span type='success'>A</Text>
+            <Text span type='error'>p</Text>
+            <Text span type='error'>o</Text>
+            <Text span type='error'>l</Text>
+            <Text span type='error'>l</Text>
+            <Text span type='warning'>o</Text>
+          </Text>
+          <div className='home-header-menu'>
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
+              Navigation
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
+              Developer
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
+              Pages
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
+              Blog
+            </Link>
+            <Spacer w={1.5} inline />
+            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
+              About Apollo
+            </Link>
+            <Spacer w={1.5} inline />
+            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
+                  target={'_blank'}>
+              Github
+            </Link>
+            <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
+              <Button auto onClick={() => nav('/next')}>Get Started</Button>
+              <Spacer w={1} inline />
+              <Button auto type={'success'} onClick={() => nav('/next/login')}>Login</Button>
             </div>
           </div>
-        }
+        </div>
         {
-          scroll &&
-          <div className={'home-page-header-scroll'}>
+          <div className={scroll ? 'home-page-header-scroll' : 'home-page-header-scroll-disable'}>
             <div className={'home-page-header-scroll-body'}>
               <Text span b i font='2rem'
                     style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
