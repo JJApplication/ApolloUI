@@ -1,8 +1,8 @@
 import { Button, Card, Checkbox, Grid, Input, Select, Spacer, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { clearStorage, getToken, load, save } from '../../store/reducer';
+import { clearStorage, getToken, load, save } from '../../../store/reducer';
 import cloneDeep from 'lodash/cloneDeep';
-import { Toast } from './toast';
+import { Toast } from '../toast';
 
 export default function() {
   const [settings, setSettings] = useState({

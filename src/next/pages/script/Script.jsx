@@ -1,7 +1,7 @@
 import { Button, Card, Grid, Spacer, Tag, Text } from '@geist-ui/core';
-import { getRequest } from '../../axios/axios';
+import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
+import Loading from '../Loading';
 
 export default function() {
   const [loading, setLoading] = useState(true);

@@ -1,8 +1,8 @@
 import { Button, Card, Grid, Input, Note, Spacer, Tag, Text, Textarea, Toggle } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { getRequest, postRequest } from '../../axios/axios';
+import { getRequest, postRequest } from '../../../axios/axios';
 import cloneDeep from 'lodash/cloneDeep';
-import { Toast } from './toast';
+import { Toast } from '../toast';
 
 export function System() {
   // 只读配置 运行时配置 软重启配置分开

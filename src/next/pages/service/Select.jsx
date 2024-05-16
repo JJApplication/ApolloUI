@@ -1,9 +1,9 @@
 import { Button, Select, Spacer } from '@geist-ui/core';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getRequest } from '../../axios/axios';
-import Loading from './Loading';
-import { Toast } from './toast';
+import { getRequest } from '../../../axios/axios';
+import Loading from '../Loading';
+import { Toast } from '../toast';
 
 export default function() {
   const nav = useNavigate();

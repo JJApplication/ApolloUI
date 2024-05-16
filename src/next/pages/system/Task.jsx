@@ -1,10 +1,10 @@
 import { Button, Card, Grid, Spacer, Tag, Text } from '@geist-ui/core';
 import { Hash } from '@geist-ui/icons';
-import { convertTime, convertTimeEX } from '../../utils';
-import { getRequest } from '../../axios/axios';
+import { convertTime, convertTimeEX } from '../../../utils';
+import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
-import { Toast } from './toast';
+import Loading from '../Loading';
+import { Toast } from '../toast';
 
 export default function() {
   const [loading, setLoading] = useState(true);

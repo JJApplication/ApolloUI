@@ -1,11 +1,11 @@
 import { Button, Card, Grid, Input, Note, Spacer, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { getRequest, postRequest } from '../../axios/axios';
-import { setToken } from '../../store/reducer';
-import { Toast } from './toast';
+import { getRequest, postRequest } from '../../../axios/axios';
+import { setToken } from '../../../store/reducer';
+import { Toast } from '../toast';
 import { Github } from '@geist-ui/icons';
 import { useNavigate } from 'react-router-dom';
-import { disableOAuth, enableOAuth, getOAuthInfo, OAuthStat, setOAuthInfo, unsetOAuthInfo } from '../../store/oauth';
+import { disableOAuth, enableOAuth, getOAuthInfo, OAuthStat, setOAuthInfo, unsetOAuthInfo } from '../../../store/oauth';
 
 export default function() {
   const nav = useNavigate();

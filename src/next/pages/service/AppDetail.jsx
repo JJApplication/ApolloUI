@@ -1,12 +1,12 @@
 import { Button, Card, Code, Dot, Grid, Link, Note, Progress, Spacer, Table, Tag, Text } from '@geist-ui/core';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getRequest, postRequest } from '../../axios/axios';
+import { getRequest, postRequest } from '../../../axios/axios';
 import { ArrowLeft, Box, File, Play, Power, RefreshCw, RotateCcw } from '@geist-ui/icons';
-import { load } from '../../store/reducer';
-import logger from '../../logger/logger';
-import { Toast } from './toast';
-import Loading from './Loading';
+import { load } from '../../../store/reducer';
+import logger from '../../../logger/logger';
+import { Toast } from '../toast';
+import Loading from '../Loading';
 
 export default function() {
   const params = useParams();

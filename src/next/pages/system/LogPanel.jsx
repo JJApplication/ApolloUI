@@ -1,8 +1,8 @@
 import { Button, Card, Grid, Select, Spacer, Table, Tag, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { getRequest } from '../../axios/axios';
-import Loading from './Loading';
-import { Toast } from './toast';
+import { getRequest } from '../../../axios/axios';
+import Loading from '../Loading';
+import { Toast } from '../toast';
 import { Download } from '@geist-ui/icons';
 import './LogPanel.css';
 import { useLocation } from 'react-router-dom';

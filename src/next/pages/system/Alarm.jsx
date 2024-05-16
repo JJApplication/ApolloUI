@@ -1,9 +1,9 @@
 import { Button, Card, Grid, Modal, Spacer, Tag, Text } from '@geist-ui/core';
 import { Hash } from '@geist-ui/icons';
-import { getRequest } from '../../axios/axios';
+import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
-import { Toast } from './toast';
+import Loading from '../Loading';
+import { Toast } from '../toast';
 
 export default function() {
   const [loading, setLoading] = useState(true);

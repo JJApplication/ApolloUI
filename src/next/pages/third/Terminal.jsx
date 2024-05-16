@@ -1,12 +1,12 @@
 import { Button, Card, Grid, Input, Loading, Spacer, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { load } from '../../store/reducer';
+import { load } from '../../../store/reducer';
 import { Terminal } from 'xterm';
 import 'xterm/css/xterm.css';
 import { FitAddon } from 'xterm-addon-fit';
 import Base64 from 'crypto-js/enc-base64';
 import Utf8 from 'crypto-js/enc-utf8';
-import { Toast } from './toast';
+import { Toast } from '../toast';
 import { CanvasAddon } from 'xterm-addon-canvas';
 
 export default function() {

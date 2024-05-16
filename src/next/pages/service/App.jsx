@@ -1,9 +1,9 @@
 import { Card, Dot, Grid, Spacer, Tag, Text } from '@geist-ui/core';
-import { getRequest } from '../../axios/axios';
+import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
-import Loading from './Loading';
+import Loading from '../Loading';
 import { useNavigate } from 'react-router-dom';
-import { Toast } from './toast';
+import { Toast } from '../toast';
 
 export default function() {
   const nav = useNavigate();

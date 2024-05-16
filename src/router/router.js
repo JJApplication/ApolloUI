@@ -3,29 +3,30 @@ import App from '../App';
 import Layout from '../components/layout';
 import Module from '../subpages/module';
 import Next from '../next/Next';
-import APPHome from '../next/pages/App';
+import APPHome from '../next/pages/service/App';
 import Building from '../next/Building';
 import About from '../next/pages/About';
-import Task from '../next/pages/Task';
-import Tree from '../next/pages/Tree';
-import Container from '../next/pages/Container';
+import Task from '../next/pages/system/Task';
+import Tree from '../next/pages/service/Tree';
+import Container from '../next/pages/system/Container';
 import Changelog from '../next/pages/Changelog';
 import Start from '../next/pages/Start';
-import Setting from '../next/pages/Setting';
-import Alarm from '../next/pages/Alarm';
-import Login from '../next/pages/Login';
-import AppDetail from '../next/pages/AppDetail';
-import Terminal from '../next/pages/Terminal';
-import Select from '../next/pages/Select';
-import CLI from '../next/pages/CLI';
-import { System } from '../next/pages/System';
-import Gateway from '../next/pages/Gateway';
-import Script from '../next/pages/Script';
+import Setting from '../next/pages/settings/Setting';
+import Alarm from '../next/pages/system/Alarm';
+import Login from '../next/pages/settings/Login';
+import AppDetail from '../next/pages/service/AppDetail';
+import Terminal from '../next/pages/third/Terminal';
+import Select from '../next/pages/service/Select';
+import CLI from '../next/pages/settings/CLI';
+import { System } from '../next/pages/system/System';
+import Gateway from '../next/pages/third/Gateway';
+import Script from '../next/pages/script/Script';
 import Home from '../pages/Home';
-import LogPanel from '../next/pages/LogPanel';
-import NoEngine from '../next/pages/NoEngine';
-import NoEngineApp from '../next/pages/NoEngineApp';
-import Env from '../next/pages/Env';
+import LogPanel from '../next/pages/system/LogPanel';
+import NoEngine from '../next/pages/third/NoEngine';
+import NoEngineApp from '../next/pages/third/NoEngineApp';
+import Env from '../next/pages/third/Env';
+import Cert from '../next/pages/settings/Cert';
 
 export default createBrowserRouter([
   {
@@ -110,6 +111,10 @@ export default createBrowserRouter([
       {
         path: 'system',
         element: <System />,
+      },
+      {
+        path: 'cert',
+        element: <Cert />,
       },
       // 服务对接
       {

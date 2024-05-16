@@ -1,5 +1,5 @@
 import { Code, Display, Image, Snippet, Spacer, Text } from '@geist-ui/core';
-import cli from '../../cli.jpg';
+import cli from '../../../cli.jpg';
 
 export default function() {
   return (

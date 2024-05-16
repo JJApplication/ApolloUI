@@ -1,10 +1,10 @@
 import { Button, Card, Grid, Input, Spacer, Text, Tree } from '@geist-ui/core';
 import { Delete, RefreshCw, Upload } from '@geist-ui/icons';
 import { useEffect, useRef, useState } from 'react';
-import { getRequest, postRequest } from '../../axios/axios';
-import store from '../../store/store';
-import Loading from './Loading';
-import { Toast } from './toast';
+import { getRequest, postRequest } from '../../../axios/axios';
+import store from '../../../store/store';
+import Loading from '../Loading';
+import { Toast } from '../toast';
 
 export default function() {
   const [autoHide, setAutoHide] = useState(false);

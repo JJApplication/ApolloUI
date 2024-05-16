@@ -1,9 +1,9 @@
 import { Button, Code, Dot, Input, Spacer, Table, Tabs, Text } from '@geist-ui/core';
 import { Hexagon, Layers, PauseFill, PlayFill, XCircleFill } from '@geist-ui/icons';
-import { getRequest, postRequest } from '../../axios/axios';
-import { convertTime, covertFileSize } from '../../utils';
+import { getRequest, postRequest } from '../../../axios/axios';
+import { convertTime, covertFileSize } from '../../../utils';
 import { useEffect, useState } from 'react';
-import { Toast } from './toast';
+import { Toast } from '../toast';
 
 export default function() {
 
