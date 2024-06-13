@@ -1,14 +1,22 @@
 import { Button, Card, Divider, Grid, Link, Popover, Spacer, Text } from '@geist-ui/core';
 import { Anchor, Github, LogIn } from '@geist-ui/icons';
 import './Home.css';
-import urls from '../urls';
+import urls, { openUrl } from '../urls';
 import appImg from './app.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import slidePage from 'slidePage';
+import 'slidePage/slidePage.css';
+import { getRequest } from '../axios/axios';
 
 export default function() {
   const [offset, setOffset] = useState(0);
   const [scroll, setScroll] = useState(false);
+  const [appCount, setAppCount] = useState({
+    service: 0,
+    module: 0,
+    container: 0,
+  });
 
   const scrollEvent = (() => {
     const top = document.documentElement.scrollTop;
@@ -16,11 +24,14 @@ export default function() {
   });
 
   useEffect(() => {
-    window.addEventListener('scroll', scrollEvent);
+    document.body.style.overflow = 'hidden';
+    let slide = initSlide();
+    getAppCount();
+
     return () => {
-      window.removeEventListener('scroll', scrollEvent);
+      slide.destroy();
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (offset > 0) {
@@ -80,47 +91,102 @@ export default function() {
       </div>
     );
   };
+
+  const initSlide = () => {
+    return new slidePage({
+      before: function(origin, direction, target) {
+        if (direction === 'prev' && document.documentElement.scrollTop <= 16) {
+          document.body.style.overflow = 'hidden';
+        }
+      },
+      after: function(origin, direction, target) {
+        if (target === 3 && direction === 'next') {
+          document.body.style.overflow = 'auto';
+        }
+      },
+    });
+  };
+
+  const getAppCount = () => {
+    getRequest('/api/app/count').then(res => {
+      const apps = res.data;
+      let result = {
+        service: 0,
+        module: 0,
+        container: 0,
+      };
+      if (apps) {
+        apps.forEach(app => {
+          switch (app.Type) {
+            case 'Service': {
+              result.service += 1;
+              break;
+            }
+            case 'Container':
+            case 'NoEngine': {
+              result.container += 1;
+              break;
+            }
+            case 'Module': {
+              result.module += 1;
+              break;
+            }
+          }
+        });
+
+        setAppCount(result);
+      }
+    }).catch(() => {
+      setAppCount({
+        service: 0,
+        module: 0,
+        container: 0,
+      });
+    });
+  };
   return (
     <>
       <div id='home-page'>
         <div id='home-header'>
-          <Text span b i font='2.2rem' marginRight='1.5rem'
-                style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
-                onClick={() => {
-                  window.location.href = '/';
-                }}>
-            <Text span type='success'>A</Text>
-            <Text span type='error'>p</Text>
-            <Text span type='error'>o</Text>
-            <Text span type='error'>l</Text>
-            <Text span type='error'>l</Text>
-            <Text span type='warning'>o</Text>
-          </Text>
-          <div className='home-header-menu'>
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
-              Navigation
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
-              Developer
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
-              Pages
-            </Popover>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
-              Blog
-            </Link>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
-              About Apollo
-            </Link>
-            <Spacer w={1.5} inline />
-            <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
-                  target={'_blank'}>
-              Github
-            </Link>
+          <div style={{ position: 'relative' }}>
+            <Text span b i font='2.2rem' marginRight='1rem'
+                  style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
+                  onClick={() => {
+                    window.location.href = '/';
+                  }}>
+              <Text span type='success'>A</Text>
+              <Text span type='error'>p</Text>
+              <Text span type='error'>o</Text>
+              <Text span type='error'>l</Text>
+              <Text span type='error'>l</Text>
+              <Text span type='warning'>o</Text>
+            </Text>
+            <div className='home-header-menu'>
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
+                Navigation
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
+                Developer
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
+                Pages
+              </Popover>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
+                Blog
+              </Link>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
+                About Apollo
+              </Link>
+              <Spacer w={1.5} inline />
+              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
+                    target={'_blank'}>
+                Github
+              </Link>
+            </div>
             <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
               <Button auto onClick={() => nav('/next')}>Get Started</Button>
               <Spacer w={1} inline />
@@ -155,19 +221,60 @@ export default function() {
             </div>
           </div>
         }
+        <div className='slide-container' id={'slide-container'} style={{
+          height: '100vh',
+        }}>
+          <div
+            className={'slide-page slide-container page1'}
+          >
+            <div className={'container'}>
+              <Text className={'slide-title1'}>JJApps.</Text>
+              <Text className={'slide-title2'}>Self-Host lightweight microservices</Text>
+            </div>
+          </div>
+
+          <div
+            className={'slide-page slide-container page2'}
+          >
+            <div className={'container'}>
+              <Text className={'slide-title1'}>Now We Run</Text>
+              <Text>
+                <Text span className={'slide-number'}>{appCount.service}</Text>
+                <Text span className={'slide-title2'}>Service</Text>
+              </Text>
+              <Text>
+                <Text span className={'slide-number'}>{appCount.module}</Text>
+                <Text span className={'slide-title2'}>Module</Text>
+              </Text>
+              <Text>
+                <Text span className={'slide-number'}>{appCount.container}</Text>
+                <Text span className={'slide-title2'}>Container</Text>
+              </Text>
+            </div>
+          </div>
+
+          <div
+            className={'slide-page slide-container page3'}
+          >
+            <div className={'container'}>
+              <Text className={'slide-title1'}>Try It Now.</Text>
+              <Button shadow scale={2} type={'secondary'} iconRight={<Github />}
+                      onClick={openUrl(urls.JJApplication)}>JJApplication</Button>
+            </div>
+          </div>
+        </div>
         <div className={'home-page-body'}>
           <Text style={{
             fontSize: '4rem',
             color: '#1e5585',
             fontWeight: 'bold',
             textAlign: 'center',
-            margin: '5rem 1rem 2rem 1rem',
-          }}>Apollo
-            Center</Text>
+            margin: '5rem 1rem',
+          }}>Architectural Design</Text>
           <Spacer h={0.5} />
           <Card width={'100%'} shadow>
             <Card.Content style={{ width: 'unset' }}>
-              <Grid.Container gap={1}>
+              <Grid.Container gap={2}>
                 <Grid md={12} sm={12} xs={24}>
                   <div>
                     <img src={appImg} alt={'service framework'} />
