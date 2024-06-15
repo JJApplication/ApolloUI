@@ -5,20 +5,7 @@ NEXT采用经典的左侧菜单 + 顶部面包屑
  */
 
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  Avatar,
-  Button,
-  Card,
-  Collapse,
-  Drawer,
-  Input,
-  Link,
-  Modal,
-  Spacer,
-  Tag,
-  Text,
-  Tooltip,
-} from '@geist-ui/core';
+import { Button, Card, Collapse, Drawer, Input, Link, Modal, Spacer, Tag, Text, Tooltip } from '@geist-ui/core';
 import {
   Box,
   Divider,
@@ -43,7 +30,6 @@ import {
 import { useEffect, useState } from 'react';
 import { Link as LinkRoute, useNavigate } from 'react-router-dom';
 import './Layout.css';
-import logo from './avatar.png';
 import urls, { openUrl } from '../urls';
 import { ToastContainer } from 'react-toastify';
 
@@ -272,7 +258,7 @@ export default function({ children }) {
                 </Tooltip>
               </span>
               <LinkRoute to={'/next/login'}>
-                <Avatar src={logo} id={'avatar'} />
+                <div className={'avatar'} />
               </LinkRoute>
             </div>
           </div>

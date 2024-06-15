@@ -10,6 +10,10 @@
     }
 }
 
+#root {
+    background: linear-gradient(#ffffff 0%, #ffffff 50%, #e0e0e0 100%);
+}
+
 .App-header {
     background-color: #282c34;
     min-height: 100vh;

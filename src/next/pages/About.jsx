@@ -6,7 +6,8 @@ export default function() {
     <>
       <Text h1>关于Apollo</Text>
       <Text>
-        专供JJAPP的微服务管理应用 by <Link color href={urls.Home}>renj.io</Link>
+        JJApps微服务管理应用 by <Link color href={urls.Home}>renj.io</Link><br />
+        通过JJApps微服务模型可以轻松地将任何微服务集成到JJApps服务集群中
       </Text>
       <Text h3 b type={'success'}>
         环境依赖
@@ -14,7 +15,7 @@ export default function() {
       <Text span b>x86/amd64 ARCH</Text><Spacer />
       <Text span b>MongoDB</Text><Spacer />
       <Text span b>NSQ</Text><Spacer />
-      <Text span b>Docker CE</Text><Spacer />
+      <Text span b>Docker</Text><Spacer />
       <Text h3 b type={'success'}>
         Apollo运行时依赖
       </Text>

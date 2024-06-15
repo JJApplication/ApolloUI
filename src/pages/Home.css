@@ -7,12 +7,7 @@ code {
 }
 
 #home-header {
-    position: fixed;
-    width: calc(100% - 4rem);
-    background-color: white;
-    top: 0;
-    padding: 0.5rem 0;
-    z-index: 9999;
+    position: relative;
 }
 
 .home-header-menu {
@@ -36,7 +31,15 @@ code {
 .home-header-menu .tooltip {
     cursor: pointer;
     font-weight: bold;
-    color: rgb(105, 105, 105);
+    font-size: 1.5rem;
+    color: #222222;
+}
+
+.home-header-menu .head-link.link {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #222222;
 }
 
 .home-header-menu a:hover {
@@ -44,8 +47,8 @@ code {
 }
 
 .home-page-body {
-    max-width: 75rem;
-    margin: 10rem auto 0;
+    max-width: 85rem;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -89,44 +92,56 @@ code {
     max-width: 75rem;
     margin: 0 auto;
     box-sizing: border-box;
-    background: rgba(255, 255, 255, 1);
     padding: 1rem 1.5rem;
     border-radius: 4rem;
-    box-shadow: 0 0 0.25rem 0 #DADADA;
+    box-shadow: 0 0 0.25rem 0 #d0d0d0;
     transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
 }
 
 .home-page-header-scroll:hover .home-page-header-scroll-body {
     max-width: 25rem;
-    background: rgba(255, 255, 255, 1);
     transition: all 0.3s ease;
-    box-shadow: 0 0 0.5rem 0 #EAEAEA;
+    box-shadow: 0 0 0.5rem 0 #d0d0d0;
 }
 
-/*大屏文本样式*/
-.slide-container {
-    text-align: center;
+.jjapps-logo {
+    cursor: pointer;
+    width: 20rem;
+    height: 20rem;
+    background: radial-gradient(circle, #ffffff 0%, #aaaaaa 10%, #eeeeee 25%, #888888 50%, #666666 60%, #111111 75%, #1f1f1f 100%);
+    border-radius: 50%;
+}
+
+.jjapps-logo:hover {
+    background: radial-gradient(circle, #1f1f1f 0%, #333333 10%, #444444 25%, #888888 50%, #aaaaaa 60%, #eeeeee 75%, #1f1f1f 100%);
+}
+
+.jjapps-logo-footer {
+    cursor: pointer;
+    width: 12.5rem;
+    height: 12.5rem;
+    background: radial-gradient(circle, #ffffff 0%, #aaaaaa 10%, #eeeeee 25%, #888888 50%, #666666 60%, #111111 75%, #1f1f1f 100%);
+    border-radius: 50%;
+    margin: 1rem 1.25rem;
+}
+
+.jjapps-logo-footer:hover {
+    background: radial-gradient(circle, #1f1f1f 0%, #333333 10%, #444444 25%, #888888 50%, #aaaaaa 60%, #eeeeee 75%, #1f1f1f 100%);
+}
+
+.card.language .content {
     display: flex;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
 }
 
-.slide-title1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 8rem;
-    font-weight: bold;
+.card img.language-logo {
+    width: 2.5rem !important;
+    margin-right: 0.5rem;
 }
 
-.slide-title2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 4rem;
-    font-weight: bold;
-}
-
-.slide-number, span.slide-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 4rem;
-    font-weight: bold;
-    color: #ff1a0a !important;
-    padding: 0 0.75rem !important;
+.card .language-text {
+    font-size: 1.25rem;
+    text-transform: capitalize;
 }

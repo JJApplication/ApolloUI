@@ -132,14 +132,18 @@
 }
 
 .layout-content-header .avatar {
-    width: 3.5rem !important;
-    height: 3.5rem !important;
-    transition: all 0.15s ease;
+    cursor: pointer;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: radial-gradient(circle, #ffffff 0%, #aaaaaa 10%, #eeeeee 25%, #888888 50%, #666666 60%, #111111 75%, #1f1f1f 100%);
+    border-radius: 50%;
+    margin: 1rem 1.25rem;
+    transition: all 0.5s ease;
 }
 
 .layout-content-header .avatar:hover {
-    border: 0.125rem solid #91c0ff;
-    transition: all 0.15s ease;
+    background: radial-gradient(circle, #1f1f1f 0%, #333333 10%, #444444 25%, #888888 50%, #aaaaaa 60%, #eeeeee 75%, #1f1f1f 100%);
+    transition: all 0.5s ease;
 }
 
 .layout-content-body {

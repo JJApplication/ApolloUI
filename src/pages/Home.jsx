@@ -1,22 +1,26 @@
-import { Button, Card, Divider, Grid, Link, Popover, Spacer, Text } from '@geist-ui/core';
+import { Button, Card, Code, Display, Divider, Grid, Link, Popover, Spacer, Tabs, Text } from '@geist-ui/core';
 import { Anchor, Github, LogIn } from '@geist-ui/icons';
 import './Home.css';
-import urls, { openUrl } from '../urls';
+import urls from '../urls';
 import appImg from './app.png';
+import design from './design.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import slidePage from 'slidePage';
-import 'slidePage/slidePage.css';
-import { getRequest } from '../axios/axios';
+import go from '../icons/go-original.svg';
+import js from '../icons/javascript-original.svg';
+import py from '../icons/python-original.svg';
+import rust from '../icons/rust-original.svg';
+import docker from '../icons/docker-original.svg';
+import nginx from '../icons/nginx-original.svg';
+import redis from '../icons/redis-original.svg';
+import mongo from '../icons/mongodb-original.svg';
+import { code_json } from '../code/code_json';
+import { code_yaml } from '../code/code_yaml';
+
 
 export default function() {
   const [offset, setOffset] = useState(0);
   const [scroll, setScroll] = useState(false);
-  const [appCount, setAppCount] = useState({
-    service: 0,
-    module: 0,
-    container: 0,
-  });
 
   const scrollEvent = (() => {
     const top = document.documentElement.scrollTop;
@@ -24,14 +28,11 @@ export default function() {
   });
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    let slide = initSlide();
-    getAppCount();
-
+    window.addEventListener('scroll', scrollEvent);
     return () => {
-      slide.destroy();
+      window.removeEventListener('scroll', scrollEvent);
     };
-  }, []);
+  });
 
   useEffect(() => {
     if (offset > 0) {
@@ -91,102 +92,46 @@ export default function() {
       </div>
     );
   };
-
-  const initSlide = () => {
-    return new slidePage({
-      before: function(origin, direction, target) {
-        if (direction === 'prev' && document.documentElement.scrollTop <= 16) {
-          document.body.style.overflow = 'hidden';
-        }
-      },
-      after: function(origin, direction, target) {
-        if (target === 3 && direction === 'next') {
-          document.body.style.overflow = 'auto';
-        }
-      },
-    });
-  };
-
-  const getAppCount = () => {
-    getRequest('/api/app/count').then(res => {
-      const apps = res.data;
-      let result = {
-        service: 0,
-        module: 0,
-        container: 0,
-      };
-      if (apps) {
-        apps.forEach(app => {
-          switch (app.Type) {
-            case 'Service': {
-              result.service += 1;
-              break;
-            }
-            case 'Container':
-            case 'NoEngine': {
-              result.container += 1;
-              break;
-            }
-            case 'Module': {
-              result.module += 1;
-              break;
-            }
-          }
-        });
-
-        setAppCount(result);
-      }
-    }).catch(() => {
-      setAppCount({
-        service: 0,
-        module: 0,
-        container: 0,
-      });
-    });
-  };
   return (
     <>
       <div id='home-page'>
         <div id='home-header'>
-          <div style={{ position: 'relative' }}>
-            <Text span b i font='2.2rem' marginRight='1rem'
-                  style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
-                  onClick={() => {
-                    window.location.href = '/';
-                  }}>
-              <Text span type='success'>A</Text>
-              <Text span type='error'>p</Text>
-              <Text span type='error'>o</Text>
-              <Text span type='error'>l</Text>
-              <Text span type='error'>l</Text>
-              <Text span type='warning'>o</Text>
-            </Text>
-            <div className='home-header-menu'>
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
-                Navigation
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
-                Developer
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
-                Pages
-              </Popover>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.Blog} target={'_blank'}>
-                Blog
-              </Link>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={'/next/about'}>
-                About Apollo
-              </Link>
-              <Spacer w={1.5} inline />
-              <Link style={{ color: 'rgb(105, 105, 105)', fontWeight: 'bold' }} href={urls.JJApplication}
-                    target={'_blank'}>
-                Github
-              </Link>
-            </div>
+          <Text span b i font='2.2rem' marginRight='0.75rem'
+                style={{ letterSpacing: '0.6px', cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => {
+                  window.location.href = '/';
+                }}>
+            <Text span type='success'>A</Text>
+            <Text span type='error'>p</Text>
+            <Text span type='error'>o</Text>
+            <Text span type='error'>l</Text>
+            <Text span type='error'>l</Text>
+            <Text span type='warning'>o</Text>
+          </Text>
+          <div className='home-header-menu'>
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu1}>
+              Navigation
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu2}>
+              Developer
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Popover enterDelay={0} leaveDelay={10} trigger={'hover'} placement={'bottom'} content={menu3}>
+              Pages
+            </Popover>
+            <Spacer w={1.5} inline />
+            <Link className={'head-link'} href={urls.Blog} target={'_blank'}>
+              Blog
+            </Link>
+            <Spacer w={1.5} inline />
+            <Link className={'head-link'} href={'/next/about'}>
+              About Apollo
+            </Link>
+            <Spacer w={1.5} inline />
+            <Link className={'head-link'} href={urls.JJApplication} target={'_blank'}>
+              Github
+            </Link>
             <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
               <Button auto onClick={() => nav('/next')}>Get Started</Button>
               <Spacer w={1} inline />
@@ -221,75 +166,86 @@ export default function() {
             </div>
           </div>
         }
-        <div className='slide-container' id={'slide-container'} style={{
-          height: '100vh',
-        }}>
-          <div
-            className={'slide-page slide-container page1'}
-          >
-            <div className={'container'}>
-              <Text className={'slide-title1'}>JJApps.</Text>
-              <Text className={'slide-title2'}>Self-Host lightweight microservices</Text>
-            </div>
-          </div>
-
-          <div
-            className={'slide-page slide-container page2'}
-          >
-            <div className={'container'}>
-              <Text className={'slide-title1'}>Now We Run</Text>
-              <Text>
-                <Text span className={'slide-number'}>{appCount.service}</Text>
-                <Text span className={'slide-title2'}>Service</Text>
-              </Text>
-              <Text>
-                <Text span className={'slide-number'}>{appCount.module}</Text>
-                <Text span className={'slide-title2'}>Module</Text>
-              </Text>
-              <Text>
-                <Text span className={'slide-number'}>{appCount.container}</Text>
-                <Text span className={'slide-title2'}>Container</Text>
-              </Text>
-            </div>
-          </div>
-
-          <div
-            className={'slide-page slide-container page3'}
-          >
-            <div className={'container'}>
-              <Text className={'slide-title1'}>Try It Now.</Text>
-              <Button shadow scale={2} type={'secondary'} iconRight={<Github />}
-                      onClick={openUrl(urls.JJApplication)}>JJApplication</Button>
-            </div>
-          </div>
-        </div>
         <div className={'home-page-body'}>
+          <div style={{
+            padding: '10em 0 5rem 0',
+          }}>
+            <Grid>
+              <Grid.Container gap={1} justify={'space-between'}>
+                <Grid md={16} style={{
+                  display: 'block',
+                  fontFamily: 'consolas',
+                }}>
+                  <Text p style={{
+                    fontSize: '5.5rem',
+                    fontWeight: 'bold',
+                    margin: 0,
+                    marginBlockStart: 0,
+                    marginBlockEnd: 0,
+                  }}>JJApps Group</Text>
+                  <Spacer h={1} />
+                  <Text p style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    margin: 0,
+                  }}>Manager all your microservices.</Text>
+                  <Text p style={{
+                    fontSize: '2.5rem',
+                    fontWeight: 'bold',
+                    margin: 0,
+                  }}>Easily integrate any microservice and component.</Text>
+                  <Spacer h={1} />
+                  <Text p style={{
+                    fontSize: '1.25rem',
+                    margin: 0,
+                  }}>Registered microservices compliant with JJApps' microservice model
+                    specification <Code>octopusMeta</Code> are
+                    registered to Apollo based on Auto-Discovery.</Text>
+                  <Spacer h={0.5} />
+                  <Text p style={{
+                    fontSize: '1.25rem',
+                    margin: 0,
+                  }}>You can write your microservices in any language and framework!</Text>
+                </Grid>
+                <Grid md={8}>
+                  <div className={'jjapps-logo'}></div>
+                </Grid>
+              </Grid.Container>
+            </Grid>
+          </div>
+          <div style={{ margin: '2.5rem 0' }}>
+            <Display shadow caption='Design of JJApps'>
+              <div style={{ padding: '1rem' }}>
+                <img width='100%' height='100%' src={design} />
+              </div>
+            </Display>
+          </div>
           <Text style={{
-            fontSize: '4rem',
-            color: '#1e5585',
+            fontSize: '2.5rem',
+            color: '#2289e5',
             fontWeight: 'bold',
-            textAlign: 'center',
-            margin: '5rem 1rem',
-          }}>Architectural Design</Text>
+            textAlign: 'left',
+            margin: '2rem 0',
+          }}>JJApps Architecture</Text>
           <Spacer h={0.5} />
           <Card width={'100%'} shadow>
             <Card.Content style={{ width: 'unset' }}>
-              <Grid.Container gap={2}>
+              <Grid.Container gap={1}>
                 <Grid md={12} sm={12} xs={24}>
                   <div>
                     <img src={appImg} alt={'service framework'} />
                   </div>
                 </Grid>
                 <Grid md={12} sm={12} xs={24}>
-                  <Card width={'100%'} height={'100%'} style={{ backgroundColor: '#1e5585', color: '#fff' }}>
-                    <Card.Content style={{ width: 'unset' }}>
+                  <Card width={'100%'} height={'100%'} style={{ backgroundColor: '#404040', color: '#fff' }}>
+                    <Card.Content style={{ width: 'unset', padding: '1.25rem' }}>
                       <Text h1 style={{ fontSize: '3rem' }}>Simple Framework of Microservice</Text>
                       <Text>- Best practice of service-mesh</Text>
                       <Text>- Application meta SPEC</Text>
                       <Text>- Container-liked process</Text>
                       <Text>- All-in-one Control Panel</Text>
                       <Spacer h={2} />
-                      <Text>with heart and love.</Text>
+                      <Text>with heart and love 💕.</Text>
                       <Text>2023 - JJApps</Text>
                     </Card.Content>
                   </Card>
@@ -298,6 +254,15 @@ export default function() {
             </Card.Content>
           </Card>
           <Spacer h={4} />
+          <Text
+            style={{
+              fontSize: '2.5rem',
+              color: '#2289e5',
+              fontWeight: 'bold',
+              textAlign: 'left',
+              margin: '2rem 0',
+            }}
+          >JJApps Components</Text>
           <Grid.Container gap={2}>
             <Grid md={12} sm={12} xs={24}>
               <Card width={'100%'} height={'100%'}>
@@ -407,13 +372,115 @@ export default function() {
               </Card>
             </Grid>
           </Grid.Container>
-          <Spacer h={1} />
+          <div className={'page-body2'}>
+            <Spacer h={4} />
+            <Text style={{
+              fontSize: '2.5rem',
+              color: '#2289e5',
+              fontWeight: 'bold',
+              textAlign: 'left',
+              margin: '2rem 0',
+            }}>Quick Start</Text>
+            <Text style={{ fontSize: '1.25rem' }}>Trying to integrate a microservice to JJApps.</Text>
+            <Text style={{ fontSize: '1.25rem' }}>All that is needed is the following simple configuration model
+              file.</Text>
+            <Text style={{ fontSize: '1.25rem' }}>Place the model files in the <Code>.octopus</Code> directory,
+              Auto-Discovery service will register your microservices soon.</Text>
+            <Tabs initialValue='1'>
+              <Tabs.Item label='JSON' value='1'>
+                <Code block name='X.json' my={0} style={{ fontFamily: 'consolas, monospace' }}>
+                  {JSON.stringify(code_json, null, '  ')}
+                </Code>
+              </Tabs.Item>
+              <Tabs.Item label='YAML' value='2'>
+                <Code block name='X.yaml' my={0} style={{ fontFamily: 'consolas, monospace' }}>
+                  {code_yaml}
+                </Code>
+              </Tabs.Item>
+            </Tabs>
+            <Spacer h={4} />
+            <Text style={{
+              fontSize: '2.5rem',
+              color: '#2289e5',
+              fontWeight: 'bold',
+              textAlign: 'left',
+              margin: '2rem 0',
+            }}>Infrastructure</Text>
+            <Grid.Container gap={1.5}>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={go} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Go</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={js} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Javascript</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={py} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Python</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={rust} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Rust</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={docker} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Docker</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={nginx} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Nginx</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={mongo} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>MongoDB</Text>
+                </Card>
+              </Grid>
+              <Grid md={6} xs={8}>
+                <Card width='100%' className={'language'}>
+                  <img src={redis} className={'language-logo'} alt={'logo'} />
+                  <Text span my={0} className={'language-text'}>Redis</Text>
+                </Card>
+              </Grid>
+            </Grid.Container>
+            <Spacer h={4} />
+            <Text style={{
+              fontSize: '2.5rem',
+              color: '#2289e5',
+              fontWeight: 'bold',
+              textAlign: 'left',
+              margin: '2rem 0',
+            }}>Contributions & Issues</Text>
+            <Text style={{ fontSize: '1.25rem' }}>▣ The project is open source, and you're welcome to contribute.</Text>
+            <Text style={{ fontSize: '1.25rem' }}>▣ You can submit an issue if you have any questions.</Text>
+            <Spacer h={0.5} />
+            <div>
+              <Button icon={<Github />} auto shadow type={'secondary'}>JJApplication</Button>
+            </div>
+          </div>
         </div>
         <Spacer h={5} />
         <div className={'home-page-footer'}>
           <Grid.Container gap={2}>
             <Grid md={10} sm={10}>
-              <Text h1 style={{ fontSize: '3.5rem' }}>Apollo 🌱</Text>
+              <Text h1 style={{ fontSize: '3.5rem', padding: '0 1.5rem' }}>JJApps.
+                <br />
+                <Text span style={{ fontSize: '1.5rem' }}>Apollo Project</Text>
+              </Text>
+              <div className={'jjapps-logo-footer'}></div>
             </Grid>
             <Grid md={14} sm={14}>
               <Grid.Container gap={2}>
