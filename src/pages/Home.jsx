@@ -16,6 +16,7 @@ import redis from '../icons/redis-original.svg';
 import mongo from '../icons/mongodb-original.svg';
 import { code_json } from '../code/code_json';
 import { code_yaml } from '../code/code_yaml';
+import github_code from './github.svg';
 
 
 export default function() {
@@ -174,38 +175,19 @@ export default function() {
               <Grid.Container gap={1} justify={'space-between'}>
                 <Grid md={16} style={{
                   display: 'block',
-                  fontFamily: 'consolas',
                 }}>
-                  <Text p style={{
-                    fontSize: '5.5rem',
-                    fontWeight: 'bold',
-                    margin: 0,
-                    marginBlockStart: 0,
-                    marginBlockEnd: 0,
-                  }}>JJApps Group</Text>
+                  <Text p className={'home-page-banner-first'}>JJApps Group</Text>
                   <Spacer h={1} />
-                  <Text p style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    margin: 0,
-                  }}>Manager all your microservices.</Text>
-                  <Text p style={{
-                    fontSize: '2.5rem',
-                    fontWeight: 'bold',
-                    margin: 0,
-                  }}>Easily integrate any microservice and component.</Text>
+                  <Text p className={'home-page-banner-second'}>Manager all your microservices.</Text>
+                  <Text p className={'home-page-banner-second'}>Easily integrate any microservice and component.</Text>
                   <Spacer h={1} />
-                  <Text p style={{
-                    fontSize: '1.25rem',
-                    margin: 0,
-                  }}>Registered microservices compliant with JJApps' microservice model
+                  <Text p className={'home-page-banner-third'}>Registered microservices compliant with JJApps'
+                    microservice model
                     specification <Code>octopusMeta</Code> are
                     registered to Apollo based on Auto-Discovery.</Text>
                   <Spacer h={0.5} />
-                  <Text p style={{
-                    fontSize: '1.25rem',
-                    margin: 0,
-                  }}>You can write your microservices in any language and framework!</Text>
+                  <Text p className={'home-page-banner-third'}>You can write your microservices in any language and
+                    framework!</Text>
                 </Grid>
                 <Grid md={8}>
                   <div className={'jjapps-logo'}></div>
@@ -213,20 +195,14 @@ export default function() {
               </Grid.Container>
             </Grid>
           </div>
-          <div style={{ margin: '2.5rem 0' }}>
+          <div style={{ margin: '2.5rem 0', width: '100%' }}>
             <Display shadow caption='Design of JJApps'>
               <div style={{ padding: '1rem' }}>
-                <img width='100%' height='100%' src={design} />
+                <img width='100%' height='100%' src={design} style={{ maxWidth: '100%' }} />
               </div>
             </Display>
           </div>
-          <Text style={{
-            fontSize: '2.5rem',
-            color: '#2289e5',
-            fontWeight: 'bold',
-            textAlign: 'left',
-            margin: '2rem 0',
-          }}>JJApps Architecture</Text>
+          <Text className={'home-page-title-first'}>JJApps Architecture</Text>
           <Spacer h={0.5} />
           <Card width={'100%'} shadow>
             <Card.Content style={{ width: 'unset' }}>
@@ -254,15 +230,8 @@ export default function() {
             </Card.Content>
           </Card>
           <Spacer h={4} />
-          <Text
-            style={{
-              fontSize: '2.5rem',
-              color: '#2289e5',
-              fontWeight: 'bold',
-              textAlign: 'left',
-              margin: '2rem 0',
-            }}
-          >JJApps Components</Text>
+          <Text className={'home-page-title-first'}>JJApps <Text span
+                                                                 style={{ color: '#2289e5' }}>Components</Text></Text>
           <Grid.Container gap={2}>
             <Grid md={12} sm={12} xs={24}>
               <Card width={'100%'} height={'100%'}>
@@ -374,17 +343,11 @@ export default function() {
           </Grid.Container>
           <div className={'page-body2'}>
             <Spacer h={4} />
-            <Text style={{
-              fontSize: '2.5rem',
-              color: '#2289e5',
-              fontWeight: 'bold',
-              textAlign: 'left',
-              margin: '2rem 0',
-            }}>Quick Start</Text>
-            <Text style={{ fontSize: '1.25rem' }}>Trying to integrate a microservice to JJApps.</Text>
-            <Text style={{ fontSize: '1.25rem' }}>All that is needed is the following simple configuration model
+            <Text className={'home-page-title-first'}>Quick Start</Text>
+            <Text className={'home-page-title-second'}>Trying to integrate a microservice to JJApps.</Text>
+            <Text className={'home-page-title-second'}>All that is needed is the following simple configuration model
               file.</Text>
-            <Text style={{ fontSize: '1.25rem' }}>Place the model files in the <Code>.octopus</Code> directory,
+            <Text className={'home-page-title-second'}>Place the model files in the <Code>.octopus</Code> directory,
               Auto-Discovery service will register your microservices soon.</Text>
             <Tabs initialValue='1'>
               <Tabs.Item label='JSON' value='1'>
@@ -399,57 +362,51 @@ export default function() {
               </Tabs.Item>
             </Tabs>
             <Spacer h={4} />
-            <Text style={{
-              fontSize: '2.5rem',
-              color: '#2289e5',
-              fontWeight: 'bold',
-              textAlign: 'left',
-              margin: '2rem 0',
-            }}>Infrastructure</Text>
+            <Text className={'home-page-title-first'}>Infrastructure</Text>
             <Grid.Container gap={1.5}>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={go} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Go</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={js} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Javascript</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={py} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Python</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={rust} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Rust</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={docker} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Docker</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={nginx} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Nginx</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={mongo} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>MongoDB</Text>
                 </Card>
               </Grid>
-              <Grid md={6} xs={8}>
+              <Grid md={6} sm={12} xs={24}>
                 <Card width='100%' className={'language'}>
                   <img src={redis} className={'language-logo'} alt={'logo'} />
                   <Text span my={0} className={'language-text'}>Redis</Text>
@@ -457,19 +414,21 @@ export default function() {
               </Grid>
             </Grid.Container>
             <Spacer h={4} />
-            <Text style={{
-              fontSize: '2.5rem',
-              color: '#2289e5',
-              fontWeight: 'bold',
-              textAlign: 'left',
-              margin: '2rem 0',
-            }}>Contributions & Issues</Text>
-            <Text style={{ fontSize: '1.25rem' }}>▣ The project is open source, and you're welcome to contribute.</Text>
-            <Text style={{ fontSize: '1.25rem' }}>▣ You can submit an issue if you have any questions.</Text>
+            <Text className={'home-page-title-first'}>Contributions & Issues</Text>
+            <Text className={'home-page-title-second'}>▣ The project is open source, and you're welcome to
+              contribute.</Text>
+            <Text className={'home-page-title-second'}>▣ You can submit an issue if you have any questions.</Text>
             <Spacer h={0.5} />
-            <div>
-              <Button icon={<Github />} auto shadow type={'secondary'}>JJApplication</Button>
-            </div>
+            <Grid.Container gap={2.5}>
+              <Grid md={24}>
+                <Button icon={<Github />} auto shadow type={'secondary'}>JJApplication</Button>
+              </Grid>
+              <Grid md={24}>
+                <img src={github_code} style={{
+                  width: '128px',
+                }} />
+              </Grid>
+            </Grid.Container>
           </div>
         </div>
         <Spacer h={5} />
