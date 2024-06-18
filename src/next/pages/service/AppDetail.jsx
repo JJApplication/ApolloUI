@@ -251,6 +251,7 @@ export default function() {
                     height={'calc(100% - 32rem)'}
                     margin={0}
                     style={{
+                      fontFamily: 'Source Code Pro, consolas, monospace',
                       height: 'calc(100% - 5rem)',
                       overflowY: 'auto',
                     }}>{JSON.stringify(appMeta, null, '  ')}</Code>

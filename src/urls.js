@@ -12,7 +12,7 @@ export default {
   Docs: 'https://dev.renj.io',
   Resume: 'https://me.renj.io',
   Drive: 'http://drive.renj.io',
-  Gallery: 'http://life.renj.io',
+  Gallery: 'http://gallery.renj.io',
   Status: 'http://status.renj.io',
 };
 
