@@ -3,7 +3,7 @@ import { Anchor, Github, LogIn } from '@geist-ui/icons';
 import './Home.css';
 import urls from '../urls';
 import appImg from './app.png';
-import design from './design.png';
+import design from './design.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import go from '../icons/go-original.svg';
