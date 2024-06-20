@@ -203,3 +203,16 @@ code {
     font-size: 1.25rem;
     text-transform: capitalize;
 }
+
+/*文字渐变*/
+.text-color-line {
+    cursor: pointer;
+    background: linear-gradient(to right, #52a4ff, #ff728c, #ffffff) no-repeat left bottom;
+    background-size: 0 100%;
+    transition: background-size 450ms, color 500ms;
+}
+
+.text-color-line:hover {
+    color: #ffffff;
+    background-size: 100% 100%;
+}

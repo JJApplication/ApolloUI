@@ -176,7 +176,7 @@ export default function() {
                 <Grid md={16} style={{
                   display: 'block',
                 }}>
-                  <Text p className={'home-page-banner-first'}>JJApps Group</Text>
+                  <Text p className={'home-page-banner-first text-color-line'}>JJApps Group</Text>
                   <Spacer h={1} />
                   <Text p className={'home-page-banner-second'}>Manager all your microservices.</Text>
                   <Text p className={'home-page-banner-second'}>Easily integrate any microservice and component.</Text>
