@@ -321,7 +321,7 @@ export default function() {
               <Card width={'100%'} height={'100%'}>
                 <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
                   <Text h1>Cloud Native</Text>
-                  <Text>JJApps's microservices are designed for Cloud Native</Text>
+                  <Text>JJApps' microservices are designed for Cloud Native</Text>
                   <Text>- Unified configuration</Text>
                   <Text>- Load from .env or ENVs</Text>
                   <Text>- Unified GRPC</Text>
