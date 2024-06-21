@@ -183,6 +183,7 @@ export default function({ children }) {
                     <Text onClick={() => navTo('/next/log')}>日志管理</Text>
                     <Text onClick={() => navTo('/next/db')}>数据管理</Text>
                     <Text onClick={() => navTo('/next/system')}>系统信息</Text>
+                    <Text onClick={() => navTo('/next/indicator')}>性能指标</Text>
                     <Text onClick={() => navTo('/next/cert')}>证书管理</Text>
                     <Text onClick={() => navTo('/next/secure')}>安全维护</Text>
                   </Collapse>

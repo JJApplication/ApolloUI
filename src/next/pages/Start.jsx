@@ -5,6 +5,7 @@ import Loading from './Loading';
 import { Toast } from './toast';
 
 export default function() {
+  const [health, setHealth] = useState(false);
   const [time, setTime] = useState('');
   const [loading, setLoading] = useState(true);
   const [sys, setSys] = useState({ buildDate: '', goarch: '', goos: '', goVersion: '', gitCommit: '' });
@@ -22,6 +23,17 @@ export default function() {
       'JJGo', 'JJService', 'MySite', 'Mgek', 'DevDoc', 'Redis', 'OctopusTwig', 'Sandwich',
     ],
   });
+
+  useEffect(() => {
+    healthcheck().catch(() => setHealth(false));
+    let t = setInterval(() => {
+      healthcheck().catch(() => setHealth(false));
+    }, 2500);
+
+    return () => {
+      clearInterval(t);
+    };
+  }, [health]);
 
   useEffect(() => {
     const tick = setInterval(() => {
@@ -63,6 +75,18 @@ export default function() {
     getConfig();
   };
 
+  const healthcheck = async () => {
+    try {
+      const res = await getRequest('/heartbeat');
+      if (res.status !== 'ok') {
+        setHealth(false);
+        return;
+      }
+      setHealth(true);
+    } catch {
+      setHealth(false);
+    }
+  };
   const getSys = async () => {
     const res = await getRequest('/api/system/overview');
     if (res.data) {
@@ -273,8 +297,12 @@ export default function() {
                 <Text h3 style={{ marginTop: '0.25rem' }}>状态 <Text span type={'success'}>STATUS</Text></Text>
                 <Grid.Container gap={1}>
                   <Grid xs={12} direction={'column'}>
-                    <Text style={{ margin: '0.25rem 0' }}>服务状态: <Text span b
-                                                                          style={{ color: '#00b900' }}>在线</Text></Text>
+                    <Text style={{ margin: '0.25rem 0' }}>服务状态:&nbsp;
+                      {health && <Text span b
+                                       style={{ color: '#00b900' }}>在线</Text>}
+                      {!health && <Text span b
+                                        style={{ color: '#f8133d' }}>离线</Text>}
+                    </Text>
                     <Text style={{ margin: '0.25rem 0' }}>构建日期: {sys.buildDate}</Text>
                     <Text style={{ margin: '0.25rem 0' }}>Go Version: {sys.goVersion}</Text>
                     <Text style={{ margin: '0.25rem 0' }}>Go ARCH: {sys.goarch}</Text>

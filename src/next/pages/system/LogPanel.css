@@ -21,11 +21,12 @@
 }
 
 .card-log {
-    height: calc(100vh - 16rem) !important
+    height: calc(100vh - 16rem) !important;
+    overflow-y: auto;
 }
 
 @media (max-width: 1920px) {
     .card-log {
-        height: calc(100vh - 18rem) !important
+        height: calc(100vh - 18rem) !important;
     }
 }
