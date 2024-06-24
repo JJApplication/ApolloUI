@@ -198,7 +198,7 @@ export default function() {
           <div style={{ margin: '2.5rem 0', width: '100%' }}>
             <Display shadow caption='Design of JJApps'>
               <div style={{ padding: '1rem' }}>
-                <img width='100%' height='100%' src={design} style={{ maxWidth: '100%' }} />
+                <img width='100%' height='100%' src={design} style={{ maxWidth: '64rem' }} />
               </div>
             </Display>
           </div>
