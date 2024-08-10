@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'Reddit Sans';
+    src: url("RedditSans-Medium.ttf") format("truetype");
+    font-display: swap;
+}
+
 body {
     margin: 0;
     font-family: 'Reddit Sans', -apple-system, BlinkMacSystemFont,
