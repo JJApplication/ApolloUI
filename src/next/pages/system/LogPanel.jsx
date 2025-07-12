@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Select, Spacer, Table, Tag, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { getRequest } from '../../../axios/axios';
+import { getRequest, postRequest } from '../../../axios/axios';
 import Loading from '../Loading';
 import { Toast } from '../toast';
 import { Download } from '@geist-ui/icons';
@@ -118,6 +118,16 @@ export default function() {
     link.click();
   };
 
+  const clearLogs = () => {
+    postRequest('/api/log/clear').then(res => {
+      if (res.status === 'ok') {
+        Toast.success('清理日志任务已下发');
+      }
+    }).catch(() => {
+      Toast.error('日志清理任务下发失败');
+    });
+  };
+
   const renderAction = (_, row) => {
     return <div>
       <Button auto scale={1 / 2} icon={<Download />} onClick={() => {
@@ -143,6 +153,8 @@ export default function() {
       <Button type={'success'} scale={3 / 4} auto onClick={openAppLog}>加载日志</Button>
       <Spacer inline />
       <Button type={'success'} scale={3 / 4} auto onClick={() => downloadAppLog(`${choose}.log`)}>下载日志</Button>
+      <Spacer inline />
+      <Button type={'secondary'} scale={3 / 4} auto onClick={() => clearLogs()}>清理日志</Button>
       {loading && <Loading />}
       {!loading &&
         <div>
