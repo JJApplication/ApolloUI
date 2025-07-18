@@ -27,6 +27,7 @@ import NoEngine from '../next/pages/third/NoEngine';
 import NoEngineApp from '../next/pages/third/NoEngineApp';
 import Env from '../next/pages/third/Env';
 import Cert from '../next/pages/settings/Cert';
+import {Indicator} from "../next/pages/system/Indicator";
 
 export default createBrowserRouter([
   {
@@ -111,6 +112,10 @@ export default createBrowserRouter([
       {
         path: 'system',
         element: <System />,
+      },
+      {
+        path: 'indicator',
+        element: <Indicator />,
       },
       {
         path: 'cert',
