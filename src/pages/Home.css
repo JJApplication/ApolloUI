@@ -216,3 +216,10 @@ code {
     color: #ffffff;
     background-size: 100% 100%;
 }
+
+.sequenceImg {
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: all ease 0.3s;
+}

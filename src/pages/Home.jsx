@@ -3,6 +3,7 @@ import { Anchor, Github, LogIn } from '@geist-ui/icons';
 import './Home.css';
 import urls from '../urls';
 import appImg from './app.png';
+import sequenceImg from './sequence.svg';
 import design from './design.jpg';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -22,6 +23,7 @@ import github_code from './github.svg';
 export default function() {
   const [offset, setOffset] = useState(0);
   const [scroll, setScroll] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
   const scrollEvent = (() => {
     const top = document.documentElement.scrollTop;
@@ -206,10 +208,10 @@ export default function() {
           <Spacer h={0.5} />
           <Card width={'100%'} shadow>
             <Card.Content style={{ width: 'unset' }}>
-              <Grid.Container gap={1}>
+              {!clicked ? <Grid.Container gap={1}>
                 <Grid md={12} sm={12} xs={24}>
-                  <div>
-                    <img src={appImg} alt={'service framework'} />
+                  <div className="sequenceImg" onClick={() => setClicked(!clicked)}>
+                    <img src={sequenceImg} style={{ width: 'auto' }} alt={'service framework'} />
                   </div>
                 </Grid>
                 <Grid md={12} sm={12} xs={24}>
@@ -226,7 +228,14 @@ export default function() {
                     </Card.Content>
                   </Card>
                 </Grid>
-              </Grid.Container>
+              </Grid.Container> :
+                  <Grid.Container gap={1}>
+                    <Grid md={24} sm={24} xs={24}>
+                      <div className="sequenceImg" onClick={() => setClicked(!clicked)}>
+                        <img src={sequenceImg} style={{ width: 'auto' }} alt={'service framework'} />
+                      </div>
+                    </Grid>
+                  </Grid.Container>}
             </Card.Content>
           </Card>
           <Spacer h={4} />

@@ -1,0 +1,33 @@
+sequenceDiagram
+    actor A as Actor
+    participant T as (Traefik) API Gateway
+    participant S as (Sandwich) Load Banlancer
+    participant N as (NoEngine) Static Proxy
+    participant M as (Service) Microservice
+    participant D as Database/Redis/Mongo
+
+    A->>T: 1.Web请求
+    T->>S: 2.转发请求
+    S-->>S: 3.判断前后端请求
+
+    alt Frontend
+        S->>N: 4.转发前端请求
+        N->>S: 5.返回静态资源
+        S->>T: 6.返回静态资源
+    else Backend
+        S->>M: 7.转发后端请求
+        alt 服务间调用(GRPC/RPC)
+            M-->>M: 8.发送服务间调用
+            M-->>M: 9.返回服务间调用结果
+        else 内部调用
+            M->>D: 10.访问数据库
+            D->>M: 11.返回结果
+        end    
+        M->>S: 12.返回接口响应
+        S->>T: 13.转发接口响应
+    end
+
+    T->>A: 返回结果        
+
+
+    
