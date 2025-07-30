@@ -27,7 +27,8 @@ import NoEngine from '../next/pages/third/NoEngine';
 import NoEngineApp from '../next/pages/third/NoEngineApp';
 import Env from '../next/pages/third/Env';
 import Cert from '../next/pages/settings/Cert';
-import {Indicator} from "../next/pages/system/Indicator";
+import { Indicator } from '../next/pages/system/Indicator';
+import Repo from '../next/pages/system/Repo';
 
 export default createBrowserRouter([
   {
@@ -108,6 +109,10 @@ export default createBrowserRouter([
       {
         path: 'log',
         element: <LogPanel />,
+      },
+      {
+        path: 'repo',
+        element: <Repo />,
       },
       {
         path: 'system',

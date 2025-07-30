@@ -47,7 +47,7 @@ import urls, { openUrl } from '../urls';
 import { ToastContainer } from 'react-toastify';
 import { searchKeyword } from './search_data';
 
-export default function ({ children }) {
+export default function({ children }) {
   const nav = useNavigate();
   const [state, setState] = useState(false);
   const [display, setDisplay] = useState(true);
@@ -237,6 +237,7 @@ export default function ({ children }) {
                       <Text onClick={() => navTo('/next/container')}>容器管理</Text>
                       <Text onClick={() => navTo('/next/log')}>日志管理</Text>
                       <Text onClick={() => navTo('/next/db')}>数据管理</Text>
+                      <Text onClick={() => navTo('/next/repo')}>仓库管理</Text>
                       <Text onClick={() => navTo('/next/system')}>系统信息</Text>
                       <Text onClick={() => navTo('/next/indicator')}>性能指标</Text>
                       <Text onClick={() => navTo('/next/cert')}>证书管理</Text>

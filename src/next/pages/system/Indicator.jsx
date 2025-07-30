@@ -299,7 +299,7 @@ export function Indicator() {
 
   return (
     <>
-      <Text h3>系统信息</Text>
+      <Text h3>性能指标</Text>
       <Spacer />
       <Card width={'100%'}>
         <Card.Content width={'unset'}>

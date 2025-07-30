@@ -1,0 +1,32 @@
+.repo .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 3rem;
+    /*text-overflow: ellipsis;*/
+    word-break: break-all;
+    /*white-space: nowrap;*/
+    color: #363636;
+    font-size: 0.85rem;
+}
+
+.repo .repo-title {
+    cursor: pointer;
+}
+
+.repo .repo-title:hover {
+    color: #4f93e7;
+}
+
+.repo .repo-description {
+
+}
+
+.repo .icon-green .icon {
+    background-color: #4CAF50;
+}
+
+.repo .icon-default .icon {
+    background-color: #9b15ff;
+}
