@@ -29,6 +29,7 @@ import Env from '../next/pages/third/Env';
 import Cert from '../next/pages/settings/Cert';
 import { Indicator } from '../next/pages/system/Indicator';
 import Repo from '../next/pages/system/Repo';
+import RepoCommits from '../next/pages/system/RepoCommits';
 
 export default createBrowserRouter([
   {
@@ -113,6 +114,10 @@ export default createBrowserRouter([
       {
         path: 'repo',
         element: <Repo />,
+      },
+      {
+        path: 'repo/:org/:name',
+        element: <RepoCommits />,
       },
       {
         path: 'system',

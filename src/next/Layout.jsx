@@ -21,6 +21,7 @@ import {
 } from '@geist-ui/core';
 import {
   Box,
+  Command,
   Divider,
   FileMinus,
   Folder,
@@ -40,15 +41,17 @@ import {
   XOctagon,
   Zap,
 } from '@geist-ui/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link as LinkRoute, useNavigate } from 'react-router-dom';
 import './Layout.css';
 import urls, { openUrl } from '../urls';
 import { ToastContainer } from 'react-toastify';
 import { searchKeyword } from './search_data';
 
-export default function({ children }) {
+export default function ({ children }) {
   const nav = useNavigate();
+  const searchRef = useRef(null);
+
   const [state, setState] = useState(false);
   const [display, setDisplay] = useState(true);
   const [showDonate, setShowDonate] = useState(false);
@@ -337,6 +340,7 @@ export default function({ children }) {
                 <span style={{ marginRight: '1rem' }}>
                   <Popover content={content} visible={searchVisible}>
                     <Input
+                      ref={searchRef}
                       clearable
                       value={searchKey}
                       onChange={searchApollo}
@@ -344,6 +348,19 @@ export default function({ children }) {
                       placeholder='搜索你想知道的 ~ '
                     />
                   </Popover>
+                </span>
+                <span style={{ marginRight: '1rem' }}>
+                  <Button
+                    iconRight={<Command />}
+                    auto
+                    scale={2 / 3}
+                    px={0.6}
+                    onClick={() => {
+                      if (searchRef) {
+                        searchRef.current.focus();
+                      }
+                    }}
+                  />
                 </span>
                 <span style={{ marginRight: '1rem' }}>
                   <Tooltip text={'变更历史'} placement={'bottom'}>

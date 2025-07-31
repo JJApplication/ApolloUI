@@ -1,14 +1,18 @@
 import { Card, Dot, Grid, Modal, Spacer, Spinner, Text } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import { getRequest } from '../../../axios/axios';
+import {getRequest, postRequest} from '../../../axios/axios';
 import './Repo.css';
+import {GitCommit, Github} from "@geist-ui/icons";
+import {useNavigate} from "react-router-dom";
 
 export default function() {
+  const nav = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [repos, setRepos] = useState([]);
   const [total, setTotal] = useState(0);
   const [show, setShow] = useState(false);
-  const [repo, setRepo] = useState({});
+  const [currentRepo, setCurrentRepo] = useState({});
+  const [repoCommit, setRepoCommit] = useState([]);
 
   useEffect(() => {
     getRepos();
@@ -28,13 +32,16 @@ export default function() {
   };
 
   const openRepo = async (fullname) => {
-    await getRepo(fullname);
+
+    nav('/next/repo/' + fullname);
+    // setCurrentRepo(repos.find((repo) => repo.full_name === fullname));
+    // await getRepoCommits(fullname);
   };
 
-  const getRepo = async (fullname) => {
-    const data = await getRequest(`/api/repo/${fullname}`);
-    if (data.data && data.data.repository) {
-      setRepo(data.data.repository);
+  const getRepoCommits = async (fullname) => {
+    const data = await postRequest(`/api/repo/commits/${fullname}`);
+    if (data.data && data.data.commits) {
+      setRepoCommit(data.data.commits);
       setShow(true);
     }
   };
@@ -79,7 +86,7 @@ export default function() {
           <Card shadow width='100%'>
             <Card.Content style={{ width: 'unset', paddingBottom: 0 }}>
               <Text h2 my={0} className={'repo-title'} onClick={() => openRepo(repo.full_name)}>
-                {repo.name}
+                <Github size={18} /><Spacer w={0.5} inline/>{repo.name}
               </Text>
               <Text p className={'description'}>
                 {repo.description || '-'}
@@ -94,6 +101,23 @@ export default function() {
     });
   };
 
+  const renderCommits = (list) => {
+    if (!list) {
+      return null;
+    }
+    return list.map((commit) => {
+      return (
+          <div key={commit?.id} className="repo-commits">
+            <GitCommit /> 提交于 {commit?.commit_date?.seconds}
+            <Card shadow width='100%'>
+              <Card.Content style={{ width: 'unset' }}>
+                <Text h3>{commit?.message}</Text>
+              </Card.Content>
+            </Card>
+          </div>
+      )
+    })
+  }
   return (
     <>
       <Text h3>仓库管理</Text>
@@ -113,9 +137,12 @@ export default function() {
       >
         <Card>
           <Card.Content style={{ width: 'unset' }}>
-            <Text h2 my={0} className={'repo-title'}>
-              {repo.name}
+            <Text h3 my={0} className={'repo-title'}>
+              {currentRepo.name}
             </Text>
+            <div>
+              {renderCommits(repoCommit)}
+            </div>
           </Card.Content>
         </Card>
       </Modal>

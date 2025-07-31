@@ -1,0 +1,18 @@
+.repo-commits {
+    margin-bottom: 0.75rem;
+}
+
+.repo-commits:last-child {
+    margin-bottom: 0;
+}
+
+.repo-commits .commit-date {
+    display: flex;
+    align-items: center;
+}
+
+.repo-commits .commit-detail{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
