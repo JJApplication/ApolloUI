@@ -313,7 +313,7 @@ export default function() {
             <Grid md={12} sm={12} xs={24}>
               <Card width={'100%'} height={'100%'}>
                 <Card.Content style={{ width: 'unset', fontSize: '1.125rem' }}>
-                  <Text h1>Dreams In Bottle</Text>
+                  <Text h1>Dream In Bottle</Text>
                   <Text>Application sandbox like a light-weight container. Running processes just like dreaming in a
                     bottle which they can't escape</Text>
                   <Text>- Sandbox features</Text>
@@ -460,8 +460,8 @@ export default function() {
                         target={'_blank'}>Octopus Meta</Link>
                   <Link href={'https://github.com/JJApplication/FuShin'} className={'footer-link-a'} target={'_blank'}>Fushin
                     Stone</Link>
-                  <Link href={'https://github.com/JJApplication/DreamsInBottle'} className={'footer-link-a'}
-                        target={'_blank'}>Dreams In Bottle</Link>
+                  <Link href={'https://github.com/JJApplication/DreamInBottle'} className={'footer-link-a'}
+                        target={'_blank'}>Dream In Bottle</Link>
                   <Link href={'https://github.com/JJApplication/RainbowBridge/blob/master/SPEC.md'}
                         className={'footer-link-a'} target={'_blank'}>RainbowBridge SPEC</Link>
                 </Grid>
