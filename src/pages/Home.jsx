@@ -136,9 +136,9 @@ export default function() {
               Github
             </Link>
             <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
-              <Button auto onClick={() => nav('/next')}>Get Started</Button>
+              <Button auto scale={3/4} onClick={() => nav('/next')}>Get Started</Button>
               <Spacer w={1} inline />
-              <Button auto type={'success'} onClick={() => nav('/next/login')}>Login</Button>
+              <Button auto scale={3/4} type={'success'} onClick={() => nav('/next/login')}>Login</Button>
             </div>
           </div>
         </div>

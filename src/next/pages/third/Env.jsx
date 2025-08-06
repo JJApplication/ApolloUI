@@ -1,7 +1,7 @@
 import { Button, Card, Grid, Input, Modal, Note, Spacer, Table, Text } from '@geist-ui/core';
 import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
-import { cloneDeep } from 'lodash';
+import { cloneDeep } from 'es-toolkit/object';
 import { Plus } from '@geist-ui/icons';
 
 export default function() {

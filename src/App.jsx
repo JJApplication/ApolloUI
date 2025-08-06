@@ -19,6 +19,7 @@ import Webssh from './pages_old/webssh';
 import Modules from './pages_old/modules';
 import Board from './pages_old/board';
 import Header, { TypeAdvance, TypeNormal } from './components/header';
+import "@fontsource/noto-sans-sc/chinese-simplified-400.css";
 
 // 设置根节点的主题引入
 class App extends Component {
