@@ -30,6 +30,7 @@ import Cert from '../next/pages/settings/Cert';
 import { Indicator } from '../next/pages/system/Indicator';
 import Repo from '../next/pages/system/Repo';
 import RepoCommits from '../next/pages/system/RepoCommits';
+import Database from '../next/pages/system/Database';
 
 export default createBrowserRouter([
   {
@@ -118,6 +119,10 @@ export default createBrowserRouter([
       {
         path: 'repo/:org/:name',
         element: <RepoCommits />,
+      },
+      {
+        path: 'db',
+        element: <Database />,
       },
       {
         path: 'system',
