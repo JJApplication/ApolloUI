@@ -4,6 +4,7 @@ import App from '../App';
 import Layout from '../components/layout';
 import Module from '../subpages/module';
 import Building from '../next/Building';
+import Loading from '../next/Loading';
 const Next = lazy(() => import('../next/Next'));
 const APPHome = lazy(() => import('../next/pages/service/App'));
 const About = lazy(() => import('../next/pages/About'));
@@ -37,7 +38,7 @@ export default createBrowserRouter([
   {
     path: '/',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <Home />
       </Suspense>
     ),
@@ -45,7 +46,7 @@ export default createBrowserRouter([
   {
     path: '/home',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <App type={'normal'} />
       </Suspense>
     ),
@@ -53,7 +54,7 @@ export default createBrowserRouter([
   {
     path: '/panel',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <App type={'normal'} />
       </Suspense>
     ),
@@ -61,7 +62,7 @@ export default createBrowserRouter([
   {
     path: '/panel/advance',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <App type={'advance'} />
       </Suspense>
     ),
@@ -69,7 +70,7 @@ export default createBrowserRouter([
   {
     path: '/panel/dashboard',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <Layout type={'dashboard'} />
       </Suspense>
     ),
@@ -77,7 +78,7 @@ export default createBrowserRouter([
   {
     path: '/panel/api/module/:id',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <Layout children={<Module />} />
       </Suspense>
     ),
@@ -85,7 +86,7 @@ export default createBrowserRouter([
   {
     path: '/next',
     element: (
-      <Suspense fallback={<Building />}>
+      <Suspense fallback={<Loading />}>
         <Next />
       </Suspense>
     ),
@@ -98,7 +99,7 @@ export default createBrowserRouter([
       {
         path: '',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Start />
           </Suspense>
         ),
@@ -106,7 +107,7 @@ export default createBrowserRouter([
       {
         path: 'start',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Start />
           </Suspense>
         ),
@@ -114,7 +115,7 @@ export default createBrowserRouter([
       {
         path: 'login',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Login />
           </Suspense>
         ),
@@ -123,7 +124,7 @@ export default createBrowserRouter([
       {
         path: 'app',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <APPHome />
           </Suspense>
         ),
@@ -131,7 +132,7 @@ export default createBrowserRouter([
       {
         path: 'select',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Select />
           </Suspense>
         ),
@@ -139,7 +140,7 @@ export default createBrowserRouter([
       {
         path: 'app/:name',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <AppDetail />
           </Suspense>
         ),
@@ -147,7 +148,7 @@ export default createBrowserRouter([
       {
         path: 'tree',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Tree />
           </Suspense>
         ),
@@ -156,7 +157,7 @@ export default createBrowserRouter([
       {
         path: 'container',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Container />
           </Suspense>
         ),
@@ -164,7 +165,7 @@ export default createBrowserRouter([
       {
         path: 'task',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Task />
           </Suspense>
         ),
@@ -172,7 +173,7 @@ export default createBrowserRouter([
       {
         path: 'alarm',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Alarm />
           </Suspense>
         ),
@@ -180,7 +181,7 @@ export default createBrowserRouter([
       {
         path: 'log',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <LogPanel />
           </Suspense>
         ),
@@ -188,7 +189,7 @@ export default createBrowserRouter([
       {
         path: 'repo',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Repo />
           </Suspense>
         ),
@@ -196,7 +197,7 @@ export default createBrowserRouter([
       {
         path: 'repo/:org/:name',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <RepoCommits />
           </Suspense>
         ),
@@ -204,7 +205,7 @@ export default createBrowserRouter([
       {
         path: 'db',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Database />
           </Suspense>
         ),
@@ -212,7 +213,7 @@ export default createBrowserRouter([
       {
         path: 'system',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <System />
           </Suspense>
         ),
@@ -220,7 +221,7 @@ export default createBrowserRouter([
       {
         path: 'indicator',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Indicator />
           </Suspense>
         ),
@@ -228,7 +229,7 @@ export default createBrowserRouter([
       {
         path: 'cert',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Cert />
           </Suspense>
         ),
@@ -237,7 +238,7 @@ export default createBrowserRouter([
       {
         path: 'env',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Env />
           </Suspense>
         ),
@@ -245,7 +246,7 @@ export default createBrowserRouter([
       {
         path: 'terminal',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Terminal />
           </Suspense>
         ),
@@ -253,7 +254,7 @@ export default createBrowserRouter([
       {
         path: 'gw',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Gateway />
           </Suspense>
         ),
@@ -261,7 +262,7 @@ export default createBrowserRouter([
       {
         path: 'noengine',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <NoEngine />
           </Suspense>
         ),
@@ -269,7 +270,7 @@ export default createBrowserRouter([
       {
         path: 'noengine/:app',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <NoEngineApp />
           </Suspense>
         ),
@@ -278,7 +279,7 @@ export default createBrowserRouter([
       {
         path: 'script',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Script />
           </Suspense>
         ),
@@ -287,7 +288,7 @@ export default createBrowserRouter([
       {
         path: 'setting',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Setting />
           </Suspense>
         ),
@@ -295,7 +296,7 @@ export default createBrowserRouter([
       {
         path: 'cli',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <CLI />
           </Suspense>
         ),
@@ -304,7 +305,7 @@ export default createBrowserRouter([
       {
         path: 'changelog',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <Changelog />
           </Suspense>
         ),
@@ -312,7 +313,7 @@ export default createBrowserRouter([
       {
         path: 'about',
         element: (
-          <Suspense fallback={<Building />}>
+          <Suspense fallback={<Loading />}>
             <About />
           </Suspense>
         ),
