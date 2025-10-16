@@ -25,7 +25,7 @@ export const options = {
   },
 };
 
-export function Indicator() {
+export default function Indicator() {
   // 只读配置 运行时配置 软重启配置分开
   const [sysInfo, setSysInfo] = useState({});
   const [load, setLoad] = useState([]);

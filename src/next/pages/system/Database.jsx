@@ -144,7 +144,7 @@ export default function () {
             </Text>
             <div style={{ textAlign: 'left', width: '100%' }}>
               <Text>创建时间: {calcTime(db.create_time)}</Text>
-              <Text>创建时间: {calcTime(db.update_time)}</Text>
+              <Text>更新时间: {calcTime(db.update_time)}</Text>
               <Text>文件大小: {calcSize(db.db_size)}</Text>
               <Table data={db.table}>
                 <Table.Column prop='name' label='表名' />

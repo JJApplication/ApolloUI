@@ -4,7 +4,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import { cloneDeep } from 'es-toolkit/object';
 import { Toast } from '../toast';
 
-export function System() {
+export default function System() {
   // 只读配置 运行时配置 软重启配置分开
   const [runConfig, setRunConfig] = useState({
     serviceRoot: '',

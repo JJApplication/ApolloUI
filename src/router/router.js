@@ -1,65 +1,94 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import App from '../App';
 import Layout from '../components/layout';
 import Module from '../subpages/module';
-import Next from '../next/Next';
-import APPHome from '../next/pages/service/App';
 import Building from '../next/Building';
-import About from '../next/pages/About';
-import Task from '../next/pages/system/Task';
-import Tree from '../next/pages/service/Tree';
-import Container from '../next/pages/system/Container';
-import Changelog from '../next/pages/Changelog';
-import Start from '../next/pages/Start';
-import Setting from '../next/pages/settings/Setting';
-import Alarm from '../next/pages/system/Alarm';
-import Login from '../next/pages/settings/Login';
-import AppDetail from '../next/pages/service/AppDetail';
-import Terminal from '../next/pages/third/Terminal';
-import Select from '../next/pages/service/Select';
-import CLI from '../next/pages/settings/CLI';
-import { System } from '../next/pages/system/System';
-import Gateway from '../next/pages/third/Gateway';
-import Script from '../next/pages/script/Script';
-import Home from '../pages/Home';
-import LogPanel from '../next/pages/system/LogPanel';
-import NoEngine from '../next/pages/third/NoEngine';
-import NoEngineApp from '../next/pages/third/NoEngineApp';
-import Env from '../next/pages/third/Env';
-import Cert from '../next/pages/settings/Cert';
-import { Indicator } from '../next/pages/system/Indicator';
-import Repo from '../next/pages/system/Repo';
-import RepoCommits from '../next/pages/system/RepoCommits';
-import Database from '../next/pages/system/Database';
+const Next = lazy(() => import('../next/Next'));
+const APPHome = lazy(() => import('../next/pages/service/App'));
+const About = lazy(() => import('../next/pages/About'));
+const Task = lazy(() => import('../next/pages/system/Task'));
+const Tree = lazy(() => import('../next/pages/service/Tree'));
+const Container = lazy(() => import('../next/pages/system/Container'));
+const Changelog = lazy(() => import('../next/pages/Changelog'));
+const Start = lazy(() => import('../next/pages/Start'));
+const Setting = lazy(() => import('../next/pages/settings/Setting'));
+const Alarm = lazy(() => import('../next/pages/system/Alarm'));
+const Login = lazy(() => import('../next/pages/settings/Login'));
+const AppDetail = lazy(() => import('../next/pages/service/AppDetail'));
+const Terminal = lazy(() => import('../next/pages/third/Terminal'));
+const Select = lazy(() => import('../next/pages/service/Select'));
+const CLI = lazy(() => import('../next/pages/settings/CLI'));
+const System = lazy(() => import('../next/pages/system/System'));
+const Gateway = lazy(() => import('../next/pages/third/Gateway'));
+const Script = lazy(() => import('../next/pages/script/Script'));
+const Home = lazy(() => import('../pages/Home'));
+const LogPanel = lazy(() => import('../next/pages/system/LogPanel'));
+const NoEngine = lazy(() => import('../next/pages/third/NoEngine'));
+const NoEngineApp = lazy(() => import('../next/pages/third/NoEngineApp'));
+const Env = lazy(() => import('../next/pages/third/Env'));
+const Cert = lazy(() => import('../next/pages/settings/Cert'));
+const Indicator = lazy(() => import('../next/pages/system/Indicator'));
+const Repo = lazy(() => import('../next/pages/system/Repo'));
+const RepoCommits = lazy(() => import('../next/pages/system/RepoCommits'));
+const Database = lazy(() => import('../next/pages/system/Database'));
 
 export default createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <Home />
+      </Suspense>
+    ),
   },
   {
     path: '/home',
-    element: <App type={'normal'} />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <App type={'normal'} />
+      </Suspense>
+    ),
   },
   {
     path: '/panel',
-    element: <App type={'normal'} />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <App type={'normal'} />
+      </Suspense>
+    ),
   },
   {
     path: '/panel/advance',
-    element: <App type={'advance'} />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <App type={'advance'} />
+      </Suspense>
+    ),
   },
   {
     path: '/panel/dashboard',
-    element: <Layout type={'dashboard'} />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <Layout type={'dashboard'} />
+      </Suspense>
+    ),
   },
   {
     path: '/panel/api/module/:id',
-    element: <Layout children={<Module />} />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <Layout children={<Module />} />
+      </Suspense>
+    ),
   },
   {
     path: '/next',
-    element: <Next />,
+    element: (
+      <Suspense fallback={<Building />}>
+        <Next />
+      </Suspense>
+    ),
     children: [
       {
         path: '*',
@@ -68,117 +97,225 @@ export default createBrowserRouter([
       },
       {
         path: '',
-        element: <Start />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Start />
+          </Suspense>
+        ),
       },
       {
         path: 'start',
-        element: <Start />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Start />
+          </Suspense>
+        ),
       },
       {
         path: 'login',
-        element: <Login />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Login />
+          </Suspense>
+        ),
       },
       // 微服务管理
       {
         path: 'app',
-        element: <APPHome />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <APPHome />
+          </Suspense>
+        ),
       },
       {
         path: 'select',
-        element: <Select />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Select />
+          </Suspense>
+        ),
       },
       {
         path: 'app/:name',
-        element: <AppDetail />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <AppDetail />
+          </Suspense>
+        ),
       },
       {
         path: 'tree',
-        element: <Tree />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Tree />
+          </Suspense>
+        ),
       },
       // 系统管理
       {
         path: 'container',
-        element: <Container />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Container />
+          </Suspense>
+        ),
       },
       {
         path: 'task',
-        element: <Task />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Task />
+          </Suspense>
+        ),
       },
       {
         path: 'alarm',
-        element: <Alarm />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Alarm />
+          </Suspense>
+        ),
       },
       {
         path: 'log',
-        element: <LogPanel />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <LogPanel />
+          </Suspense>
+        ),
       },
       {
         path: 'repo',
-        element: <Repo />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Repo />
+          </Suspense>
+        ),
       },
       {
         path: 'repo/:org/:name',
-        element: <RepoCommits />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <RepoCommits />
+          </Suspense>
+        ),
       },
       {
         path: 'db',
-        element: <Database />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Database />
+          </Suspense>
+        ),
       },
       {
         path: 'system',
-        element: <System />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <System />
+          </Suspense>
+        ),
       },
       {
         path: 'indicator',
-        element: <Indicator />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Indicator />
+          </Suspense>
+        ),
       },
       {
         path: 'cert',
-        element: <Cert />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Cert />
+          </Suspense>
+        ),
       },
       // 服务对接
       {
         path: 'env',
-        element: <Env />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Env />
+          </Suspense>
+        ),
       },
       {
         path: 'terminal',
-        element: <Terminal />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Terminal />
+          </Suspense>
+        ),
       },
       {
         path: 'gw',
-        element: <Gateway />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Gateway />
+          </Suspense>
+        ),
       },
       {
         path: 'noengine',
-        element: <NoEngine />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <NoEngine />
+          </Suspense>
+        ),
       },
       {
         path: 'noengine/:app',
-        element: <NoEngineApp />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <NoEngineApp />
+          </Suspense>
+        ),
       },
       // 脚本插件
       {
         path: 'script',
-        element: <Script />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Script />
+          </Suspense>
+        ),
       },
       // 高级配置
       {
         path: 'setting',
-        element: <Setting />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Setting />
+          </Suspense>
+        ),
       },
       {
         path: 'cli',
-        element: <CLI />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <CLI />
+          </Suspense>
+        ),
       },
       // 其他
       {
         path: 'changelog',
-        element: <Changelog />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <Changelog />
+          </Suspense>
+        ),
       },
       {
         path: 'about',
-        element: <About />,
+        element: (
+          <Suspense fallback={<Building />}>
+            <About />
+          </Suspense>
+        ),
       },
     ],
   },
