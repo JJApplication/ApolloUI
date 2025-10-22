@@ -7,6 +7,16 @@ export function convertTimeEX(t) {
     return new Date(t * 1000).toLocaleString();
 }
 
+// 2025/1/1形式
+export const calcTime = (time) => {
+  const date = new Date(Number(time * 1000));
+  return date.toLocaleDateString('zh-CN', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+};
+
 // 文件大小
 export function covertFileSize(fileSize) {
     let result;

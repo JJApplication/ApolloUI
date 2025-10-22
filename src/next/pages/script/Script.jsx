@@ -1,11 +1,17 @@
-import { Button, Card, Grid, Spacer, Tag, Text } from '@geist-ui/core';
-import { getRequest } from '../../../axios/axios';
+import { Button, Card, Grid, Input, Modal, Spacer, Tag, Text } from '@geist-ui/core';
+import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
+import { Toast } from '../toast';
 
 export default function() {
   const [loading, setLoading] = useState(true);
   const [scripts, setScripts] = useState([]);
+  const [execScript, setExecScript] = useState({
+    open: false,
+    scriptName: '',
+    args: ''
+  });
 
   useEffect(() => {
     getScripts();
@@ -35,7 +41,13 @@ export default function() {
               <Text>环境变量: <Spacer inline w={1} /><Text span>{script.envsAdd.join(' ')}</Text></Text>
               <Text>输入参数: <Spacer inline w={1} /><Text span>{script.args.join(' ')}</Text></Text>
               <Spacer />
-              <Button type={'secondary'} auto scale={3 / 4}>执行</Button>
+              <Button type={'secondary'} auto scale={3 / 4} onClick={() => {
+                setExecScript({
+                  open: true,
+                  scriptName: script.scriptName,
+                  args: '',
+                })
+              }}>执行</Button>
             </Card.Content>
           </Card>
         </Grid>,
@@ -43,6 +55,19 @@ export default function() {
     });
     return list;
   };
+
+  const execRun = () => {
+    postRequest('/api/script/task/start', {
+      script: execScript.scriptName,
+      args: execScript.args,
+    }).then(res => {
+      if (res.status === 'ok') {
+        Toast.success('脚本执行成功')
+      } else {
+        Toast.error('脚本执行失败')
+      }
+    })
+  }
 
   return (
     <>
@@ -53,6 +78,23 @@ export default function() {
           {renderCards()}
         </Grid.Container>
       }
+      <Modal visible={execScript.open} onClose={() => setExecScript({open: false})}>
+        <Modal.Title>执行脚本</Modal.Title>
+        <Modal.Content>
+          <Input label={'脚本名称'} disabled width={'100%'} value={execScript.scriptName}></Input>
+          <Spacer h={1} />
+          <Input label={'参数'}  width={'100%'} value={execScript.args} onChange={e => {
+            setExecScript({
+              scriptName: execScript.scriptName,
+              args: e.target.value,
+              open: true,
+            })
+          }}></Input>
+        </Modal.Content>
+        <Modal.Action>
+          <Button type={'secondary-light'} onClick={() => {execRun()}}>执行</Button>
+        </Modal.Action>
+      </Modal>
     </>
   );
 }

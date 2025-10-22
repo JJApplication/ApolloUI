@@ -262,7 +262,7 @@ export default function ({ children }) {
                     </Collapse>
                     <Collapse title='脚本插件' initialVisible>
                       <Text onClick={() => navTo('/next/script')}>脚本管理</Text>
-                      <Text onClick={() => navTo('/next/scriptTask')}>脚本任务</Text>
+                      <Text onClick={() => navTo('/next/script/task')}>脚本任务</Text>
                     </Collapse>
                     <Collapse title='高级配置' initialVisible>
                       <Text onClick={() => navTo('/next/setting')}>基础配置</Text>

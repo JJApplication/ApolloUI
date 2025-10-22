@@ -23,6 +23,7 @@ const CLI = lazy(() => import('../next/pages/settings/CLI'));
 const System = lazy(() => import('../next/pages/system/System'));
 const Gateway = lazy(() => import('../next/pages/third/Gateway'));
 const Script = lazy(() => import('../next/pages/script/Script'));
+const ScriptTask = lazy(() => import('../next/pages/script/ScriptTask'));
 const Home = lazy(() => import('../pages/Home'));
 const LogPanel = lazy(() => import('../next/pages/system/LogPanel'));
 const NoEngine = lazy(() => import('../next/pages/third/NoEngine'));
@@ -281,6 +282,14 @@ export default createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Script />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'script/task',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ScriptTask />
           </Suspense>
         ),
       },
