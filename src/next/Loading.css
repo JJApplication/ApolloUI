@@ -5,12 +5,9 @@
     position: relative;
     height: 200px;
     font-weight: bolder;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background: linear-gradient(#ff2424, #2ba3f4);
     text-align: center;
     cursor: pointer;
+    color: #6D6D6D;
     transform-origin: 50% 50%;
     -webkit-transform-origin: 50% 50%;
 }
