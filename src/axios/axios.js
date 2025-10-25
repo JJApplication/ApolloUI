@@ -7,45 +7,50 @@ import { Toast } from '../next/pages/toast';
 import { OAuthStat } from '../store/oauth';
 
 function withCookie() {
-  return localStorage.getItem('authMethod') === 'cookie' ||
-    localStorage.getItem('useAll') === true;
+  return localStorage.getItem('authMethod') === 'cookie' || localStorage.getItem('useAll') === true;
 }
 
 axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'https://service.renj.io' : '';
 // axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? 'http://192.168.100.10:9090' : '';
 axios.defaults.timeout = 20000;
 
-
 // 封装参数增加params body的data
 export function getRequest(url, sendData) {
   return new Promise((resolve, reject) => {
-    axios.get(addAuthCode(url), {
-      params: sendData, headers: addAuthHeader(),
-      withCredentials: withCookie(),
-    }).then(res => {
-      resolve(res.data);
-    }).catch(error => {
-      if (url === '/heartbeat') {
+    axios
+      .get(addAuthCode(url), {
+        params: sendData,
+        headers: addAuthHeader(),
+        withCredentials: withCookie(),
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        if (url === '/heartbeat') {
+          reject(error);
+        }
+        responseError(error);
         reject(error);
-      }
-      responseError(error);
-      reject(error);
-    });
+      });
   });
 }
 
 export function postRequest(url, sendData, params) {
   return new Promise((resolve, reject) => {
-    axios.post(addAuthCode(url), sendData, {
-      params: params,
-      headers: addAuthHeader(),
-      withCredentials: withCookie(),
-    }).then(res => {
-      resolve(res.data);
-    }).catch(error => {
-      responseError(error);
-      reject(error);
-    });
+    axios
+      .post(addAuthCode(url), sendData, {
+        params: params,
+        headers: addAuthHeader(),
+        withCredentials: withCookie(),
+      })
+      .then((res) => {
+        resolve(res.data);
+      })
+      .catch((error) => {
+        responseError(error);
+        reject(error);
+      });
   });
 }
 

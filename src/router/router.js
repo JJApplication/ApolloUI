@@ -5,6 +5,7 @@ import Layout from '../components/layout';
 import Module from '../subpages/module';
 import Building from '../next/Building';
 import Loading from '../next/Loading';
+
 const Next = lazy(() => import('../next/Next'));
 const APPHome = lazy(() => import('../next/pages/service/App'));
 const About = lazy(() => import('../next/pages/About'));
@@ -34,6 +35,7 @@ const Indicator = lazy(() => import('../next/pages/system/Indicator'));
 const Repo = lazy(() => import('../next/pages/system/Repo'));
 const RepoCommits = lazy(() => import('../next/pages/system/RepoCommits'));
 const Database = lazy(() => import('../next/pages/system/Database'));
+const Network = lazy(() => import('../next/pages/panel/Network'));
 
 export default createBrowserRouter([
   {
@@ -290,6 +292,15 @@ export default createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <ScriptTask />
+          </Suspense>
+        ),
+      },
+      // 看板
+      {
+        path: 'panel/network',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Network />
           </Suspense>
         ),
       },

@@ -49,6 +49,7 @@ import { ToastContainer } from 'react-toastify';
 import { searchKeyword } from './search_data';
 
 export default function ({ children }) {
+  const supportWidth = 360;
   const nav = useNavigate();
   const searchRef = useRef(null);
 
@@ -88,7 +89,7 @@ export default function ({ children }) {
   };
 
   useEffect(() => {
-    if (document.body.clientWidth < 1280 && process.env.NODE_ENV !== 'development') {
+    if (document.body.clientWidth < supportWidth && process.env.NODE_ENV !== 'development') {
       setDisplay(false);
     } else {
       setDisplay(true);
@@ -402,11 +403,11 @@ export default function ({ children }) {
             <Card shadow>
               <Text h3>Oops</Text>
               <Text type={'error'}>
-                Not Support Your Device Width <Tag>>=1280</Tag>
+                Not Support Your Device Width <Tag>>={supportWidth}</Tag>
               </Text>
               <Text h3>出错了</Text>
               <Text type={'error'}>
-                不支持的设备宽度 <Tag>>=1280</Tag>
+                不支持的设备宽度 <Tag>>={supportWidth}</Tag>
               </Text>
             </Card>
           </div>
