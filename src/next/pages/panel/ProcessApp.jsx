@@ -59,7 +59,7 @@ export default function () {
       return null;
     }
     const cpuHist = appProcessHistory.map((history) => {
-      return history?.cpuPercent * 100;
+      return history?.cpuPercent;
     });
     return {
       labels: cpuHist.map((_, index) => index),
@@ -79,7 +79,7 @@ export default function () {
       return null;
     }
     const memHist = appProcessHistory.map((history) => {
-      return history?.memPercent * 100;
+      return history?.memPercent;
     });
     return {
       labels: memHist.map((_, index) => index),
