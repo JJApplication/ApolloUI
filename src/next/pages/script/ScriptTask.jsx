@@ -4,13 +4,14 @@ import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from '../../../axios/axios';
 import { calcTime } from '../../../utils';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function () {
   const [loading, setLoading] = useState(true);
   const [tasks, setTasks] = useState([]);
 
   const getAllTasks = () => {
-    getRequest('/api/script/task/list')
+    getRequest(API.Script.TaskList)
       .then((res) => {
         setTasks(res.data || []);
       })
@@ -23,7 +24,7 @@ export default function () {
     if (!uuid) {
       return;
     }
-    postRequest('/api/script/task/delete', {
+    postRequest(API.Script.Delete, {
       script: uuid,
     }).then(res => {
       if (res.status === 'ok') {

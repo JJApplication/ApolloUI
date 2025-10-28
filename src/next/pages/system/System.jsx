@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getRequest, postRequest } from '../../../axios/axios';
 import { cloneDeep } from 'es-toolkit/object';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function System() {
   // 只读配置 运行时配置 软重启配置分开
@@ -46,13 +47,13 @@ export default function System() {
 
 
   const getSystemConfig = async () => {
-    const data = await getRequest('/api/system/config');
+    const data = await getRequest(API.System.Config);
     return data.data;
   };
 
   const updateConfig = () => {
     const data = cloneDeep(runConfig);
-    postRequest('/api/system/config', data).then(res => {
+    postRequest(API.System.Config, data).then(res => {
       if (res.data) {
         Toast.success('更新运行时配置成功');
       } else {
@@ -64,7 +65,7 @@ export default function System() {
   };
 
   const reloadConfig = () => {
-    postRequest('/api/system/reload').then(res => {
+    postRequest(API.System.Reload).then(res => {
       if (res.data) {
         Toast.success('重载运行时配置成功');
       } else {
@@ -76,7 +77,7 @@ export default function System() {
   };
 
   const clearCache = () => {
-    postRequest('/api/system/clear').then(res => {
+    postRequest(API.System.Clear).then(res => {
       if (res.data) {
         Toast.success('页面缓存清理成功');
       } else {
@@ -88,7 +89,7 @@ export default function System() {
   };
 
   const saveConfig = () => {
-    postRequest('/api/system/save').then(res => {
+    postRequest(API.System.Save).then(res => {
       if (res.data) {
         Toast.success('配置保存成功');
       } else {

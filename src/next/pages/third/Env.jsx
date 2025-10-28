@@ -3,6 +3,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import { cloneDeep } from 'es-toolkit/object';
 import { Plus } from '@geist-ui/icons';
+import { API } from '../../../api/api';
 
 export default function() {
   const [envs, setEnvs] = useState([]);
@@ -25,12 +26,12 @@ export default function() {
   };
 
   const apiGetAllEnvs = async () => {
-    return await getRequest(`/api/env/list`);
+    return await getRequest(API.Env.List);
   };
 
   const apiGetEnv = async (serviceName) => {
     const params = { service: serviceName };
-    return await postRequest(`/api/env/show`, null, params);
+    return await postRequest(API.Env.Show, null, params);
   };
 
   const handleOpen = (service) => {

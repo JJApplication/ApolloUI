@@ -6,6 +6,7 @@ import { Toast } from '../toast';
 import { Github } from '@geist-ui/icons';
 import { useNavigate } from 'react-router-dom';
 import { disableOAuth, enableOAuth, getOAuthInfo, OAuthStat, setOAuthInfo, unsetOAuthInfo } from '../../../store/oauth';
+import { API, Route } from '../../../api/export';
 
 export default function() {
   const nav = useNavigate();
@@ -51,16 +52,16 @@ export default function() {
   }, []);
 
   const getHistory = () => {
-    getRequest('/api/auth/history').then(res => {
+    getRequest(API.Auth.History).then(res => {
       setHistory(res.data || []);
     });
   };
 
   const getCurrent = () => {
-    getRequest('/api/auth/current').then(res => {
+    getRequest(API.Auth.Current).then(res => {
       if (res.data) {
-        setLastLoginIP(res.data.loginIp);
-        setLastLoginTime(res.data.loginTime);
+        setLastLoginIP(res.data?.loginIp);
+        setLastLoginTime(res.data?.loginTime);
         setLoginAccount(res.data.account);
       }
     });
@@ -82,7 +83,7 @@ export default function() {
       }
     } catch (e) {
       if (e.response.status === 401) {
-        postRequest('/api/auth/login', {
+        postRequest(API.Auth.Login, {
           account: account,
           password: password,
         }).then(res => {
@@ -108,7 +109,7 @@ export default function() {
   };
 
   const logoutNormal = () => {
-    postRequest('/api/auth/logout').then(res => {
+    postRequest(API.Auth.Logout).then(res => {
       if (res.data) {
         Toast.success('登出成功');
         setIsLogin(false);
@@ -136,12 +137,12 @@ export default function() {
   };
 
   const check = async () => {
-    return await postRequest('/api/auth/check');
+    return await postRequest(API.Auth.Check);
   };
 
   // oauth
   const getGithubOAuth = () => {
-    getRequest('/api/oauth/github').then(res => {
+    getRequest(API.OAuth.Github).then(res => {
       setGithubOAuth(res.data || '');
     });
   };
@@ -160,7 +161,7 @@ export default function() {
   // 使用code登录到oauth
   // 返回用户信息
   const login2OAuth = (code) => {
-    getRequest('/api/oauth/login', {
+    getRequest(API.OAuth.Login, {
       code: code,
     }).then(res => {
       setGithubUser(res.data);
@@ -170,7 +171,7 @@ export default function() {
         setOAuthInfo(res.data);
         Toast.success('用户已登录');
         setIsLogin(true);
-        nav('/next/login');
+        nav(Route.Next.Login);
       } else {
         Toast.error('登录认证失败');
       }
@@ -180,7 +181,7 @@ export default function() {
   };
 
   const logoutOAuth = () => {
-    postRequest('/api/oauth/logout').then(res => {
+    postRequest(API.OAuth.Logout).then(res => {
       if (res.status === 'ok') {
         setIsLogin(false);
         Toast.success('用户已登出');

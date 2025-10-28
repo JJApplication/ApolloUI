@@ -3,6 +3,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Toast } from '../toast';
+import { API, Route } from '../../../api/export';
 
 export default function() {
   const nav = useNavigate();
@@ -18,7 +19,7 @@ export default function() {
       setApp(location.state.app);
       appName = location.state.app;
     } else {
-      let name = location.pathname.replaceAll('/next/noengine/');
+      let name = location.pathname.replaceAll(`${Route.Next.NoEngine}/`);
       if (name !== '') {
         setApp(name);
         appName = name;
@@ -29,7 +30,7 @@ export default function() {
   }, []);
 
   const getNoEngineApp = (app) => {
-    getRequest('/api/noengine', {
+    getRequest(API.NoEngine.Get, {
       app: app,
     }).then(res => {
       setAppInfo(res.data);
@@ -37,7 +38,7 @@ export default function() {
   };
 
   const getNoEngineAppStatus = (app) => {
-    getRequest('/api/noengine/status', {
+    getRequest(API.NoEngine.Status, {
       app: app,
     }).then(res => {
       setAppStatus(res.data);
@@ -75,7 +76,7 @@ export default function() {
 
   // APP操作
   const startApp = () => {
-    postRequest('/api/noengine/start', null, {
+    postRequest(API.NoEngine.Start, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -91,7 +92,7 @@ export default function() {
   };
 
   const stopApp = () => {
-    postRequest('/api/noengine/stop', null, {
+    postRequest(API.NoEngine.Stop, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -105,7 +106,7 @@ export default function() {
   };
 
   const restartApp = () => {
-    postRequest('/api/noengine/restart', null, {
+    postRequest(API.NoEngine.Restart, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -120,7 +121,7 @@ export default function() {
   };
 
   const pauseApp = () => {
-    postRequest('/api/noengine/pause', null, {
+    postRequest(API.NoEngine.Pause, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -134,7 +135,7 @@ export default function() {
   };
 
   const resumeApp = () => {
-    postRequest('/api/noengine/resume', null, {
+    postRequest(API.NoEngine.Resume, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -148,7 +149,7 @@ export default function() {
   };
 
   const removeApp = () => {
-    postRequest('/api/noengine/remove', null, {
+    postRequest(API.NoEngine.Remove, null, {
       app: app,
     }).then(res => {
       if (res.status === 'ok') {
@@ -164,7 +165,7 @@ export default function() {
   return (
     <>
       <Text h3 style={{ cursor: 'pointer' }} onClick={() => {
-        nav('/next/noengine');
+        nav(Route.Next.NoEngine);
       }}>静态代理</Text>
       <Spacer h={2} />
       <Grid.Container gap={2}>

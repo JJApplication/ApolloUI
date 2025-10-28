@@ -36,6 +36,8 @@ const Repo = lazy(() => import('../next/pages/system/Repo'));
 const RepoCommits = lazy(() => import('../next/pages/system/RepoCommits'));
 const Database = lazy(() => import('../next/pages/system/Database'));
 const Network = lazy(() => import('../next/pages/panel/Network'));
+const Process = lazy(() => import('../next/pages/panel/Process'));
+const ProcessApp = lazy(() => import('../next/pages/panel/ProcessApp'));
 
 export default createBrowserRouter([
   {
@@ -301,6 +303,22 @@ export default createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <Network />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'panel/app',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Process />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'panel/app/:name',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <ProcessApp />
           </Suspense>
         ),
       },

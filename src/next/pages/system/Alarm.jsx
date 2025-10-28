@@ -4,6 +4,7 @@ import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const [loading, setLoading] = useState(true);
@@ -22,11 +23,11 @@ export default function() {
   }, []);
 
   const getAlarms = async () => {
-    const resAll = await getRequest(`/api/alarm/all`);
+    const resAll = await getRequest(API.Alarm.All);
     if (resAll.data) {
       setAlarms(resAll.data);
     }
-    const res = await getRequest(`/api/alarm/top`);
+    const res = await getRequest(API.Alarm.Top);
     if (res.data) {
       setAlarmsTop(res.data);
     }

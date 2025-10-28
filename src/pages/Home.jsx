@@ -18,6 +18,7 @@ import mongo from '../icons/mongodb-original.svg';
 import { code_json } from '../code/code_json';
 import { code_yaml } from '../code/code_yaml';
 import github_code from './github.svg';
+import { Route } from '../api/export';
 
 
 export default function() {
@@ -136,9 +137,9 @@ export default function() {
               Github
             </Link>
             <div style={{ position: 'absolute', right: '1rem', top: '0.5rem' }}>
-              <Button auto scale={3/4} onClick={() => nav('/next')}>Get Started</Button>
+              <Button auto scale={3/4} onClick={() => nav(Route.Next.Index)}>Get Started</Button>
               <Spacer w={1} inline />
-              <Button auto scale={3/4} type={'success'} onClick={() => nav('/next/login')}>Login</Button>
+              <Button auto scale={3/4} type={'success'} onClick={() => nav(Route.Next.Login)}>Login</Button>
             </div>
           </div>
         </div>
@@ -161,9 +162,9 @@ export default function() {
                 <Button auto shadow type={'secondary'} onClick={() => nav(urls.JJApplication)} iconRight={<Github />}
                         px={0.6} />
                 <Spacer w={1} inline />
-                <Button auto shadow onClick={() => nav('/next')} iconRight={<Anchor />} px={0.6} />
+                <Button auto shadow onClick={() => nav(Route.Next.Index)} iconRight={<Anchor />} px={0.6} />
                 <Spacer w={1} inline />
-                <Button auto shadow type={'success'} onClick={() => nav('/next/login')} iconRight={<LogIn />}
+                <Button auto shadow type={'success'} onClick={() => nav(Route.Next.Login)} iconRight={<LogIn />}
                         px={0.6} />
               </div>
             </div>

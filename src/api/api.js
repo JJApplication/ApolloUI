@@ -30,6 +30,7 @@ export const API = {
     Restart: '/api/app/restart',
     Upload: '/api/app/upload',
     Remove: '/api/app/remove',
+    Backup: '/api/app/backup',
   },
   Container: {
     Container: '/api/container/containers',
@@ -134,5 +135,7 @@ export const API = {
     APIStat: '/api/panel/network/stat',
     APIGeo: '/api/panel/network/geo',
     APIDomain: '/api/panel/network/domain',
+    APIProcessList: '/api/panel/process/list',
+    APIProcess: '/api/panel/process',
   }
 }

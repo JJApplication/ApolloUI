@@ -2,6 +2,7 @@ import { Card, Grid, Note, Spacer, Tag, Text } from '@geist-ui/core';
 import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { API } from '../../../api/api';
 
 export default function() {
   const [apps, setApps] = useState({});
@@ -12,7 +13,7 @@ export default function() {
   }, []);
 
   const getNoEngineApps = () => {
-    getRequest('/api/noengine/all').then(res => {
+    getRequest(API.NoEngine.All).then(res => {
       setApps(res.data);
     });
   };

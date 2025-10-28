@@ -5,6 +5,7 @@ import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const [loading, setLoading] = useState(true);
@@ -33,11 +34,11 @@ export default function() {
   };
 
   const getAllBGTasks = () => {
-    return getRequest('/api/task/bg');
+    return getRequest(API.Task.Background);
   };
 
   const getAllCronTasks = () => {
-    return getRequest('/api/task/cron');
+    return getRequest(API.Task.Cron);
   };
   const renderAllCronTasks = () => {
     const tasksGroup = [];

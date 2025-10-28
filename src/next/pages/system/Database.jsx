@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getRequest } from '../../../axios/axios';
 import { useNavigate } from 'react-router-dom';
 import { Database } from '@geist-ui/icons';
-import { result } from 'es-toolkit/compat';
+import { API } from '../../../api/api';
 
 export default function () {
   const nav = useNavigate();
@@ -19,7 +19,7 @@ export default function () {
   const getDatabase = async () => {
     try {
       setIsLoading(true);
-      const data = await getRequest('/api/database/list');
+      const data = await getRequest(API.Database.List);
       if (data && data.data?.length > 0) {
         // 排序
         data.data.sort((a, b) => {
@@ -35,7 +35,7 @@ export default function () {
   };
 
   const getDb = async (name) => {
-    const data = await getRequest(`/api/database?name=${name}`);
+    const data = await getRequest(`${API.Database.Info}?name=${name}`);
     if (!data || !data.data) {
       throw Error(`Data not found: ${name}`);
     }

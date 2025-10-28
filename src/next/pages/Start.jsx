@@ -3,6 +3,7 @@ import { getRequest } from '../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from './Loading';
 import { Toast } from './toast';
+import { API } from '../../api/api';
 
 export default function() {
   const [health, setHealth] = useState(false);
@@ -88,7 +89,7 @@ export default function() {
     }
   };
   const getSys = async () => {
-    const res = await getRequest('/api/system/overview');
+    const res = await getRequest(API.System.Overview);
     if (res.data) {
       setSys(res.data);
     }
@@ -96,7 +97,7 @@ export default function() {
 
   const getApps = async () => {
     const t = { total: 0, running: 0, stopped: 0 };
-    const res = await getRequest('/api/app/all');
+    const res = await getRequest(API.App.All);
     t.total = res.data.length || 0;
     res.data.forEach(d => {
       if (d.Status === 'OK') {
@@ -110,8 +111,8 @@ export default function() {
 
   const getTasks = async () => {
     const t = { total: 0, bg: [], cron: [] };
-    const bgTasks = await getRequest('/api/task/bg');
-    const cronTasks = await getRequest('/api/task/cron');
+    const bgTasks = await getRequest(API.Task.Background);
+    const cronTasks = await getRequest(API.Task.Cron);
 
     t.total = (bgTasks.data.length + cronTasks.data.length) || 0;
     t.bg = bgTasks.data;
@@ -150,7 +151,7 @@ export default function() {
 
   const getContainers = async () => {
     const t = { total: 0, running: 0, stopped: 0, data: [] };
-    const res = await getRequest('/api/container/containers');
+    const res = await getRequest(API.Container.Container);
     t.total = res.data.length || 0;
     t.data = res.data;
     res.data.forEach(d => {
@@ -200,7 +201,7 @@ export default function() {
   };
 
   const getAlarm = async () => {
-    const res = await getRequest(`/api/alarm/top`);
+    const res = await getRequest(API.Alarm.Top);
     if (res.data && res.data.length > 0) {
       setAlarms(res.data);
     } else {

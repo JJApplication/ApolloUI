@@ -2,7 +2,6 @@ import { Button, Card, Divider, Grid, Input, Modal, Spacer, Tag, Text } from '@g
 import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
-import { Toast } from '../toast';
 import { API } from '../../../api/api';
 
 export default function () {

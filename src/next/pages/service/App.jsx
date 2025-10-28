@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import { useNavigate } from 'react-router-dom';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const nav = useNavigate();
@@ -18,7 +19,7 @@ export default function() {
 
   // methods
   const getApps = () => {
-    getRequest('/api/app/all').then(res => {
+    getRequest(API.App.All).then(res => {
       setApps(res.data || []);
       const status = { total: res.data.length, run: 0, stop: 0 };
       res.data.forEach(d => {

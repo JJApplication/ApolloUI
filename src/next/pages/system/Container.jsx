@@ -4,6 +4,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import { convertTime, covertFileSize } from '../../../utils';
 import { useEffect, useState } from 'react';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
 
@@ -31,7 +32,7 @@ export default function() {
   };
 
   const getContainers = () => {
-    getRequest('/api/container/containers').then(res => {
+    getRequest(API.Container.Container).then(res => {
       if (res.data) {
         setContainers(modifyContainers(res.data));
       }
@@ -41,7 +42,7 @@ export default function() {
   };
 
   const getImages = () => {
-    getRequest('/api/container/images').then(res => {
+    getRequest(API.Container.Image).then(res => {
       if (res.data) {
         setImages(modifyImages(res.data));
       }
@@ -103,7 +104,7 @@ export default function() {
   const startC = (value, rowData, index) => {
     return () => {
       const id = rowData.id.props.initialValue;
-      postRequest(`/api/container/start?id=${id}`).then(res => {
+      postRequest(`${API.Container.Start}?id=${id}`).then(res => {
         if (res.status === 'ok') {
           Toast.success(`容器${rowData.name}启动成功`);
           getContainers();
@@ -118,7 +119,7 @@ export default function() {
   const stopC = (value, rowData, index) => {
     return () => {
       const id = rowData.id.props.initialValue;
-      postRequest(`/api/container/stop?id=${id}`).then(res => {
+      postRequest(`${API.Container.Stop}?id=${id}`).then(res => {
         if (res.status === 'ok') {
           Toast.success(`容器${rowData.name}停止成功`);
           getContainers();
@@ -133,7 +134,7 @@ export default function() {
   const removeC = (value, rowData, index) => {
     return () => {
       const id = rowData.id.props.initialValue;
-      postRequest(`/api/container/remove?id=${id}`).then(res => {
+      postRequest(`${API.Container.Remove}?id=${id}`).then(res => {
         if (res.status === 'ok') {
           Toast.success(`容器${rowData.name}删除成功`);
           getContainers();

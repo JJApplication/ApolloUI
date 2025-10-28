@@ -2,6 +2,7 @@ import { Button, Card, Grid, Input, Link, Note, Spacer, Text } from '@geist-ui/c
 import { useEffect, useState } from 'react';
 import { getRequest } from '../../../axios/axios';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const [certInfo, setCertInfo] = useState({
@@ -17,7 +18,7 @@ export default function() {
   }, []);
 
   const getCertInfo = () => {
-    getRequest('/api/system/cert').then(res => {
+    getRequest(API.System.Cert).then(res => {
       if (res.data) {
         setCertInfo(res.data);
         Toast.success('证书信息加载成功');

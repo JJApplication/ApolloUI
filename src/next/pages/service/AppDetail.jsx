@@ -7,8 +7,9 @@ import { load } from '../../../store/reducer';
 import logger from '../../../logger/logger';
 import { Toast } from '../toast';
 import Loading from '../Loading';
+import { API, Route } from '../../../api/export';
 
-export default function() {
+export default function () {
   const params = useParams();
   const nav = useNavigate();
   const { name } = params;
@@ -39,11 +40,13 @@ export default function() {
       setAutoHide(data.autoHide);
     }
 
-    initApp().then(() => {
-      setLoading(false);
-    }).catch(() => {
-      Toast.error('初始化微服务信息失败');
-    });
+    initApp()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        Toast.error('初始化微服务信息失败');
+      });
   }, []);
 
   const initApp = async () => {
@@ -58,7 +61,7 @@ export default function() {
       return;
     }
     try {
-      const res = await getRequest(`/api/app/info?name=${name}`);
+      const res = await getRequest(`${API.App.Info}?name=${name}`);
       // data渲染表格
       const meta = res.data.meta;
       const result = [
@@ -70,12 +73,19 @@ export default function() {
         { key: '发布状态', val: meta.release_status },
         {
           key: '在线地址',
-          val: meta.link ?
+          val: meta.link ? (
             <>
-              <Link href={meta.link} color target='_blank'>Link</Link>
+              <Link href={meta.link} color target='_blank'>
+                Link
+              </Link>
               <Spacer w={1} />
-              <Link href={meta.link} color target='_blank'>前往</Link>
-            </> : '暂无',
+              <Link href={meta.link} color target='_blank'>
+                前往
+              </Link>
+            </>
+          ) : (
+            '暂无'
+          ),
         },
       ];
 
@@ -88,7 +98,7 @@ export default function() {
 
   const getAppProc = async () => {
     try {
-      const res = await getRequest(`/api/app/proc?name=${name}`);
+      const res = await getRequest(`${API.App.Proc}?name=${name}`);
       if (res.status === 'ok') {
         setProc(res.data);
       }
@@ -115,7 +125,7 @@ export default function() {
 
   const getAppStatus = async () => {
     try {
-      const res = await getRequest(`/api/app/status?name=${name}`);
+      const res = await getRequest(`${API.App.Status}?name=${name}`);
       if (res.data) {
         setCurrentStatus(res.data);
       } else {
@@ -128,91 +138,101 @@ export default function() {
   };
   const startApp = async () => {
     if (!checkLoading('start')) {
-      postRequest(`/api/app/start?app=${name}`).then(res => {
-        if (res.status === 'ok') {
-          Toast.success(`微服务${name}启动成功`);
-        } else {
+      postRequest(`${API.App.Start}?app=${name}`)
+        .then((res) => {
+          if (res.status === 'ok') {
+            Toast.success(`微服务${name}启动成功`);
+          } else {
+            Toast.error(`微服务${name}启动失败`);
+          }
+          resetLoading();
+          getAppStatus();
+        })
+        .catch(() => {
+          resetLoading();
+          getAppStatus();
           Toast.error(`微服务${name}启动失败`);
-        }
-        resetLoading();
-        getAppStatus();
-      }).catch(() => {
-        resetLoading();
-        getAppStatus();
-        Toast.error(`微服务${name}启动失败`);
-      });
+        });
     }
   };
 
   const stopApp = async () => {
     if (!checkLoading('stop')) {
-      postRequest(`/api/app/stop?app=${name}`).then(res => {
-        if (res.status === 'ok') {
-          Toast.success(`微服务${name}停止成功`);
-        } else {
+      postRequest(`${API.App.Stop}?app=${name}`)
+        .then((res) => {
+          if (res.status === 'ok') {
+            Toast.success(`微服务${name}停止成功`);
+          } else {
+            Toast.error(`微服务${name}停止失败`);
+          }
+          resetLoading();
+          getAppStatus();
+        })
+        .catch(() => {
+          resetLoading();
+          getAppStatus();
           Toast.error(`微服务${name}停止失败`);
-        }
-        resetLoading();
-        getAppStatus();
-      }).catch(() => {
-        resetLoading();
-        getAppStatus();
-        Toast.error(`微服务${name}停止失败`);
-      });
+        });
     }
   };
 
   const restartApp = async () => {
     if (!checkLoading('restart')) {
-      postRequest(`/api/app/restart?app=${name}`).then(res => {
-        if (res.status === 'ok') {
-          Toast.success(`微服务${name}重启成功`);
-        } else {
+      postRequest(`${API.App.Restart}?app=${name}`)
+        .then((res) => {
+          if (res.status === 'ok') {
+            Toast.success(`微服务${name}重启成功`);
+          } else {
+            Toast.error(`微服务${name}重启失败`);
+          }
+          resetLoading();
+          getAppStatus();
+        })
+        .catch(() => {
+          resetLoading();
+          getAppStatus();
           Toast.error(`微服务${name}重启失败`);
-        }
-        resetLoading();
-        getAppStatus();
-      }).catch(() => {
-        resetLoading();
-        getAppStatus();
-        Toast.error(`微服务${name}重启失败`);
-      });
+        });
     }
   };
 
   const refreshApp = async () => {
     if (!checkLoading('refresh')) {
       await getAppProc();
-      getRequest(`/api/app/status?name=${name}`).then(res => {
-        if (res.data) {
-          setCurrentStatus(res.data);
-          Toast.success(`微服务${name}刷新成功`);
-        } else {
-          setCurrentStatus('unknown');
+      getRequest(`${API.App.Status}?name=${name}`)
+        .then((res) => {
+          if (res.data) {
+            setCurrentStatus(res.data);
+            Toast.success(`微服务${name}刷新成功`);
+          } else {
+            setCurrentStatus('unknown');
+            Toast.error(`微服务${name}刷新失败`);
+          }
+          resetLoading();
+        })
+        .catch(() => {
+          setCurrentStatus('');
+          resetLoading();
           Toast.error(`微服务${name}刷新失败`);
-        }
-        resetLoading();
-      }).catch(() => {
-        setCurrentStatus('');
-        resetLoading();
-        Toast.error(`微服务${name}刷新失败`);
-      });
+        });
     }
   };
 
   const backup = () => {
     if (!checkLoading('start')) {
-      postRequest(`/api/app/backup?app=${name}`).then(res => {
-        if (res.status === 'ok') {
-          Toast.success(`微服务${name}备份成功`);
-        } else {
+      postRequest(`${API.App.Backup}?app=${name}`)
+        .then((res) => {
+          if (res.status === 'ok') {
+            Toast.success(`微服务${name}备份成功`);
+          } else {
+            Toast.error(`微服务${name}备份失败`);
+          }
+          resetLoading();
+        })
+        .catch(() => {
+          resetLoading();
           Toast.error(`微服务${name}备份失败`);
-        }
-        resetLoading();
-      }).catch(() => {
-        resetLoading();
-        Toast.error(`微服务${name}备份失败`);
-      });
+        });
     }
   };
 
@@ -220,9 +240,9 @@ export default function() {
     // unit byte | max GB
     if ((mem / 1024).toFixed(2) < 1) {
       return `${mem}b`;
-    } else if ((mem / (1024 * 1024).toFixed(2) < 1)) {
+    } else if (mem / (1024 * 1024).toFixed(2) < 1) {
       return `${(mem / 1024).toFixed(2)}kb`;
-    } else if ((mem / (1024 * 1024 * 1024).toFixed(2) < 1)) {
+    } else if (mem / (1024 * 1024 * 1024).toFixed(2) < 1) {
       return `${(mem / (1024 * 1024)).toFixed(2)}mb`;
     } else {
       return `${(mem / (1024 * 1024 * 1024)).toFixed(2)}gb`;
@@ -231,132 +251,248 @@ export default function() {
 
   return (
     <>
-      <Text h3 marginTop={'0.5rem'}><Button auto iconRight={<ArrowLeft />} px={0.8} scale={3 / 4}
-                                            marginRight={'1rem'} onClick={() => nav('/next/app')}></Button>
-        微服务 - <Text span type={'success'}>{name}
-        </Text></Text>
+      <Text h3 marginTop={'0.5rem'}>
+        <Button
+          auto
+          iconRight={<ArrowLeft />}
+          px={0.8}
+          scale={3 / 4}
+          marginRight={'1rem'}
+          onClick={() => nav(Route.Next.App)}></Button>
+        微服务 -{' '}
+        <Text span type={'success'}>
+          {name}
+        </Text>
+      </Text>
       {loading && <Loading />}
-      {!loading && <Grid.Container gap={2}>
-        <Grid xs={12}>
-          <Card shadow style={{ width: '100%', height: 'calc(100vh - 10rem)' }}>
-            <Card.Content style={{ width: 'unset', height: 'calc(100% - 2rem)' }}>
-              <Tag invert>微服务模型</Tag>
-              <Spacer h={0.5} />
-              <Table data={appData}>
-                <Table.Column prop='key' label='KEY' />
-                <Table.Column prop='val' label='VALUE' />
-              </Table>
-              <Spacer />
-              <Code block name={name + '.octopus'}
-                    height={'calc(100% - 32rem)'}
-                    margin={0}
-                    style={{
-                      fontFamily: 'Source Code Pro, consolas, monospace',
-                      height: 'calc(100% - 5rem)',
-                      overflowY: 'auto',
-                    }}>{JSON.stringify(appMeta, null, '  ')}</Code>
-            </Card.Content>
-          </Card>
-
-        </Grid>
-        <Grid xs={12}>
-          <Card shadow style={{ width: '100%' }}>
-            <Card.Content style={{ width: 'unset' }}>
-              <Tag invert>微服务操作</Tag>
-              <Spacer />
-              <div className='runStatus'>
-                {currentStatus === '' ? (<Dot className='appStatusAnim' style={{
-                    position: 'absolute',
-                    left: '0',
-                    top: '2rem',
-                  }} />) :
-                  <Dot style={{ position: 'absolute', left: '0', top: '2rem' }} />}
-                {currentStatus === 'running' ? (
-                    <Dot className='appStatusAnim' style={{ position: 'absolute', left: '2rem', top: '2rem' }}
-                         type='success' />) :
-                  <Dot style={{ position: 'absolute', left: '2rem', top: '2rem' }} type='success' />}
-                {currentStatus === 'unknown' ? (
-                    <Dot className='appStatusAnim' style={{ position: 'absolute', left: '4rem', top: '2rem' }}
-                         type='warning' />) :
-                  <Dot style={{ position: 'absolute', left: '4rem', top: '2rem' }} type='warning' />}
-                {currentStatus === 'stopped' ? (
-                    <Dot className='appStatusAnim' style={{ position: 'absolute', left: '6rem', top: '2rem' }}
-                         type='error' />) :
-                  <Dot style={{ position: 'absolute', left: '6rem', top: '2rem' }} type='error' />}
-              </div>
-              <Spacer h={4} />
-              {!autoHide ? (<Grid.Container gap={2}>
-                <Grid>{!(appOperationLoading === 'start') ? (
-                  <Button auto type='secondary' scale={0.6} icon={<Play />}
-                          onClick={startApp}>启动</Button>) : (
-                  <Button loading auto type='secondary' scale={0.6}>启动</Button>)}</Grid>
-                <Grid>{!(appOperationLoading === 'restart') ? (
-                  <Button auto type='secondary' scale={0.6} icon={<RotateCcw />}
-                          onClick={restartApp}>重启</Button>) : (
-                  <Button loading auto type='secondary' scale={0.6}>重启</Button>)}</Grid>
-                <Grid>{!(appOperationLoading === 'refresh') ? (
-                  <Button auto type='secondary' scale={0.6} icon={<RefreshCw />}
-                          onClick={refreshApp}>刷新</Button>) : (
-                  <Button loading auto type='secondary' scale={0.6}>刷新</Button>)}</Grid>
-                <Grid>{!(appOperationLoading === 'backup') ? (
-                  <Button auto type='secondary' scale={0.6} icon={<Box />}
-                          onClick={backup}>备份</Button>) : (
-                  <Button loading auto type='secondary' scale={0.6}>备份</Button>)}</Grid>
-                <Grid>{!(appOperationLoading === 'stop') ? (
-                  <Button auto type='error' scale={0.6} icon={<Power />}
-                          onClick={stopApp}>停止</Button>) : (
-                  <Button loading auto type='error' scale={0.6}>停止</Button>)}</Grid>
-                <Grid>
-                  <Button auto type='warning' scale={0.6} icon={<File />}
-                          onClick={() => nav(`/next/log`, { state: { app: name } })}>日志</Button>
-                </Grid>
-              </Grid.Container>) : null}
-              <Spacer h={2} />
-              <Note label={'进程信息'}>
-                <Text><Code>PID</Code><Spacer inline w={0.5} /><Text b span type={'success'}>{proc.pid}</Text></Text>
-                <Text><Code>Threads</Code><Spacer inline w={0.5} /><Text b span
-                                                                         type={'success'}>{proc.threads}</Text></Text>
-              </Note>
-              <Spacer h={2} />
-              <Tag type='lite'>CPU Usage</Tag>
-              <Spacer w={0.5} inline />
-              <Tag type='secondary'>{(proc.cpuPercent * 100).toFixed(2)}%</Tag>
-              <Spacer />
-              <Progress type='success' value={proc.cpuPercent * 100} />
-              <Spacer h={1.5} />
-              <Tag type='lite'>MEM Usage</Tag>
-              <Spacer w={0.5} inline />
-              <Tag type='secondary'>{(proc.memPercent * 100).toFixed(2)}%</Tag>
-              <Spacer inline w={0.5} />
-              <Tag type='secondary'>{calcProcMem(proc.memRss)}</Tag>
-              <Spacer />
-              <Progress type='secondary' value={proc.memPercent * 100} />
-              <Spacer h={1.5} />
-              <Tag type='lite'>IO Usage</Tag>
-              <Spacer />
-              <Card>
-                <Card.Content>
-                  <Text>Read Bytes<Spacer w={0.5} inline /><Text b span type={'success'}>{proc.readBytes}</Text></Text>
-                  <Text>Write Bytes<Spacer w={0.5} inline /><Text b span
-                                                                  type={'warning'}>{proc.writeBytes}</Text></Text>
-                  <Text>Read Count<Spacer w={0.5} inline /><Text b span type={'success'}>{proc.readCount}</Text></Text>
-                  <Text>Write Count<Spacer w={0.5} inline /><Text b span
-                                                                  type={'warning'}>{proc.writeCount}</Text></Text>
-                </Card.Content>
-              </Card>
-              <Spacer h={1.5} />
-              <Tag type='lite'>NETWORK Usage</Tag>
-              <Spacer />
-              <Card>
-                <Card.Content>
-                  <Text>Connections<Spacer w={0.5} inline /><Text b span
-                                                                  type={'success'}>{proc.netConnections}</Text></Text>
-                </Card.Content>
-              </Card>
-            </Card.Content>
-          </Card>
-        </Grid>
-      </Grid.Container>}
+      {!loading && (
+        <Grid.Container gap={2}>
+          <Grid xs={12}>
+            <Card shadow style={{ width: '100%', height: 'calc(100vh - 10rem)' }}>
+              <Card.Content style={{ width: 'unset', height: 'calc(100% - 2rem)' }}>
+                <Tag invert>微服务模型</Tag>
+                <Spacer h={0.5} />
+                <Table data={appData}>
+                  <Table.Column prop='key' label='KEY' />
+                  <Table.Column prop='val' label='VALUE' />
+                </Table>
+                <Spacer />
+                <Code
+                  block
+                  name={name + '.octopus'}
+                  height={'calc(100% - 32rem)'}
+                  margin={0}
+                  style={{
+                    fontFamily: 'Source Code Pro, consolas, monospace',
+                    height: 'calc(100% - 5rem)',
+                    overflowY: 'auto',
+                  }}>
+                  {JSON.stringify(appMeta, null, '  ')}
+                </Code>
+              </Card.Content>
+            </Card>
+          </Grid>
+          <Grid xs={12}>
+            <Card shadow style={{ width: '100%' }}>
+              <Card.Content style={{ width: 'unset' }}>
+                <Tag invert>微服务操作</Tag>
+                <Spacer />
+                <div className='runStatus'>
+                  {currentStatus === '' ? (
+                    <Dot
+                      className='appStatusAnim'
+                      style={{
+                        position: 'absolute',
+                        left: '0',
+                        top: '2rem',
+                      }}
+                    />
+                  ) : (
+                    <Dot style={{ position: 'absolute', left: '0', top: '2rem' }} />
+                  )}
+                  {currentStatus === 'running' ? (
+                    <Dot
+                      className='appStatusAnim'
+                      style={{ position: 'absolute', left: '2rem', top: '2rem' }}
+                      type='success'
+                    />
+                  ) : (
+                    <Dot style={{ position: 'absolute', left: '2rem', top: '2rem' }} type='success' />
+                  )}
+                  {currentStatus === 'unknown' ? (
+                    <Dot
+                      className='appStatusAnim'
+                      style={{ position: 'absolute', left: '4rem', top: '2rem' }}
+                      type='warning'
+                    />
+                  ) : (
+                    <Dot style={{ position: 'absolute', left: '4rem', top: '2rem' }} type='warning' />
+                  )}
+                  {currentStatus === 'stopped' ? (
+                    <Dot
+                      className='appStatusAnim'
+                      style={{ position: 'absolute', left: '6rem', top: '2rem' }}
+                      type='error'
+                    />
+                  ) : (
+                    <Dot style={{ position: 'absolute', left: '6rem', top: '2rem' }} type='error' />
+                  )}
+                </div>
+                <Spacer h={4} />
+                {!autoHide ? (
+                  <Grid.Container gap={2}>
+                    <Grid>
+                      {!(appOperationLoading === 'start') ? (
+                        <Button auto type='secondary' scale={0.6} icon={<Play />} onClick={startApp}>
+                          启动
+                        </Button>
+                      ) : (
+                        <Button loading auto type='secondary' scale={0.6}>
+                          启动
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid>
+                      {!(appOperationLoading === 'restart') ? (
+                        <Button auto type='secondary' scale={0.6} icon={<RotateCcw />} onClick={restartApp}>
+                          重启
+                        </Button>
+                      ) : (
+                        <Button loading auto type='secondary' scale={0.6}>
+                          重启
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid>
+                      {!(appOperationLoading === 'refresh') ? (
+                        <Button auto type='secondary' scale={0.6} icon={<RefreshCw />} onClick={refreshApp}>
+                          刷新
+                        </Button>
+                      ) : (
+                        <Button loading auto type='secondary' scale={0.6}>
+                          刷新
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid>
+                      {!(appOperationLoading === 'backup') ? (
+                        <Button auto type='secondary' scale={0.6} icon={<Box />} onClick={backup}>
+                          备份
+                        </Button>
+                      ) : (
+                        <Button loading auto type='secondary' scale={0.6}>
+                          备份
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid>
+                      {!(appOperationLoading === 'stop') ? (
+                        <Button auto type='error' scale={0.6} icon={<Power />} onClick={stopApp}>
+                          停止
+                        </Button>
+                      ) : (
+                        <Button loading auto type='error' scale={0.6}>
+                          停止
+                        </Button>
+                      )}
+                    </Grid>
+                    <Grid>
+                      <Button
+                        auto
+                        type='warning'
+                        scale={0.6}
+                        icon={<File />}
+                        onClick={() => nav(Route.Next.Log, { state: { app: name } })}>
+                        日志
+                      </Button>
+                    </Grid>
+                  </Grid.Container>
+                ) : null}
+                <Spacer h={2} />
+                <Note label={'进程信息'}>
+                  <Text>
+                    <Code>PID</Code>
+                    <Spacer inline w={0.5} />
+                    <Text b span type={'success'}>
+                      {proc.pid}
+                    </Text>
+                  </Text>
+                  <Text>
+                    <Code>Threads</Code>
+                    <Spacer inline w={0.5} />
+                    <Text b span type={'success'}>
+                      {proc.threads}
+                    </Text>
+                  </Text>
+                </Note>
+                <Spacer h={2} />
+                <Tag type='lite'>CPU Usage</Tag>
+                <Spacer w={0.5} inline />
+                <Tag type='secondary'>{(proc.cpuPercent * 100).toFixed(2)}%</Tag>
+                <Spacer />
+                <Progress type='success' value={proc.cpuPercent * 100} />
+                <Spacer h={1.5} />
+                <Tag type='lite'>MEM Usage</Tag>
+                <Spacer w={0.5} inline />
+                <Tag type='secondary'>{(proc.memPercent * 100).toFixed(2)}%</Tag>
+                <Spacer inline w={0.5} />
+                <Tag type='secondary'>{calcProcMem(proc.memRss)}</Tag>
+                <Spacer />
+                <Progress type='secondary' value={proc.memPercent * 100} />
+                <Spacer h={1.5} />
+                <Tag type='lite'>IO Usage</Tag>
+                <Spacer />
+                <Card>
+                  <Card.Content>
+                    <Text>
+                      Read Bytes
+                      <Spacer w={0.5} inline />
+                      <Text b span type={'success'}>
+                        {proc.readBytes}
+                      </Text>
+                    </Text>
+                    <Text>
+                      Write Bytes
+                      <Spacer w={0.5} inline />
+                      <Text b span type={'warning'}>
+                        {proc.writeBytes}
+                      </Text>
+                    </Text>
+                    <Text>
+                      Read Count
+                      <Spacer w={0.5} inline />
+                      <Text b span type={'success'}>
+                        {proc.readCount}
+                      </Text>
+                    </Text>
+                    <Text>
+                      Write Count
+                      <Spacer w={0.5} inline />
+                      <Text b span type={'warning'}>
+                        {proc.writeCount}
+                      </Text>
+                    </Text>
+                  </Card.Content>
+                </Card>
+                <Spacer h={1.5} />
+                <Tag type='lite'>NETWORK Usage</Tag>
+                <Spacer />
+                <Card>
+                  <Card.Content>
+                    <Text>
+                      Connections
+                      <Spacer w={0.5} inline />
+                      <Text b span type={'success'}>
+                        {proc.netConnections}
+                      </Text>
+                    </Text>
+                  </Card.Content>
+                </Card>
+              </Card.Content>
+            </Card>
+          </Grid>
+        </Grid.Container>
+      )}
     </>
   );
 }

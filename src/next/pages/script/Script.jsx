@@ -3,6 +3,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const [loading, setLoading] = useState(true);
@@ -18,7 +19,7 @@ export default function() {
   }, []);
 
   const getScripts = () => {
-    getRequest('/api/script/list').then(res => {
+    getRequest(API.Script.List).then(res => {
       setScripts(res.data);
       setLoading(false);
     }).finally(() => {
@@ -57,7 +58,7 @@ export default function() {
   };
 
   const execRun = () => {
-    postRequest('/api/script/task/start', {
+    postRequest(API.Script.Start, {
       script: execScript.scriptName,
       args: execScript.args,
     }).then(res => {

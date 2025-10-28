@@ -1,6 +1,7 @@
 import { Card, Grid, Note, Spacer, Tag, Text } from '@geist-ui/core';
 import { getRequest } from '../../../axios/axios';
 import { useEffect, useState } from 'react';
+import { API } from '../../../api/api';
 
 export default function() {
   const [apps, setApps] = useState([]);
@@ -10,7 +11,7 @@ export default function() {
   }, []);
 
   const getDynamicPorts = () => {
-    getRequest('/api/app/ports').then(res => {
+    getRequest(API.App.Ports).then(res => {
       setApps(res.data);
     });
   };

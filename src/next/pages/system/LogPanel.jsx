@@ -6,6 +6,7 @@ import { Toast } from '../toast';
 import { Download } from '@geist-ui/icons';
 import './LogPanel.css';
 import { useLocation } from 'react-router-dom';
+import { API } from '../../../api/api';
 
 export default function() {
   const location = useLocation();
@@ -24,7 +25,7 @@ export default function() {
   }, []);
 
   const getApps = () => {
-    getRequest('/api/app/all').then(res => {
+    getRequest(API.App.All).then(res => {
       const status = { running: [], stopped: [], unknown: [] };
       res.data.forEach(d => {
         if (d.Status === 'OK') {
@@ -46,7 +47,7 @@ export default function() {
 
   const getAppLog = () => {
     setLoading(true);
-    getRequest('/api/log', {
+    getRequest(API.Log.Info, {
       app: choose,
     }).then(res => {
       setLogContent(res.data);
@@ -58,7 +59,7 @@ export default function() {
   };
 
   const getAppLogDir = (app) => {
-    getRequest('/api/log/list', {
+    getRequest(API.Log.List, {
       app: app,
     }).then(res => {
       setLogDir(res.data ? res.data : []);
@@ -101,7 +102,7 @@ export default function() {
         return;
       }
       Toast.info('日志下载请求已创建');
-      getRequest('/api/log/download', { app: choose, log: logName }).then(res => {
+      getRequest(API.Log.Download, { app: choose, log: logName }).then(res => {
         createDownloadEle(logName, res);
       }).catch(() => {
         Toast.error('创建下载链接失败');
@@ -119,7 +120,7 @@ export default function() {
   };
 
   const clearLogs = () => {
-    postRequest('/api/log/clear').then(res => {
+    postRequest(API.Log.Clear).then(res => {
       if (res.status === 'ok') {
         Toast.success('清理日志任务已下发');
       }

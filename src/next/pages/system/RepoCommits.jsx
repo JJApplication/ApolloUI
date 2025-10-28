@@ -4,6 +4,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import './RepoCommits.css';
 import { ArrowLeft, GitCommit, Github } from '@geist-ui/icons';
 import { useNavigate, useParams } from 'react-router-dom';
+import { API } from '../../../api/api';
 
 export default function () {
   const nav = useNavigate();
@@ -20,7 +21,7 @@ export default function () {
   const getRepo = async (fullname) => {
     try {
       setIsLoading(true);
-      const data = await getRequest(`/api/repo/${fullname}`);
+      const data = await getRequest(`${API.Repo.Get}/${fullname}`);
       if (data.data && data.data.repository) {
         setCurrentRepo(data.data.repository);
       }
@@ -34,7 +35,7 @@ export default function () {
   };
 
   const getRepoCommits = async (fullname) => {
-    const data = await postRequest(`/api/repo/commits/${fullname}`);
+    const data = await postRequest(`${API.Repo.Commits}/${fullname}`);
     if (data.data && data.data.commits) {
       setRepoCommit(data.data.commits);
     }

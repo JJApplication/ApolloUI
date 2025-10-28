@@ -21,7 +21,7 @@ const getTransition = (duration, from) => ({
   }
 });
 
-const Loading = ({ text = 'APOLLO*NEXT*JJAPP', spinDuration = 5, onHover = 'speedUp', className = '' }) => {
+const Loading = ({ text = 'APOLLO*NEXT*JJAPP', spinDuration = 8, onHover = 'speedUp', className = '' }) => {
   const letters = Array.from(text);
   const controls = useAnimation();
   const rotation = useMotionValue(0);
@@ -81,28 +81,30 @@ const Loading = ({ text = 'APOLLO*NEXT*JJAPP', spinDuration = 5, onHover = 'spee
   };
 
   return (
-    <motion.div
-      className={`circular-text ${className}`}
-      style={{ rotate: rotation }}
-      initial={{ rotate: 0 }}
-      animate={controls}
-      onMouseEnter={handleHoverStart}
-      onMouseLeave={handleHoverEnd}
-    >
-      {letters.map((letter, i) => {
-        const rotationDeg = (360 / letters.length) * i;
-        const factor = Math.PI / letters.length;
-        const x = factor * i;
-        const y = factor * i;
-        const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
+    <div className="circular">
+      <motion.div
+        className={`circular-text ${className}`}
+        style={{ rotate: rotation }}
+        initial={{ rotate: 0 }}
+        animate={controls}
+        onMouseEnter={handleHoverStart}
+        onMouseLeave={handleHoverEnd}
+      >
+        {letters.map((letter, i) => {
+          const rotationDeg = (360 / letters.length) * i;
+          const factor = Math.PI / letters.length;
+          const x = factor * i;
+          const y = factor * i;
+          const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
 
-        return (
-          <span key={i} style={{ transform, WebkitTransform: transform }}>
+          return (
+            <span key={i} style={{ transform, WebkitTransform: transform }}>
             {letter}
           </span>
-        );
-      })}
-    </motion.div>
+          );
+        })}
+      </motion.div>
+    </div>
   );
 };
 

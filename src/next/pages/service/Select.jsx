@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getRequest } from '../../../axios/axios';
 import Loading from '../Loading';
 import { Toast } from '../toast';
+import { API, Route } from '../../../api/export';
 
 export default function() {
   const nav = useNavigate();
@@ -16,7 +17,7 @@ export default function() {
   }, []);
 
   const getApps = () => {
-    getRequest('/api/app/all').then(res => {
+    getRequest(API.App.All).then(res => {
       const status = { running: [], stopped: [], unknown: [] };
       res.data.forEach(d => {
         if (d.Status === 'OK') {
@@ -55,7 +56,7 @@ export default function() {
     if (choose === '') {
       Toast.error('选择的微服务为空');
     } else {
-      nav(`/next/app/${choose}`);
+      nav(`${Route.Next.App}${choose}`);
     }
   };
 

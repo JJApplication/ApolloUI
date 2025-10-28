@@ -5,6 +5,7 @@ import { getRequest, postRequest } from '../../../axios/axios';
 import store from '../../../store/store';
 import Loading from '../Loading';
 import { Toast } from '../toast';
+import { API } from '../../../api/api';
 
 export default function() {
   const [autoHide, setAutoHide] = useState(false);
@@ -30,7 +31,7 @@ export default function() {
       name: 'ErrorGetFilesTree',
       extra: '1 file',
     }];
-    getRequest('/api/app/tree').then(res => {
+    getRequest(API.App.Tree).then(res => {
       if (!res.data) {
         setFiles(errTree);
         setRefreshing(false);
@@ -77,7 +78,7 @@ export default function() {
       data.append('files', f);
     }
     const filePath = getFilePath(path);
-    postRequest(`/api/app/upload?path=${filePath}`, data).then(res => {
+    postRequest(`${API.App.Upload}?path=${filePath}`, data).then(res => {
       if (res.status === 'ok') {
         Toast.success('文件上传成功');
       } else {
@@ -98,7 +99,7 @@ export default function() {
       setDeleting(false);
       return;
     }
-    postRequest(`/api/app/remove?file=${path}`).then(res => {
+    postRequest(`${API.App.Remove}?file=${path}`).then(res => {
       if (res.status === 'ok') {
         Toast.success('文件删除成功');
         getFilesTree();

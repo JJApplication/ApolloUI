@@ -13,6 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { RefreshCw } from '@geist-ui/icons';
+import { API } from '../../../api/api';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -52,14 +53,14 @@ export default function Indicator() {
   }, []);
 
   const getSystemInfo = async () => {
-    const data = await getRequest('/api/indicator/sys');
+    const data = await getRequest(API.Indicator.Sys);
     return data.data;
   };
 
   const getIndicatorLoad = async () => {
     setLoadLoading(true);
     try {
-      const data = await getRequest('/api/indicator/load');
+      const data = await getRequest(API.Indicator.Load);
       setLoad(data.data);
     } finally {
       setLoadLoading(false);
@@ -69,7 +70,7 @@ export default function Indicator() {
   const getIndicatorCpu = async () => {
     setCpuLoading(true);
     try {
-      const data = await getRequest('/api/indicator/cpu');
+      const data = await getRequest(API.Indicator.Cpu);
       setCpu(data.data);
     } finally {
       setCpuLoading(false);
@@ -79,7 +80,7 @@ export default function Indicator() {
   const getIndicatorMem = async () => {
     setMemLoading(true);
     try {
-      const data = await getRequest('/api/indicator/mem');
+      const data = await getRequest(API.Indicator.Memory);
       setMem(data.data);
     } finally {
       setMemLoading(false);
@@ -89,7 +90,7 @@ export default function Indicator() {
   const getIndicatorIO = async () => {
     setIOLoading(true);
     try {
-      const data = await getRequest('/api/indicator/io');
+      const data = await getRequest(API.Indicator.IO);
       setIO(data.data);
     } finally {
       setIOLoading(false);
@@ -99,7 +100,7 @@ export default function Indicator() {
   const getIndicatorNet = async () => {
     setNetLoading(true);
     try {
-      const data = await getRequest('/api/indicator/network');
+      const data = await getRequest(API.Indicator.Network);
       setNet(data.data);
     } finally {
       setNetLoading(false);
