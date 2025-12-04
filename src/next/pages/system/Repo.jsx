@@ -35,9 +35,7 @@ export default function() {
 
   const openRepo = async (fullname) => {
 
-    nav(Route.Next.Repo + fullname);
-    // setCurrentRepo(repos.find((repo) => repo.full_name === fullname));
-    // await getRepoCommits(fullname);
+    nav(Route.Next.Repo + '/' + fullname);
   };
 
   const getRepoCommits = async (fullname) => {
