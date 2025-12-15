@@ -5,6 +5,7 @@ import Layout from '../components/layout';
 import Module from '../subpages/module';
 import Building from '../next/Building';
 import Loading from '../next/Loading';
+import Secure from '../next/pages/panel/Secure';
 
 const Next = lazy(() => import('../next/Next'));
 const APPHome = lazy(() => import('../next/pages/service/App'));
@@ -319,6 +320,14 @@ export default createBrowserRouter([
         element: (
           <Suspense fallback={<Loading />}>
             <ProcessApp />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'panel/secure',
+        element: (
+          <Suspense fallback={<Loading />}>
+            <Secure />
           </Suspense>
         ),
       },

@@ -31,9 +31,10 @@ export const Route = {
     ScriptTask: '/next/script/task',
     PanelNetwork: '/next/panel/network',
     PanelApp: '/next/panel/app',
+    PanelSecure: '/next/panel/secure',
     Setting: '/next/setting',
     CLI: '/next/cli',
     ChangeLog: '/next/changelog',
     About: '/next/about',
-  }
-}
+  },
+};

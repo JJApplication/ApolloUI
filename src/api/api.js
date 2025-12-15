@@ -137,5 +137,8 @@ export const API = {
     APIDomain: '/api/panel/network/domain',
     APIProcessList: '/api/panel/process/list',
     APIProcess: '/api/panel/process',
-  }
-}
+  },
+  Secure: {
+    List: '/api/secure/list',
+  },
+};
